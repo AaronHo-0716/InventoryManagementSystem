@@ -9,7 +9,7 @@
 def initCheck():
     isFirst = False
     try:
-        open('ppe.txt', "r")
+        open('users.txt', "r")
     except FileNotFoundError:
         print("Initializing system...")
         isFirst = True
@@ -29,7 +29,6 @@ def initialization():
     ppe = [{"itemCode": "HC", "itemName": "Head Cover", "supplierCode": "JJ", "quantity": 100}, {"itemCode": "FS", "itemName": "Face Shield", "supplierCode": "JJ", "quantity": 100}, {"itemCode": "MS", "itemName": "Mask", "supplierCode": "AG", "quantity": 100}, {"itemCode": "GL", "itemName": "Gloves", "supplierCode": "AG", "quantity": 100}, {"itemCode": "GW", "itemName": "Gown", "supplierCode": "EW", "quantity": 100}, {"itemCode": "SC", "itemName": "Show Covers", "supplierCode": "EW", "quantity": 100}]
 
     with open("ppe.txt", "w") as f:
-        # f.write("[{\"itemCode\": \"HC\", \"itemName\": \"Head Cover\", \"supplierCode\": \"JJ\", \"quantity\": 100}, ]")
         f.write(str(ppe))
 
     print("Initialization complete.")
