@@ -7,8 +7,7 @@
 def initCheck():
     isFirst = False
     try:
-        with open('ppe.txt', "r") as f:
-            print(f)
+        open('ppe.txt', "r")
     except FileNotFoundError:
         print("Initializing system...")
         isFirst = True
