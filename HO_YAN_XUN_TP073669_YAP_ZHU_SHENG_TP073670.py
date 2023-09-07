@@ -31,7 +31,7 @@ def mainMenu():
     try:
         int(choice)
     except:
-        print("Error, pls try again")
+        print("Value entered not a valid integer, pls try again")
     else:
         match int(choice):
             case 5:
