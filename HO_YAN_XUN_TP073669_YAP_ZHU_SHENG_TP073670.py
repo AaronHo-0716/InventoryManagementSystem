@@ -7,8 +7,8 @@
 def initCheck():
     isFirst = False
     try:
-        with open('ppe.txt', "r") as file:
-            print(file)
+        with open('ppe.txt', "r") as f:
+            print(f)
     except FileNotFoundError:
         print("Initializing system...")
         isFirst = True
@@ -18,7 +18,13 @@ def initCheck():
 
 # Creates users.txt and ppe.txt and propmts user to create a admin account and enter the items
 def initialization():
-    print("initialization complete.")
+    print("Entering initialization, please enter the userID and password for creating an admin account")
+    userID = input("Please enter your userID: ")
+    password = input("Please enter your password: ")
+    
+    with open("users.txt", "w") as f:
+        f.write("[{\"userID\": \"" + userID + "\", \"userType\": \"Admin\", \"password\": \"" + password + "\"}]")
+    print("Initialization complete.")
 
 def mainMenu():
     choice = input()
