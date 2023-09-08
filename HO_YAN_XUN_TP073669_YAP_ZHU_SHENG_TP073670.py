@@ -1,5 +1,5 @@
 # HO YAN XUN YAP ZHU SHENG
-# TP073669 TP073670
+# TP073669   TP073670
 
 # Check if the program is running the first time
 # Checks by detecting the existence of ppe.txt and other files
@@ -19,14 +19,21 @@ def initialization():
     print("Entering initialization, please enter the userID and password for creating an admin account")
     userID = input("Please enter your userID: ")
     password = input("Please enter your password: ")
+
+    users = [{"userID": userID, "userType": "Admin", "password": password}]
     
     with open("users.txt", "w") as f:
-        f.write("[{\"userID\": \"" + userID + "\", \"userType\": \"Admin\", \"password\": \"" + password + "\"}]")
+        f.write(str(users))
 
     ppe = [{"itemCode": "HC", "itemName": "Head Cover", "supplierCode": "JJ", "quantity": 100}, {"itemCode": "FS", "itemName": "Face Shield", "supplierCode": "JJ", "quantity": 100}, {"itemCode": "MS", "itemName": "Mask", "supplierCode": "AG", "quantity": 100}, {"itemCode": "GL", "itemName": "Gloves", "supplierCode": "AG", "quantity": 100}, {"itemCode": "GW", "itemName": "Gown", "supplierCode": "EW", "quantity": 100}, {"itemCode": "SC", "itemName": "Show Covers", "supplierCode": "EW", "quantity": 100}]
 
     with open("ppe.txt", "w") as f:
         f.write(str(ppe))
+
+    suppliers = [{"supplierCode": "JJ", "supplierName": "Johnson & Johnson"}, {"supplierCode": "AG", "supplierName": "Agile Ground"}, {"supplierCode": "EW", "supplierName": "Ewwww"}]
+    
+    with open("suppliers.txt", "w") as f:
+        f.write(str(suppliers))
 
     print("Initialization complete.")
 
@@ -40,6 +47,8 @@ def mainMenu():
         match int(choice):
             case 5:
                 quit()
+            case _:
+                print("Value entered not a valid choice, pls try again")
 
 def loginMenu():
     userID = input("Please enter your userID: ")
