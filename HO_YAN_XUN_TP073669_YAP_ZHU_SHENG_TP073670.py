@@ -5,7 +5,7 @@
 # TP073670
 
 # Check if the program is running the first time
-# Checks by detecting the existence of ppe.txt and other files
+# Checks by detecting the existence of users.txt and other files
 def initCheck():
     isFirst = False
     try:
@@ -32,6 +32,23 @@ def initialization():
         f.write(str(ppe))
 
     print("Initialization complete.")
+
+def addUser():
+    print("User Type")
+    print("1. Admin")
+    print("2. Staff")
+    choice=input("Select one: ")
+    match choice:
+        case 1:
+            userType="admin"
+        case 2:
+            userType="staff"
+    newUser=input("Please enter your userID: ")
+    newPwd=input("Please enter your password: ")
+    with open("users.txt","w") as f:
+        f.write("[{\"userID\": \"" + newUser + "\", \"userType\": \""+ userType + "\", \"password\": \"" + newPwd + "\"}]")
+    print("Added New User")
+
 
 def mainMenu():
     choice = input()
