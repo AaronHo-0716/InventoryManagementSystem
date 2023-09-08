@@ -37,6 +37,32 @@ def initialization():
 
     print("Initialization complete.")
 
+def manageUsers():
+    print("Welcome to Admin panel")
+    print("1. Add New User")
+    print("2. Delete User")
+    print("3. Search User")
+    print("4. Modify User")
+    
+    while True:
+        choice = input("Select one: ")
+        match choice:
+            case "1":
+                addUser()
+                break
+            case "2":
+                delUser()
+                break
+            case "3":
+                searchUser()
+                break
+            case "4":
+                modifyUser()
+                break
+            case _:
+                print("Choice entered not valid, pls try again")
+    
+
 def addUser():
     print("User Type")
     print("1. Admin")
@@ -65,6 +91,14 @@ def addUser():
         f.write(str(users))
     print("Added New User")
 
+def delUser():
+    pass
+
+def searchUser():
+    pass
+
+def modifyUser():
+    pass
 
 def mainMenu():
     choice = input()
@@ -74,6 +108,8 @@ def mainMenu():
         print("Value entered not a valid integer, pls try again")
     else:
         match int(choice):
+            case 4:
+                addUser()
             case 5:
                 quit()
             case _:
