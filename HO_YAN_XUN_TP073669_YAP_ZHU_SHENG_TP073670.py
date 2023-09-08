@@ -1,8 +1,5 @@
-# HO YAN XUN
-# TP073669
-
-# YAP ZHU SHENG
-# TP073670
+# HO YAN XUN YAP ZHU SHENG
+# TP073669 TP073670
 
 # Check if the program is running the first time
 # Checks by detecting the existence of ppe.txt and other files
