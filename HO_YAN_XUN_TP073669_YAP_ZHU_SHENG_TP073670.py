@@ -85,10 +85,11 @@ def addUser():
     newUserID = input("Please enter your userID: ")
     newPwd = input("Please enter your password: ")
     
-    users = [{"userID": newUserID, "userType": userType, "password": newPwd}]
+    users = {"userID": newUserID, "userType": userType, "password": newPwd}
     
-    with open("users.txt","w") as f:
-        f.write(str(users))
+    with open("users.txt","r+w") as f:
+        original = eval(f.read())
+        f.write(str(original.append(users)))
     print("Added New User")
 
 def delUser():
@@ -101,6 +102,10 @@ def modifyUser():
     pass
 
 def mainMenu():
+    print("Welcome to the PPE Inventory Management System")
+    print("1. Inventory Update")
+    print("2. Transactions History")
+    
     choice = input()
     try:
         int(choice)
