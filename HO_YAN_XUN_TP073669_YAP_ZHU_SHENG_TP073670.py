@@ -20,17 +20,19 @@ def initialization():
     userID = input("Please enter your userID: ")
     password = input("Please enter your password: ")
 
-    users = [{"userID": userID, "userType": "Admin", "password": password}]
+    users = [[userID, "Admin", password]]
     
     with open("users.txt", "w") as f:
         f.write(str(users))
 
-    ppe = [{"itemCode": "HC", "itemName": "Head Cover", "supplierCode": "JJ", "quantity": 100}, {"itemCode": "FS", "itemName": "Face Shield", "supplierCode": "JJ", "quantity": 100}, {"itemCode": "MS", "itemName": "Mask", "supplierCode": "AG", "quantity": 100}, {"itemCode": "GL", "itemName": "Gloves", "supplierCode": "AG", "quantity": 100}, {"itemCode": "GW", "itemName": "Gown", "supplierCode": "EW", "quantity": 100}, {"itemCode": "SC", "itemName": "Show Covers", "supplierCode": "EW", "quantity": 100}]
+    # itemCode, itenName, supplierCode, quantity
+    ppe = [["HC","Head Cover", "JJ", 100], ["FS","Face Shield", "JJ", 100], ["MS","Mask", "AG", 100], ["GL","GLoves", "AG", 100], ["GW","Gown", "EW", 100], ["SC","Shoe Covers", "EW", 100]]
 
     with open("ppe.txt", "w") as f:
         f.write(str(ppe))
 
-    suppliers = [{"supplierCode": "JJ", "supplierName": "Johnson & Johnson"}, {"supplierCode": "AG", "supplierName": "Agile Ground"}, {"supplierCode": "EW", "supplierName": "Ewwww"}]
+    # supplierCode, supplierName
+    suppliers = [["JJ", "Johnson & Johnson"],["AG", "Agile Ground"], ["EW", "Ewwww"]]
     
     with open("suppliers.txt", "w") as f:
         f.write(str(suppliers))
@@ -85,11 +87,12 @@ def addUser():
     newUserID = input("Please enter your userID: ")
     newPwd = input("Please enter your password: ")
     
-    users = {"userID": newUserID, "userType": userType, "password": newPwd}
+    users = [newUserID, userType, newPwd]
     
-    with open("users.txt","r+w") as f:
+    with open("users.txt","r+") as f:
         original = eval(f.read())
-        f.write(str(original.append(users)))
+        original.append(users)
+        f.write(str(original))
     print("Added New User")
 
 def delUser():
@@ -128,25 +131,28 @@ def loginMenu():
         with open('users.txt', 'r') as f:
             users = eval(f.read())
 
-            for user in users:
-                if userID == user["userID"] and password == user["password"]:
-                    return {"loginStatus": True, "userID": userID, "userType": user["userType"]} 
+            for k,v in enumerate(users):
+                if userID == v[0] and password == v[2]:
+                    return [True, userID, users[k][1]]
                 
     except:
         print("Login error, pls try again")
-        return {"loginStatus": False, "userID": None, "userType": None} 
+        return [False, None, None]
     else:
         print("Wrong userID or password, pls try again")
-        return {"loginStatus": False, "userID": None, "userType": None} 
+        return [False, None, None]
+
 
 def main():
     loginInfo = {"loginStatus": False, "userID": None, "userType": None}
+    #       loginStatus, userID, userType
+    loginInfo = [False, None, None]
     
     initCheck()
-    while not loginInfo["loginStatus"]:
+    while not loginInfo[0]:
         loginInfo = loginMenu()
 
-    print(f"You are logined as {loginInfo['userType']}, your ID is {loginInfo['userID']}")
+    print(f"You are logined as {loginInfo[2]}, your ID is {loginInfo[1]}")
     
     while True:
         mainMenu()
