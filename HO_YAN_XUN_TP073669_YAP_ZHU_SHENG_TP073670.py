@@ -41,16 +41,28 @@ def addUser():
     print("User Type")
     print("1. Admin")
     print("2. Staff")
-    choice=input("Select one: ")
-    match choice:
-        case 1:
-            userType="admin"
-        case 2:
-            userType="staff"
-    newUser=input("Please enter your userID: ")
-    newPwd=input("Please enter your password: ")
+    
+    userType = None
+    
+    while True:
+        choice = input("Select one: ")
+        match choice:
+            case "1":
+                userType = "Admin"
+                break
+            case "2":
+                userType = "Staff"
+                break
+            case _:
+                print("Choice entered not valid, pls try again")
+            
+    newUserID = input("Please enter your userID: ")
+    newPwd = input("Please enter your password: ")
+    
+    users = [{"userID": newUserID, "userType": userType, "password": newPwd}]
+    
     with open("users.txt","w") as f:
-        f.write("[{\"userID\": \"" + newUser + "\", \"userType\": \""+ userType + "\", \"password\": \"" + newPwd + "\"}]")
+        f.write(str(users))
     print("Added New User")
 
 
