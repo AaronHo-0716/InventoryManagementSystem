@@ -39,7 +39,7 @@ def initialization():
 
     print("Initialization complete.")
 
-def manageUsers():
+def manageUsers(loginInfo):
     while True:
         print("Welcome to Admin panel")
         print("1. Add New User")
@@ -53,7 +53,7 @@ def manageUsers():
             case "1":
                 addUser()
             case "2":
-                delUser()
+                delUser(loginInfo)
             case "3":
                 searchUser()
             case "4":
@@ -103,8 +103,29 @@ def addUser():
         
     print("Added New User")
 
-def delUser():
-    pass
+def delUser(loginInfo):
+    print("Select the user you want to delete:")
+    listUsers()
+    while True:
+        delete = input()
+        try:
+            int(delete)
+        except:
+            print("Value entered is not a valid integer, pls try again")
+        else:
+            users = None
+
+            with open("users.txt", "r") as f:
+                users = eval(f.read())
+
+            users.pop(int(delete) - 1)
+
+            with open("users.txt", "w") as f:
+                f.write(str(users))
+
+            print("User deleted\n")
+            break
+    
 
 def searchUser():
     pass
@@ -122,8 +143,8 @@ def listUsers():
 
 def mainMenu(loginInfo):
     print("Welcome to the PPE Inventory Management System")
-    print("1. Inventory Update")
-    print("2. Transactions History")
+    # print("1. Inventory Update")
+    # print("2. Transactions History")
     print("4. User Management")
     print("5. Quit")
     
@@ -136,7 +157,7 @@ def mainMenu(loginInfo):
         match int(choice):
             case 4:
                 if loginInfo[2] == "Admin":
-                    manageUsers()
+                    manageUsers(loginInfo)
                 else:
                     print("You are not an admin")
             case 5:
