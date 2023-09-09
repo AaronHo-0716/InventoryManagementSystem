@@ -40,26 +40,25 @@ def initialization():
     print("Initialization complete.")
 
 def manageUsers():
-    print("Welcome to Admin panel")
-    print("1. Add New User")
-    print("2. Delete User")
-    print("3. Search User")
-    print("4. Modify User")
-    
     while True:
+        print("Welcome to Admin panel")
+        print("1. Add New User")
+        print("2. Delete User")
+        print("3. Search User")
+        print("4. Modify User")
+        print("5. Quit")
+        
         choice = input("Select one: ")
         match choice:
             case "1":
                 addUser()
-                break
             case "2":
                 delUser()
-                break
             case "3":
                 searchUser()
-                break
             case "4":
                 modifyUser()
+            case "5":
                 break
             case _:
                 print("Choice entered not valid, pls try again")
@@ -88,11 +87,15 @@ def addUser():
     newPwd = input("Please enter your password: ")
     
     users = [newUserID, userType, newPwd]
+    original = None
     
-    with open("users.txt","r+") as f:
+    with open("users.txt","r") as f:
         original = eval(f.read())
         original.append(users)
+
+    with open("users.txt", "w") as f:
         f.write(str(original))
+        
     print("Added New User")
 
 def delUser():
@@ -104,10 +107,12 @@ def searchUser():
 def modifyUser():
     pass
 
-def mainMenu():
+def mainMenu(loginInfo):
     print("Welcome to the PPE Inventory Management System")
     print("1. Inventory Update")
     print("2. Transactions History")
+    print("4. User Management")
+    print("5. Quit")
     
     choice = input()
     try:
@@ -117,7 +122,10 @@ def mainMenu():
     else:
         match int(choice):
             case 4:
-                addUser()
+                if loginInfo[2] == "Admin":
+                    manageUsers()
+                else:
+                    print("You are not an admin")
             case 5:
                 quit()
             case _:
@@ -130,6 +138,7 @@ def loginMenu():
     try:
         with open('users.txt', 'r') as f:
             users = eval(f.read())
+            print(users)
 
             for k,v in enumerate(users):
                 if userID == v[0] and password == v[2]:
@@ -144,7 +153,6 @@ def loginMenu():
 
 
 def main():
-    loginInfo = {"loginStatus": False, "userID": None, "userType": None}
     #       loginStatus, userID, userType
     loginInfo = [False, None, None]
     
@@ -155,7 +163,7 @@ def main():
     print(f"You are logined as {loginInfo[2]}, your ID is {loginInfo[1]}")
     
     while True:
-        mainMenu()
+        mainMenu(loginInfo)
 
 if __name__ == "__main__":
     main()
