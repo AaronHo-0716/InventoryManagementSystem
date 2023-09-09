@@ -60,18 +60,21 @@ def manageUsers():
                 modifyUser()
             case "5":
                 break
+            case "6":
+                listUsers()
             case _:
                 print("Choice entered not valid, pls try again")
     
 
 def addUser():
-    print("User Type")
-    print("1. Admin")
-    print("2. Staff")
     
     userType = None
     
     while True:
+        print("User Type")
+        print("1. Admin")
+        print("2. Staff")
+        print("3. Quit")
         choice = input("Select one: ")
         match choice:
             case "1":
@@ -79,6 +82,8 @@ def addUser():
                 break
             case "2":
                 userType = "Staff"
+                break
+            case "3":
                 break
             case _:
                 print("Choice entered not valid, pls try again")
@@ -106,6 +111,14 @@ def searchUser():
 
 def modifyUser():
     pass
+
+def listUsers():
+    with open("users.txt", "r") as f:
+        users = eval(f.read())
+        print("No.\tUser ID\tUser Type")
+
+        for k,v in enumerate(users):
+            print(f"{k+1}.\t{v[0]}\t{v[1]}")
 
 def mainMenu(loginInfo):
     print("Welcome to the PPE Inventory Management System")
