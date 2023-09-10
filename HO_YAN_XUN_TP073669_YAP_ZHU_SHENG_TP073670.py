@@ -104,9 +104,11 @@ def addUser():
     print("Added New User")
 
 def delUser(loginInfo):
-    print("Select the user you want to delete:")
-    listUsers()
     while True:
+        print("Select the user you want to delete: (type 0 to quit)")
+        
+        listUsers()
+        
         delete = input()
         try:
             int(delete)
@@ -118,13 +120,25 @@ def delUser(loginInfo):
             with open("users.txt", "r") as f:
                 users = eval(f.read())
 
-            users.pop(int(delete) - 1)
+            try:
+                users[int(delete)  - 1][0] 
+            except IndexError:
+                print("User doesn't exitst")
 
-            with open("users.txt", "w") as f:
-                f.write(str(users))
+            else:
+                if delete == "0":
+                    break
+                elif users[int(delete)  - 1][0] == loginInfo[1]:
+                    print("You cannot delete yourself")
+                    continue
+                else:
+                    users.pop(int(delete) - 1)
 
-            print("User deleted\n")
-            break
+                with open("users.txt", "w") as f:
+                    f.write(str(users))
+
+                print("User deleted\n")
+                break
     
 
 def searchUser():
@@ -172,7 +186,6 @@ def loginMenu():
     try:
         with open('users.txt', 'r') as f:
             users = eval(f.read())
-            print(users)
 
             for k,v in enumerate(users):
                 if userID == v[0] and password == v[2]:
