@@ -16,7 +16,7 @@ def initCheck():
 
 # Creates users.txt and ppe.txt and propmts user to create a admin account and enter the items
 def initialization():
-    print("Entering initialization, please enter the userID and password for creating an admin account")
+    print("\nEntering initialization, please enter the userID and password for creating an admin account")
     userID = input("Please enter your userID: ")
     password = input("Please enter your password: ")
 
@@ -41,7 +41,7 @@ def initialization():
 
 def manageUsers(loginInfo):
     while True:
-        print("Welcome to Admin panel")
+        print("\nWelcome to Admin panel")
         print("1. Add New User")
         print("2. Delete User")
         print("3. Search User")
@@ -71,7 +71,7 @@ def addUser():
     userType = None
     
     while True:
-        print("User Type")
+        print("\nUser Type")
         print("1. Admin")
         print("2. Staff")
         print("3. Quit")
@@ -88,24 +88,33 @@ def addUser():
             case _:
                 print("Choice entered not valid, pls try again")
             
-    newUserID = input("Please enter your userID: ")
-    newPwd = input("Please enter your password: ")
-    
-    users = [newUserID, userType, newPwd]
-    original = None
-    
-    with open("users.txt","r") as f:
-        original = eval(f.read())
-        original.append(users)
-
-    with open("users.txt", "w") as f:
-        f.write(str(original))
+    while True:
+        newUserID = input("Please enter your userID: ")
+        newPwd = input("Please enter your password: ")
         
-    print("Added New User")
+        users = [newUserID, userType, newPwd]
+        original = None
+        duplicateUserDetected = False
+        
+        f = open("users.txt","r+")
+        original = eval(f.read())
+
+        for user in original:
+            if user[0] == newUserID:
+                print("This userID already exists")
+                duplicateUserDetected = True
+
+        if not duplicateUserDetected:
+            original.append(users)
+            f.seek(0)
+            f.truncate()
+            f.write(str(original))
+            print("Added New User")
+            break
 
 def delUser(loginInfo):
     while True:
-        print("Select the user you want to delete: (type 0 to quit)")
+        print("\nSelect the user you want to delete: (type 0 to quit)")
         
         listUsers()
         
@@ -156,13 +165,13 @@ def listUsers():
             print(f"{k+1}.\t{v[0]}\t{v[1]}")
 
 def mainMenu(loginInfo):
-    print("Welcome to the PPE Inventory Management System")
+    print("\nWelcome to the PPE Inventory Management System")
     # print("1. Inventory Update")
     # print("2. Transactions History")
     print("4. User Management")
     print("5. Quit")
     
-    choice = input()
+    choice = input("Select one:")
     try:
         int(choice)
     except:
@@ -192,10 +201,10 @@ def loginMenu():
                     return [True, userID, users[k][1]]
                 
     except:
-        print("Login error, pls try again")
+        print("Login error, pls try again \n")
         return [False, None, None]
     else:
-        print("Wrong userID or password, pls try again")
+        print("Wrong userID or password, pls try again\n")
         return [False, None, None]
 
 
@@ -207,7 +216,7 @@ def main():
     while not loginInfo[0]:
         loginInfo = loginMenu()
 
-    print(f"You are logined as {loginInfo[2]}, your ID is {loginInfo[1]}")
+    print(f"\nYou are logined as {loginInfo[2]}, your ID is {loginInfo[1]}")
     
     while True:
         mainMenu(loginInfo)
