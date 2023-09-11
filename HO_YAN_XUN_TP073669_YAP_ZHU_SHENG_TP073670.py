@@ -151,7 +151,21 @@ def delUser(loginInfo):
     
 
 def searchUser():
-    pass
+    while True:
+        userFound = False
+        searchTerm = input("\nSearch user by their user code(Type \"Quit\" to quit):")
+        if searchTerm == "Quit":
+            break
+        with open("users.txt", "r") as f:
+            users = eval(f.read())
+            for user in users:
+                if user[0] == searchTerm:
+                    print(f"Found user: {user[0]}\nType: {user[1]}")
+                    userFound = True
+                    break
+
+        if not userFound:
+            print(f"User code {searchTerm} not found")
 
 def modifyUser():
     pass
