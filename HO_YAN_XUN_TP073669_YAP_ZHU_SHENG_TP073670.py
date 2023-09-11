@@ -62,7 +62,10 @@ def mainMenu():
                 quit()
 
 def loginMenu():
+    with open('users.txt','r') as f:
+        users=eval(f.read())
     userID = input("Please enter your userID: ")
+<<<<<<< Updated upstream
     password = input("Please enter your password: ")
         
     try:
@@ -79,6 +82,19 @@ def loginMenu():
     else:
         print("Wrong userID or password, pls try again")
         return {"loginStatus": False, "userID": None, "userType": None} 
+=======
+    for k, v in enumerate(users):
+        if userID == v[0]:
+            password=input("Please enter your password: ")
+            if password==v[2]:
+                return [True, userID, users[k][1]]
+            else:
+                print("Wrong password, please try again.\n")
+                return[False, None, None]
+        else:
+            print("Wrong userID, please try again.\n")
+            return[False, None, None]
+>>>>>>> Stashed changes
 
 def main():
     loginInfo = {"loginStatus": False, "userID": None, "userType": None}
