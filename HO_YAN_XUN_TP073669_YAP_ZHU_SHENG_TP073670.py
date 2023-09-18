@@ -252,10 +252,10 @@ def listUsers():
         for k,v in enumerate(users):
             print(f"{k+1}.\t{v[0]}\t{v[1]}")
 
+
 def mainMenu(loginInfo):
     print("\nWelcome to the PPE Inventory Management System")
-    # print("1. Inventory Update")
-    # print("2. Transactions History")
+    print("1. Inventory")
     print("4. User Management")
     print("5. Quit")
     
@@ -266,6 +266,8 @@ def mainMenu(loginInfo):
         print("Value entered not a valid integer, pls try again")
     else:
         match int(choice):
+            case 1:
+                inventory()
             case 4:
                 if loginInfo[2] == "Admin":
                     manageUsers(loginInfo)
@@ -295,6 +297,41 @@ def loginMenu():
         print("Wrong userID or password, pls try again\n")
         return [False, None, None]
 
+def inventory():
+    while True:
+        print("\nInventory")
+        print("1. Check Stock")
+        print("2. Receive Items")
+        print("3. Distribute Items")
+        print("4. Transaction History")
+        print("5. Quit")
+        
+        choice = input("Select one: ")
+        match choice:
+            case "1":
+                checkStock()
+            case "2":
+                receiveItems()
+            case "3":
+                distributeItems()
+            case "4":
+                transactionHistory()
+            case "5":
+                break
+            case _:
+                print("Choice entered not valid, pls try again")
+
+def checkStock():
+    pass
+
+def receiveItems():
+    pass
+
+def distributeItems():
+    pass
+
+def transactionHistory():
+    pass
 
 def main():
     #       loginStatus, userID, userType
@@ -306,7 +343,7 @@ def main():
 
     print(f"\nYou are logined as {loginInfo[2]}, your ID is {loginInfo[1]}")
     
-    while True:
+    while loginInfo[0]:
         mainMenu(loginInfo)
 
 if __name__ == "__main__":
