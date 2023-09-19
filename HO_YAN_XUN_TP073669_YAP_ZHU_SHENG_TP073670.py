@@ -247,10 +247,10 @@ def modifyUser():
 def listUsers():
     with open("users.txt", "r") as f:
         users = eval(f.read())
-        print("No.\tUser ID\tUser Type")
+        print(f"{'No.' : <5}{'User ID' : ^20}{'User Type' : ^10}")
 
         for k,v in enumerate(users):
-            print(f"{k+1}.\t{v[0]}\t{v[1]}")
+            print(f"{k+1 : <5}{v[0] : ^20}{v[1] : ^10}")
 
 
 def mainMenu(loginInfo):
@@ -309,7 +309,7 @@ def inventory():
         choice = input("Select one: ")
         match choice:
             case "1":
-                checkStock()
+                listStock()
             case "2":
                 receiveItems()
             case "3":
@@ -321,9 +321,6 @@ def inventory():
             case _:
                 print("Choice entered not valid, pls try again")
 
-def checkStock():
-    pass
-
 def receiveItems():
     pass
 
@@ -332,6 +329,14 @@ def distributeItems():
 
 def transactionHistory():
     pass
+
+def listStock():
+    with open("ppe.txt", "r") as f:
+        ppe = eval(f.read())
+        print(f"\n{'Item Code' : <10}{'Item Name' : ^20}{'Item Quantity' : ^10}")
+
+        for v in ppe:
+            print(f"{v[0] : <10}{v[1] : ^20}{v[3] : ^10}")
 
 def main():
     #       loginStatus, userID, userType
