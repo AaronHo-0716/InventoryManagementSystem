@@ -62,39 +62,64 @@ def mainMenu():
                 quit()
 
 def loginMenu():
-    with open('users.txt','r') as f:
-        users=eval(f.read())
     userID = input("Please enter your userID: ")
-<<<<<<< Updated upstream
     password = input("Please enter your password: ")
         
     try:
         with open('users.txt', 'r') as f:
             users = eval(f.read())
 
-            for user in users:
-                if userID == user["userID"] and password == user["password"]:
-                    return {"loginStatus": True, "userID": userID, "userType": user["userType"]} 
+            for k,v in enumerate(users):
+                if userID == v[0] and password == v[3]:
+                    return [True, userID,users[k][1], users[k][2]]
                 
     except:
-        print("Login error, pls try again")
-        return {"loginStatus": False, "userID": None, "userType": None} 
+        print("Login error, pls try again \n")
+        return [False, None, None, None]
     else:
-        print("Wrong userID or password, pls try again")
-        return {"loginStatus": False, "userID": None, "userType": None} 
-=======
-    for k, v in enumerate(users):
-        if userID == v[0]:
-            password=input("Please enter your password: ")
-            if password==v[2]:
-                return [True, userID, users[k][1]]
-            else:
-                print("Wrong password, please try again.\n")
-                return[False, None, None]
-        else:
-            print("Wrong userID, please try again.\n")
-            return[False, None, None]
->>>>>>> Stashed changes
+        print("Wrong userID or password, pls try again\n")
+        return [False, None, None, None]
+
+def inventory():
+    while True:
+        print("\nInventory")
+        print("1. Check Stock")
+        print("2. Receive Items")
+        print("3. Distribute Items")
+        print("4. Transaction History")
+        print("5. Quit")
+        
+        choice = input("Select one: ")
+        match choice:
+            case "1":
+                listStock()
+            case "2":
+                receiveItems()
+            case "3":
+                distributeItems()
+            case "4":
+                transactionHistory()
+            case "5":
+                break
+            case _:
+                print("Choice entered not valid, pls try again")
+
+def receiveItems():
+    pass
+
+def distributeItems():
+    pass
+
+def transactionHistory():
+    pass
+
+def listStock():
+    with open("ppe.txt", "r") as f:
+        ppe = eval(f.read())
+        print(f"\n{'Item Code' : <10}{'Item Name' : ^20}{'Item Quantity' : ^10}")
+
+        for v in ppe:
+            print(f"{v[0] : <10}{v[1] : ^20}{v[3] : ^10}")
 
 def main():
     loginInfo = {"loginStatus": False, "userID": None, "userType": None}
