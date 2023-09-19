@@ -18,9 +18,10 @@ def initCheck():
 def initialization():
     print("\nEntering initialization, please enter the userID and password for creating an admin account")
     userID = input("Please enter your userID: ")
+    userName = input("Please enter your name: ")
     password = input("Please enter your password: ")
 
-    users = [[userID, "Admin", password]]
+    users = [[userID, userName, "Admin", password]]
     
     with open("users.txt", "w") as f:
         f.write(str(users))
@@ -90,9 +91,10 @@ def addUser():
             
     while True:
         newUserID = input("Please enter your userID: ")
+        newName = input("Please enter your name: ")
         newPwd = input("Please enter your password: ")
         
-        users = [newUserID, userType, newPwd]
+        users = [newUserID, newName, userType, newPwd]
         original = None
         duplicateUserDetected = False
         
@@ -160,7 +162,7 @@ def searchUser():
             users = eval(f.read())
             for user in users:
                 if user[0] == searchTerm:
-                    print(f"Found user: {user[0]}\nType: {user[1]}")
+                    print(f"Found user: {user[0]}\nName: {user[1]}\nType: {user[2]}")
                     userFound = True
                     break
 
@@ -213,7 +215,7 @@ def modifyUser():
                                 changeType = input()
                                 match changeType:
                                     case "Admin":
-                                        users[int(mod) - 1][1] = "Admin"
+                                        users[int(mod) - 1][2] = "Admin"
                                         with open("users.txt", "w") as f:
                                             f.write(str(users))
                                         break
@@ -222,7 +224,7 @@ def modifyUser():
                                             print("This account is the master account, you cannot change the type of it")
                                             continue
                                         else:
-                                            users[int(mod) - 1][1] = "Staff"
+                                            users[int(mod) - 1][2] = "Staff"
 
                                             with open("users.txt", "w") as f:
                                                 f.write(str(users))
@@ -234,8 +236,8 @@ def modifyUser():
                                 oldPass = input("\nType the old password:")
                                 newPass = input("Type the new password:")
 
-                                if oldPass == users[int(mod) - 1][2]:
-                                    users[int(mod) - 1][2] = newPass
+                                if oldPass == users[int(mod) - 1][3]:
+                                    users[int(mod) - 1][3] = newPass
 
                                     with open("users.txt", "w") as f:
                                         f.write(str(users))
@@ -247,10 +249,10 @@ def modifyUser():
 def listUsers():
     with open("users.txt", "r") as f:
         users = eval(f.read())
-        print(f"{'No.' : <5}{'User ID' : ^20}{'User Type' : ^10}")
+        print(f"{'No.' : <5}{'User ID' : ^15}{'User Name' : ^15}{'User Type' : ^15}")
 
         for k,v in enumerate(users):
-            print(f"{k+1 : <5}{v[0] : ^20}{v[1] : ^10}")
+            print(f"{k+1 : <5}{v[0] : ^15}{v[1] : ^15}{v[2] : ^15}")
 
 
 def mainMenu(loginInfo):
@@ -259,7 +261,7 @@ def mainMenu(loginInfo):
     print("4. User Management")
     print("5. Quit")
     
-    choice = input("Select one:")
+    choice = input("Select one: ")
     try:
         int(choice)
     except:
@@ -287,15 +289,15 @@ def loginMenu():
             users = eval(f.read())
 
             for k,v in enumerate(users):
-                if userID == v[0] and password == v[2]:
-                    return [True, userID, users[k][1]]
+                if userID == v[0] and password == v[3]:
+                    return [True, userID,users[k][1], users[k][2]]
                 
     except:
         print("Login error, pls try again \n")
-        return [False, None, None]
+        return [False, None, None, None]
     else:
         print("Wrong userID or password, pls try again\n")
-        return [False, None, None]
+        return [False, None, None, None]
 
 def inventory():
     while True:
@@ -339,14 +341,14 @@ def listStock():
             print(f"{v[0] : <10}{v[1] : ^20}{v[3] : ^10}")
 
 def main():
-    #       loginStatus, userID, userType
+    #       loginStatus, userID, userName, userType
     loginInfo = [False, None, None]
     
     initCheck()
     while not loginInfo[0]:
         loginInfo = loginMenu()
 
-    print(f"\nYou are logined as {loginInfo[2]}, your ID is {loginInfo[1]}")
+    print(f"\nWelcome {loginInfo[2]}")
     
     while loginInfo[0]:
         mainMenu(loginInfo)
