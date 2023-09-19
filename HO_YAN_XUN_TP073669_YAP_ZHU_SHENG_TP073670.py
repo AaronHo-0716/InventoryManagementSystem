@@ -321,7 +321,26 @@ def inventory():
                 print("Choice entered not valid, pls try again")
 
 def receiveItems():
-    pass
+    listStock()
+    while True:
+        print("\nSelect the item receiving(Item Code):")
+        choice = input()
+
+        match choice:
+            case 'HC':
+                pass
+            case 'FS':
+                pass
+            case 'MS':
+                pass
+            case 'GL':
+                pass
+            case 'GW':
+                pass
+            case 'SC':
+                pass
+            case _:
+                print("Choice entered is not valid")
 
 def distributeItems():
     pass
