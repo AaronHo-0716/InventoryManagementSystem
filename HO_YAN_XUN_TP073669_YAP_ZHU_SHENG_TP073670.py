@@ -295,7 +295,6 @@ def loginMenu():
                     else:
                         print("Wrong password, pls try again\n")
         print("User doesn't exist, pls try again.\n")
-    return [False, None, None, None]
 
 def inventory():
     while True:
