@@ -271,7 +271,7 @@ def mainMenu(loginInfo):
             case 1:
                 inventory()
             case 4:
-                if loginInfo[2] == "Admin":
+                if loginInfo[3] == "Admin":
                     manageUsers(loginInfo)
                 else:
                     print("You are not an admin")
@@ -341,8 +341,8 @@ def listStock():
             print(f"{v[0] : <10}{v[1] : ^20}{v[3] : ^10}")
 
 def main():
-    #       loginStatus, userID, userName, userType
-    loginInfo = [False, None, None]
+    # loginStatus, userID, userName, userType
+    loginInfo = [False, None, None, None]
     
     initCheck()
     while not loginInfo[0]:
