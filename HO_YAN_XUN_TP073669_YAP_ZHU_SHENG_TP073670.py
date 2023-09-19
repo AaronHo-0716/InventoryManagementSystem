@@ -281,23 +281,21 @@ def mainMenu(loginInfo):
                 print("Value entered not a valid choice, pls try again")
 
 def loginMenu():
-    userID = input("Please enter your userID: ")
-    password = input("Please enter your password: ")
-        
-    try:
-        with open('users.txt', 'r') as f:
-            users = eval(f.read())
+    with open('users.txt','r') as f:
+        users = eval(f.read())
 
-            for k,v in enumerate(users):
-                if userID == v[0] and password == v[3]:
-                    return [True, userID,users[k][1], users[k][2]]
-                
-    except:
-        print("Login error, pls try again \n")
-        return [False, None, None, None]
-    else:
-        print("Wrong userID or password, pls try again\n")
-        return [False, None, None, None]
+    while True:            
+        userID = input("Please enter your userID: ")
+        for k,v in enumerate(users):
+            if userID == v[0]:
+                while True:
+                    password = input("Please enter your password: ")
+                    if password == v[3]:
+                        return [True, userID,users[k][1], users[k][2]]
+                    else:
+                        print("Wrong password, pls try again\n")
+        print("User doesn't exist, pls try again.\n")
+    return [False, None, None, None]
 
 def inventory():
     while True:
