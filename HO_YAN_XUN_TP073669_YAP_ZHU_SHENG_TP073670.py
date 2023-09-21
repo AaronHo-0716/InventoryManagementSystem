@@ -373,8 +373,7 @@ def main():
     loginInfo = [False, None, None, None]
     
     initCheck()
-    while not loginInfo[0]:
-        loginInfo = loginMenu()
+    loginInfo = loginMenu()
 
     print(f"\nWelcome {loginInfo[2]}")
     
