@@ -321,26 +321,40 @@ def inventory():
                 print("Choice entered not valid, pls try again")
 
 def receiveItems():
-    listStock()
-    while True:
-        print("\nSelect the item receiving(Item Code):")
-        choice = input()
+    with open("ppe.txt", "r+") as f:
+        ppes = eval(f.read())
+        listStock()
+        while True:
+            choice = input("\nSelect the item receiving(Item Code, Type \"Quit\" to quit):")
 
-        match choice:
-            case 'HC':
-                pass
-            case 'FS':
-                pass
-            case 'MS':
-                pass
-            case 'GL':
-                pass
-            case 'GW':
-                pass
-            case 'SC':
-                pass
-            case _:
-                print("Choice entered is not valid")
+            if choice == 'Quit':
+                break
+
+            if not doesItemExists(choice, ppes):
+                print("Item doesn't exits please try again")
+                continue
+
+            amount = input("Input the amount received:")
+
+            try:
+                for k,v in enumerate(ppes):
+                    if v[0] == choice:
+                        ppes[k][3] += int(amount)
+                        f.seek(0)
+                        f.truncate()
+                        f.write(str(ppes))
+                        print(ppes)
+            except Exception as e:
+                print(e)
+
+
+def doesItemExists(element, li):
+    for i in li:
+        if i[0] == element:
+            return True
+
+    return False
+
 
 def distributeItems():
     pass
