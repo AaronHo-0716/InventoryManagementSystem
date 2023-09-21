@@ -4,14 +4,10 @@
 # Check if the program is running the first time
 # Checks by detecting the existence of users.txt and other files
 def initCheck():
-    isFirst = False
     try:
         open('users.txt', "r")
     except FileNotFoundError:
         print("Initializing system...")
-        isFirst = True
-
-    if isFirst:
         initialization()
 
 # Creates users.txt and ppe.txt and propmts user to create a admin account and enter the items
