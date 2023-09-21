@@ -116,11 +116,14 @@ def addUser():
 
 def delUser(loginInfo):
     while True:
-        print("\nSelect the user you want to delete(Type 0 to quit): ")
-        
+        print("\nSelect the user you want to delete(Type \"Quit\" to quit): ")
         listUsers()
         
         delete = input()
+        
+        if delete == "Quit":
+            break
+        
         try:
             int(delete)
         except:
@@ -137,9 +140,7 @@ def delUser(loginInfo):
                 print("User doesn't exitst")
 
             else:
-                if delete == "0":
-                    break
-                elif users[int(delete)  - 1][0] == loginInfo[1]:
+                if users[int(delete)  - 1][0] == loginInfo[1]:
                     print("You cannot delete yourself")
                     continue
                 else:
