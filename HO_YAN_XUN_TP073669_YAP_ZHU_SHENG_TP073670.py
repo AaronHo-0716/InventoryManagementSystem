@@ -171,13 +171,16 @@ def searchUser():
 
 def modifyUser():
     while True:
-        print("\nSelect the user you want to modify(Type 0 to quit):")
+        print("\nSelect the user you want to modify(Type \"Quit\" to quit):")
         listUsers()
 
         mod = input()
+        
+        if mod == "Quit":
+            break
 
         try:
-            int(mod)
+            mod = int(mod)
         except:
             print("Value entered is not a valid integer, pls try again")
         else:
@@ -187,48 +190,43 @@ def modifyUser():
                 users = eval(f.read())
 
             try:
-                users[int(mod)  - 1][0] 
+                users[mod  - 1][0] 
             except IndexError:
                 print("User doesn't exitst")
 
             else:
-                if mod == "0":
-                    break
-
                 while True:
-                    print("\nSelect the action to perform(Type 0 to quit):")
+                    print("\nSelect the action to perform(Type \"Quit\" to quit):")
                     print("1. Change user type")
                     print("2. Change password")
 
                     choice = input()
 
                     try:
-                        int(choice)
-                    except:
-                        print("Value entered is not a valid integer, pls try again")
-                    else:
-                        if choice == "0":
+                        if choice == "Quit":
                             break
                         elif choice == "1":
                             while True:
-                                print("\nSelect one(Admin, Staff):")
+                                print("\nSelect one(Admin, Staff ; Type \"Quit\" to quit):")
                                 changeType = input()
                                 match changeType:
                                     case "Admin":
-                                        users[int(mod) - 1][2] = "Admin"
+                                        users[mod - 1][2] = "Admin"
                                         with open("users.txt", "w") as f:
                                             f.write(str(users))
                                         break
                                     case "Staff":
-                                        if mod == "1":
+                                        if mod == 1:
                                             print("This account is the master account, you cannot change the type of it")
                                             continue
                                         else:
-                                            users[int(mod) - 1][2] = "Staff"
+                                            users[mod - 1][2] = "Staff"
 
                                             with open("users.txt", "w") as f:
                                                 f.write(str(users))
                                             break
+                                    case "Quit":
+                                        break
                                     case _:
                                         print("Error, please enter only \"Admin\" or \"Staff\"")
                         elif choice == "2":
@@ -236,8 +234,8 @@ def modifyUser():
                                 oldPass = input("\nType the old password:")
                                 newPass = input("Type the new password:")
 
-                                if oldPass == users[int(mod) - 1][3]:
-                                    users[int(mod) - 1][3] = newPass
+                                if oldPass == users[mod - 1][3]:
+                                    users[mod - 1][3] = newPass
 
                                     with open("users.txt", "w") as f:
                                         f.write(str(users))
@@ -245,6 +243,9 @@ def modifyUser():
 
                                 else:
                                     print("Old password isn't correct please try again")
+                        
+                    except Exception as e:
+                        print(e)
                         
 def listUsers():
     with open("users.txt", "r") as f:
