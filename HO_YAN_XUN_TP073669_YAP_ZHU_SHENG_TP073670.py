@@ -34,6 +34,11 @@ def initialization():
     with open("suppliers.txt", "w") as f:
         f.write(str(suppliers))
 
+    hospitals = [["KKM", "Klinik Kesihatan Muhibbah"], ["KKPBJ", "Klinik Komuniti Pinggiran Bukit Jalil"], ["CAH","Columbia Asia Hospital"]]
+    
+    with open("hospitals.txt", "w") as f:
+        f.write(str(hospitals))
+
     print("Initialization complete.")
 
 def manageUsers(loginInfo):
@@ -355,7 +360,33 @@ def doesItemExists(element, li):
 
 
 def distributeItems():
-    pass
+    with open("ppe.txt", "r+") as f:
+        ppes = eval(f.read())
+        listStock()
+        while True:
+            choice = input("\nSelect the item distributing(Item Code, Type \"Quit\" to quit):")
+
+            if choice == 'Quit':
+                break
+
+            if not doesItemExists(choice, ppes):
+                print("Item doesn't exits please try again")
+                continue
+
+            while True:
+                amount = input("Input the amount distributed:")
+                
+
+                try:
+                    for k,v in enumerate(ppes):
+                        if v[0] == choice:
+                            ppes[k][3] += int(amount)
+                            f.seek(0)
+                            f.truncate()
+                            f.write(str(ppes))
+                            print(ppes)
+                except Exception as e:
+                    print(e)
 
 def transactionHistory():
     pass
