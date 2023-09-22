@@ -17,10 +17,10 @@ def initialization():
     userName = input("Please enter your name: ")
     password = input("Please enter your password: ")
 
-    users = [[userID, userName, "Admin", password]]
+    users = ','.join([userID, userName, "Admin", password])
     
     with open("users.txt", "w") as f:
-        f.write(str(users))
+        f.write(users)
 
     # supplierCode, supplierName
     suppliers = [["JJ", "Johnson & Johnson"],["AG", "Agile Ground"], ["EW", "Ewwww"]]
@@ -309,7 +309,7 @@ def inventoryInit():
             for i in range(0,6):
                 ppes.append([ppe[i], ppeName[i], ppeSupplier[i], 100])
             
-            f.write(str(sorted(ppes)))
+            f.writelines(sorted(ppes))
 
 def inventory():
     inventoryInit()
