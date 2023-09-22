@@ -412,7 +412,7 @@ def listStock():
 
         for v in ppe:
             print(f"{v[0] : <10}{v[1] : ^20}{v[3] : ^15}")
-
+            
 def main():
     # loginStatus, userID, userName, userType
     loginInfo = [False, None, None, None]
