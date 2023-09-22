@@ -50,8 +50,20 @@ def addUser():
     print("Added New User")
 
 
+<<<<<<< Updated upstream
 def mainMenu():
     choice = input()
+=======
+def mainMenu(loginInfo):
+    print("\nWelcome to the PPE Inventory Management System")
+    print("1. Inventory")
+    print("2. Suppliers")
+    print("3. Hospitals")
+    print("4. User Management")
+    print("5. Log Out")
+    
+    choice = input("Select one: ")
+>>>>>>> Stashed changes
     try:
         int(choice)
     except:
@@ -59,7 +71,14 @@ def mainMenu():
     else:
         match int(choice):
             case 5:
+<<<<<<< Updated upstream
                 quit()
+=======
+                print("\n")
+                return None
+            case _:
+                print("Value entered not a valid choice, pls try again")
+>>>>>>> Stashed changes
 
 def loginMenu():
     userID = input("Please enter your userID: ")
@@ -119,6 +138,7 @@ def listStock():
         print(f"\n{'Item Code' : <10}{'Item Name' : ^20}{'Item Quantity' : ^10}")
 
         for v in ppe:
+<<<<<<< Updated upstream
             print(f"{v[0] : <10}{v[1] : ^20}{v[3] : ^10}")
 
 def main():
@@ -132,6 +152,21 @@ def main():
     
     while True:
         mainMenu()
+=======
+            print(f"{v[0] : <10}{v[1] : ^20}{v[3] : ^15}")
+
+def main():
+    while True:
+        # loginStatus, userID, userName, userType
+        loginInfo = [False, None, None, None]
+        
+        initCheck()
+        loginInfo = loginMenu()
+
+        print(f"\nWelcome {loginInfo[2]}")
+
+        mainMenu(loginInfo)
+>>>>>>> Stashed changes
 
 if __name__ == "__main__":
     main()
