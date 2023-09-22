@@ -251,16 +251,16 @@ def listUsers():
         for k,v in enumerate(users):
             print(f"{k+1 : <5}{v[0] : ^15}{v[1] : ^15}{v[2] : ^15}")
 
-
 def mainMenu(loginInfo):
     print("\nWelcome to the PPE Inventory Management System")
     print("1. Inventory")
     print("2. Suppliers")
     print("3. Hospitals")
     print("4. User Management")
-    print("5. Quit")
+    print("5. Log Out")
     
     choice = input("Select one: ")
+
     try:
         int(choice)
     except:
@@ -275,7 +275,9 @@ def mainMenu(loginInfo):
                 else:
                     print("You are not an admin")
             case 5:
-                quit()
+                print("\n")
+                return None
+
             case _:
                 print("Value entered not a valid choice, pls try again")
 
@@ -411,18 +413,19 @@ def listStock():
         print(f"\n{'Item Code' : <10}{'Item Name' : ^20}{'Item Quantity' : ^15}")
 
         for v in ppe:
+
             print(f"{v[0] : <10}{v[1] : ^20}{v[3] : ^15}")
             
 def main():
-    # loginStatus, userID, userName, userType
-    loginInfo = [False, None, None, None]
-    
-    initCheck()
-    loginInfo = loginMenu()
+    while True:
+        # loginStatus, userID, userName, userType
+        loginInfo = [False, None, None, None]
+        
+        initCheck()
+        loginInfo = loginMenu()
 
-    print(f"\nWelcome {loginInfo[2]}")
-    
-    while loginInfo[0]:
+        print(f"\nWelcome {loginInfo[2]}")
+
         mainMenu(loginInfo)
 
 if __name__ == "__main__":
