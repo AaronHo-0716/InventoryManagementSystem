@@ -22,12 +22,6 @@ def initialization():
     with open("users.txt", "w") as f:
         f.write(str(users))
 
-    # itemCode, itenName, supplierCode, quantity
-    ppe = [["HC","Head Cover", "JJ", 100], ["FS","Face Shield", "JJ", 100], ["MS","Mask", "AG", 100], ["GL","GLoves", "AG", 100], ["GW","Gown", "EW", 100], ["SC","Shoe Covers", "EW", 100]]
-
-    with open("ppe.txt", "w") as f:
-        f.write(str(ppe))
-
     # supplierCode, supplierName
     suppliers = [["JJ", "Johnson & Johnson"],["AG", "Agile Ground"], ["EW", "Ewwww"]]
     
