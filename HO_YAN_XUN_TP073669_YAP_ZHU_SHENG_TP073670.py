@@ -299,7 +299,25 @@ def loginMenu():
                         print("Wrong password, pls try again\n")
         print("User doesn't exist, pls try again.\n")
 
+def inventoryInit():
+    try:
+        open("ppe.txt", "r")       
+    except FileNotFoundError:
+        ppes = []
+        
+        with open("ppe.txt", "w") as f:
+            ppe = list(input("Please enter the all the item code with comma in between: ").strip().split(','))
+            ppeName = list(input("Please enter the all the item name with comma in between: ").strip().split(','))
+            ppeSupplier = list(input("Please enter the all the supplier code for each item with comma in between: ").strip().split(','))
+
+            for i in range(0,6):
+                ppes.append([ppe[i], ppeName[i], ppeSupplier[i], 100])
+            
+            f.write(str(ppes))
+
 def inventory():
+    inventoryInit()
+    
     while True:
         print("\nInventory")
         print("1. Check Stock")
