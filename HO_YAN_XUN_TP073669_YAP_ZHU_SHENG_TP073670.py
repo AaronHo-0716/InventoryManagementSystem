@@ -255,6 +255,8 @@ def listUsers():
 def mainMenu(loginInfo):
     print("\nWelcome to the PPE Inventory Management System")
     print("1. Inventory")
+    print("2. Suppliers")
+    print("3. Hospitals")
     print("4. User Management")
     print("5. Quit")
     
@@ -307,7 +309,7 @@ def inventoryInit():
             for i in range(0,6):
                 ppes.append([ppe[i], ppeName[i], ppeSupplier[i], 100])
             
-            f.write(str(ppes))
+            f.write(str(sorted(ppes)))
 
 def inventory():
     inventoryInit()
@@ -406,10 +408,10 @@ def transactionHistory():
 def listStock():
     with open("ppe.txt", "r") as f:
         ppe = eval(f.read())
-        print(f"\n{'Item Code' : <10}{'Item Name' : ^20}{'Item Quantity' : ^10}")
+        print(f"\n{'Item Code' : <10}{'Item Name' : ^20}{'Item Quantity' : ^15}")
 
         for v in ppe:
-            print(f"{v[0] : <10}{v[1] : ^20}{v[3] : ^10}")
+            print(f"{v[0] : <10}{v[1] : ^20}{v[3] : ^15}")
 
 def main():
     # loginStatus, userID, userName, userType
