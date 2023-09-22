@@ -285,7 +285,9 @@ def loginMenu():
     with open('users.txt','r') as f:
         users = eval(f.read())
 
-    while True:            
+    while True:
+        print("Welcome to PPE Inventory Management System")      
+        print("Type \"quit\" to quit the program\n")      
         userID = input("Please enter your userID: ")
         for k,v in enumerate(users):
             if userID == v[0]:
@@ -295,6 +297,8 @@ def loginMenu():
                         return [True, userID,users[k][1], users[k][2]]
                     else:
                         print("Wrong password, pls try again\n")
+            elif userID == "quit":
+                quit()
         print("User doesn't exist, pls try again.\n")
 
 def inventoryInit():
