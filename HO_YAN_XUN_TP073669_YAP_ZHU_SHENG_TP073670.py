@@ -47,8 +47,7 @@ def readUser():
 
     return usersContent
 
-def writeToFile(fileName, original, newData):
-    original.append(newData)
+def writeToFile(fileName, original):
     with open(fileName, 'w') as f:
         for i in original:
             f.write(','.join(i))
@@ -120,7 +119,8 @@ def addUser():
                 duplicateUserDetected = True
 
         if not duplicateUserDetected:
-            writeToFile('users.txt',original,users)
+            original.append(users)
+            writeToFile('users.txt',original)
             print("Added New User")
             break
 
@@ -139,10 +139,7 @@ def delUser(loginInfo):
         except:
             print("Value entered is not a valid integer, pls try again")
         else:
-            users = None
-
-            with open("users.txt", "r") as f:
-                users = eval(f.read())
+            users = readUser()
 
             try:
                 users[int(delete)  - 1][0] 
@@ -156,8 +153,7 @@ def delUser(loginInfo):
                 else:
                     users.pop(int(delete) - 1)
 
-                with open("users.txt", "w") as f:
-                    f.write(str(users))
+                writeToFile("users.txt",users)
 
                 print("User deleted\n")
                 break
@@ -266,34 +262,35 @@ def listUsers():
         print(f"{k+1 : <5}{v[0] : ^15}{v[1] : ^15}{v[2] : ^15}")
 
 def mainMenu(loginInfo):
-    print("\nWelcome to the PPE Inventory Management System")
-    print("1. Inventory")
-    print("2. Suppliers")
-    print("3. Hospitals")
-    print("4. User Management")
-    print("5. Log Out")
-    
-    choice = input("Select one: ")
+    while True:
+        print("\nWelcome to the PPE Inventory Management System")
+        print("1. Inventory")
+        print("2. Suppliers")
+        print("3. Hospitals")
+        print("4. User Management")
+        print("5. Log Out")
+        
+        choice = input("Select one: ")
 
-    try:
-        int(choice)
-    except:
-        print("Value entered not a valid integer, pls try again")
-    else:
-        match int(choice):
-            case 1:
-                inventory()
-            case 4:
-                if loginInfo[3] == "Admin":
-                    manageUsers(loginInfo)
-                else:
-                    print("You are not an admin")
-            case 5:
-                print("\n")
-                return None
+        try:
+            int(choice)
+        except:
+            print("Value entered not a valid integer, pls try again")
+        else:
+            match int(choice):
+                case 1:
+                    inventory()
+                case 4:
+                    if loginInfo[3] == "Admin":
+                        manageUsers(loginInfo)
+                    else:
+                        print("You are not an admin")
+                case 5:
+                    print("\n")
+                    break
 
-            case _:
-                print("Value entered not a valid choice, pls try again")
+                case _:
+                    print("Value entered not a valid choice, pls try again")
 
 def loginMenu():
     users = readUser()
@@ -434,11 +431,9 @@ def listStock():
             print(f"{v[0] : <10}{v[1] : ^20}{v[3] : ^15}")
             
 def main():
+    initCheck()
     while True:
         # loginStatus, userID, userName, userType
-        loginInfo = [False, None, None, None]
-        
-        initCheck()
         loginInfo = loginMenu()
 
         print(f"\nWelcome {loginInfo[2]}")
