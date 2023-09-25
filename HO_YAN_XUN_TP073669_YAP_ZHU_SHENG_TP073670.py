@@ -165,13 +165,12 @@ def searchUser():
         searchTerm = input("\nSearch user by their user code(Type \"Quit\" to quit):")
         if searchTerm == "Quit":
             break
-        with open("users.txt", "r") as f:
-            users = eval(f.read())
-            for user in users:
-                if user[0] == searchTerm:
-                    print(f"Found user: {user[0]}\nName: {user[1]}\nType: {user[2]}")
-                    userFound = True
-                    break
+        
+        users = readUser()
+        for user in users:
+            if user[0] == searchTerm:
+                print(f"Found user: {user[0]}\nName: {user[1]}\nType: {user[2]}")
+                userFound = True
 
         if not userFound:
             print(f"User code {searchTerm} not found")
@@ -191,10 +190,7 @@ def modifyUser():
         except:
             print("Value entered is not a valid integer, pls try again")
         else:
-            users = None
-
-            with open("users.txt", "r+") as f:
-                users = eval(f.read())
+            users = readUser()
 
             try:
                 users[mod  - 1][0] 
@@ -219,8 +215,7 @@ def modifyUser():
                                 match changeType:
                                     case "Admin":
                                         users[mod - 1][2] = "Admin"
-                                        with open("users.txt", "w") as f:
-                                            f.write(str(users))
+                                        writeToFile("users.txt",users)
                                         break
                                     case "Staff":
                                         if mod == 1:
@@ -228,9 +223,7 @@ def modifyUser():
                                             continue
                                         else:
                                             users[mod - 1][2] = "Staff"
-
-                                            with open("users.txt", "w") as f:
-                                                f.write(str(users))
+                                            writeToFile("users.txt",users)
                                             break
                                     case "Quit":
                                         break
@@ -244,8 +237,7 @@ def modifyUser():
                                 if oldPass == users[mod - 1][3]:
                                     users[mod - 1][3] = newPass
 
-                                    with open("users.txt", "w") as f:
-                                        f.write(str(users))
+                                    writeToFile("users.txt", users)
                                     break
 
                                 else:
