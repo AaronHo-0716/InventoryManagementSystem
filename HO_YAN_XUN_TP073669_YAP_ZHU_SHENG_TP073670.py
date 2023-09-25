@@ -35,17 +35,17 @@ def initialization():
 
     print("Initialization complete.")
 
-def readUser():
-    usersContent = []
-    with open("users.txt", 'r') as f:
+def readFile(filePath):
+    content = []
+    with open(filePath, 'r') as f:
         while True:
             line = f.readline().rstrip('\n')
             if not line:
                 break
             else:
-                usersContent.append(list(line.split(',')))
+                content.append(list(line.split(',')))
 
-    return usersContent
+    return content
 
 def writeToFile(fileName, original):
     with open(fileName, 'w') as f:
@@ -111,7 +111,7 @@ def addUser():
         original = None
         duplicateUserDetected = False
         
-        original = readUser()
+        original = readFile("users.txt")
 
         for user in original:
             if user[0] == newUserID:
@@ -139,7 +139,7 @@ def delUser(loginInfo):
         except:
             print("Value entered is not a valid integer, pls try again")
         else:
-            users = readUser()
+            users = readFile('users.txt')
 
             try:
                 users[int(delete)  - 1][0] 
@@ -166,7 +166,7 @@ def searchUser():
         if searchTerm == "Quit":
             break
         
-        users = readUser()
+        users = readFile("users.txt")
         for user in users:
             if user[0] == searchTerm:
                 print(f"Found user: {user[0]}\nName: {user[1]}\nType: {user[2]}")
@@ -190,7 +190,7 @@ def modifyUser():
         except:
             print("Value entered is not a valid integer, pls try again")
         else:
-            users = readUser()
+            users = readFile('users.txt')
 
             try:
                 users[mod  - 1][0] 
@@ -247,7 +247,7 @@ def modifyUser():
                         print(e)
                         
 def listUsers():
-    users = readUser()
+    users = readFile("users.txt")
     print(f"{'No.' : <5}{'User ID' : ^15}{'User Name' : ^15}{'User Type' : ^15}")
 
     for k,v in enumerate(users):
@@ -285,7 +285,7 @@ def mainMenu(loginInfo):
                     print("Value entered not a valid choice, pls try again")
 
 def loginMenu():
-    users = readUser()
+    users = readFile('users.txt')
 
     while True:
         print("Welcome to PPE Inventory Management System")      
