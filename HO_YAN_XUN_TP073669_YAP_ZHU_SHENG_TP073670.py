@@ -17,7 +17,7 @@ def initialization():
     userName = input("Please enter your name: ")
     password = input("Please enter your password: ")
 
-    users = ','.join([userID, userName, "Admin", password])
+    users = ",".join([userID, userName, "Admin", password])
     
     with open("users.txt", "w") as f:
         f.write(users)
@@ -34,6 +34,25 @@ def initialization():
         f.write(str(hospitals))
 
     print("Initialization complete.")
+
+def readUser():
+    usersContent = []
+    with open("users.txt", 'r') as f:
+        while True:
+            line = f.readline().rstrip('\n')
+            if not line:
+                break
+            else:
+                usersContent.append(list(line.split(',')))
+
+    return usersContent
+
+def writeToFile(fileName, original, newData):
+    original.append(newData)
+    with open(fileName, 'w') as f:
+        for i in original:
+            f.write(','.join(i))
+            f.write('\n')
 
 def manageUsers(loginInfo):
     while True:
@@ -93,8 +112,7 @@ def addUser():
         original = None
         duplicateUserDetected = False
         
-        f = open("users.txt","r+")
-        original = eval(f.read())
+        original = readUser()
 
         for user in original:
             if user[0] == newUserID:
@@ -102,10 +120,7 @@ def addUser():
                 duplicateUserDetected = True
 
         if not duplicateUserDetected:
-            original.append(users)
-            f.seek(0)
-            f.truncate()
-            f.write(str(original))
+            writeToFile('users.txt',original,users)
             print("Added New User")
             break
 
@@ -244,12 +259,11 @@ def modifyUser():
                         print(e)
                         
 def listUsers():
-    with open("users.txt", "r") as f:
-        users = eval(f.read())
-        print(f"{'No.' : <5}{'User ID' : ^15}{'User Name' : ^15}{'User Type' : ^15}")
+    users = readUser()
+    print(f"{'No.' : <5}{'User ID' : ^15}{'User Name' : ^15}{'User Type' : ^15}")
 
-        for k,v in enumerate(users):
-            print(f"{k+1 : <5}{v[0] : ^15}{v[1] : ^15}{v[2] : ^15}")
+    for k,v in enumerate(users):
+        print(f"{k+1 : <5}{v[0] : ^15}{v[1] : ^15}{v[2] : ^15}")
 
 def mainMenu(loginInfo):
     print("\nWelcome to the PPE Inventory Management System")
@@ -282,8 +296,7 @@ def mainMenu(loginInfo):
                 print("Value entered not a valid choice, pls try again")
 
 def loginMenu():
-    with open('users.txt','r') as f:
-        users = eval(f.read())
+    users = readUser()
 
     while True:
         print("Welcome to PPE Inventory Management System")      
