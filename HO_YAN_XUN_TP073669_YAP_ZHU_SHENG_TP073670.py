@@ -309,15 +309,14 @@ def inventoryInit():
     except FileNotFoundError:
         ppes = []
         
-        with open("ppe.txt", "w") as f:
-            ppe = list(input("Please enter the all the item code with comma in between: ").strip().split(','))
-            ppeName = list(input("Please enter the all the item name with comma in between: ").strip().split(','))
-            ppeSupplier = list(input("Please enter the all the supplier code for each item with comma in between: ").strip().split(','))
+        ppe = list(input("Please enter the all the item code with comma in between: ").strip().split(','))
+        ppeName = list(input("Please enter the all the item name with comma in between: ").strip().split(','))
+        ppeSupplier = list(input("Please enter the all the supplier code for each item with comma in between: ").strip().split(','))
 
-            for i in range(0,6):
-                ppes.append([ppe[i], ppeName[i], ppeSupplier[i], 100])
-            
-            f.writelines(sorted(ppes))
+        for i in range(0,6):
+            ppes.append([ppe[i], ppeName[i], ppeSupplier[i], "100"])
+        
+        writeToFile("ppe.txt", sorted(ppes))
 
 def inventory():
     inventoryInit()
@@ -346,31 +345,28 @@ def inventory():
                 print("Choice entered not valid, pls try again")
 
 def receiveItems():
-    with open("ppe.txt", "r+") as f:
-        ppes = eval(f.read())
-        listStock()
-        while True:
-            choice = input("\nSelect the item receiving(Item Code, Type \"Quit\" to quit):")
+    ppes = readFile("ppe.txt")
+    listStock()
+    while True:
+        choice = input("\nSelect the item receiving(Item Code, Type \"Quit\" to quit):")
 
-            if choice == 'Quit':
-                break
+        if choice == 'Quit':
+            break
 
-            if not doesItemExists(choice, ppes):
-                print("Item doesn't exits please try again")
-                continue
+        if not doesItemExists(choice, ppes):
+            print("Item doesn't exits please try again")
+            continue
 
-            amount = input("Input the amount received:")
+        amount = input("Input the amount received:")
 
-            try:
-                for k,v in enumerate(ppes):
-                    if v[0] == choice:
-                        ppes[k][3] += int(amount)
-                        f.seek(0)
-                        f.truncate()
-                        f.write(str(ppes))
-                        print(ppes)
-            except Exception as e:
-                print(e)
+        try:
+            for k,v in enumerate(ppes):
+                if v[0] == choice:
+                    ppes[k][3] = int(ppes[k][3])
+                    ppes[k][3] += int(amount)
+                    writeToFile("ppe.txt", str(ppes))
+        except Exception as e:
+            print(e)
 
 
 def doesItemExists(element, li):
@@ -414,13 +410,12 @@ def transactionHistory():
     pass
 
 def listStock():
-    with open("ppe.txt", "r") as f:
-        ppe = eval(f.read())
-        print(f"\n{'Item Code' : <10}{'Item Name' : ^20}{'Item Quantity' : ^15}")
+    ppe = readFile("ppe.txt")
+    print(f"\n{'Item Code' : <10}{'Item Name' : ^20}{'Item Quantity' : ^15}")
 
-        for v in ppe:
+    for v in ppe:
 
-            print(f"{v[0] : <10}{v[1] : ^20}{v[3] : ^15}")
+        print(f"{v[0] : <10}{v[1] : ^20}{v[3] : ^15}")
             
 def main():
     initCheck()
