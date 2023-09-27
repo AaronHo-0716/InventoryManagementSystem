@@ -309,6 +309,7 @@ def inventoryInit():
     except FileNotFoundError:
         ppes = []
         
+        # bug here when input enter everytime, TO BE FIXED 
         ppe = list(input("Please enter the all the item code with comma in between: ").strip().split(','))
         ppeName = list(input("Please enter the all the item name with comma in between: ").strip().split(','))
         ppeSupplier = list(input("Please enter the all the supplier code for each item with comma in between: ").strip().split(','))
@@ -364,7 +365,8 @@ def receiveItems():
                 if v[0] == choice:
                     ppes[k][3] = int(ppes[k][3])
                     ppes[k][3] += int(amount)
-                    writeToFile("ppe.txt", str(ppes))
+                    ppes[k][3] = str(ppes[k][3])
+                    writeToFile("ppe.txt", ppes)
         except Exception as e:
             print(e)
 
@@ -378,33 +380,31 @@ def doesItemExists(element, li):
 
 
 def distributeItems():
-    with open("ppe.txt", "r+") as f:
-        ppes = eval(f.read())
-        listStock()
+    ppes = readFile("ppe.txt")
+    listStock()
+    while True:
+        choice = input("\nSelect the item distributing(Item Code, Type \"Quit\" to quit):")
+
+        if choice == 'Quit':
+            break
+
+        if not doesItemExists(choice, ppes):
+            print("Item doesn't exits please try again")
+            continue
+
         while True:
-            choice = input("\nSelect the item distributing(Item Code, Type \"Quit\" to quit):")
+            amount = input("Input the amount distributed:")
+            
 
-            if choice == 'Quit':
-                break
-
-            if not doesItemExists(choice, ppes):
-                print("Item doesn't exits please try again")
-                continue
-
-            while True:
-                amount = input("Input the amount distributed:")
-                
-
-                try:
-                    for k,v in enumerate(ppes):
-                        if v[0] == choice:
-                            ppes[k][3] += int(amount)
-                            f.seek(0)
-                            f.truncate()
-                            f.write(str(ppes))
-                            print(ppes)
-                except Exception as e:
-                    print(e)
+            try:
+                for k,v in enumerate(ppes):
+                    if v[0] == choice:
+                        ppes[k][3] = int(ppes[k][3])
+                        ppes[k][3] += int(amount)
+                        writeToFile("ppe.txt", str(ppes))
+                        print(ppes)
+            except Exception as e:
+                print(e)
 
 def transactionHistory():
     pass
