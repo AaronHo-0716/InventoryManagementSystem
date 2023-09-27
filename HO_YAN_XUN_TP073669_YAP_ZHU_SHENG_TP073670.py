@@ -395,14 +395,20 @@ def distributeItems():
         while True:
             amount = input("Input the amount distributed:")
             
-
             try:
                 for k,v in enumerate(ppes):
                     if v[0] == choice:
                         ppes[k][3] = int(ppes[k][3])
-                        ppes[k][3] += int(amount)
-                        writeToFile("ppe.txt", str(ppes))
-                        print(ppes)
+                        if ppes[k][3] - int(amount) >= 0:
+                            ppes[k][3] -= int(amount)
+                            ppes[k][3] = str(ppes[k][3])
+                            writeToFile("ppe.txt", ppes)
+                            break
+                        else:
+                            print("Insufficient amount, please try again")
+                        ppes[k][3] = str(ppes[k][3])
+
+                break
             except Exception as e:
                 print(e)
 
