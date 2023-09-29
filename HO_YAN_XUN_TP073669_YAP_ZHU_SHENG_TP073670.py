@@ -1,6 +1,8 @@
 # HO YAN XUN YAP ZHU SHENG
 # TP073669   TP073670
 
+import datetime
+
 # Check if the program is running the first time
 # Checks by detecting the existence of users.txt and other files
 def initCheck():
@@ -371,7 +373,10 @@ def receiveItems():
                     ppes[k][3] = int(ppes[k][3])
                     ppes[k][3] += int(amount)
                     ppes[k][3] = str(ppes[k][3])
+                    
                     writeToFile("ppe.txt", ppes)
+                    addTranscation(v[0],v[1],v[2],amount,"receive")
+                    break
         except Exception as e:
             print(e)
 
@@ -418,6 +423,18 @@ def distributeItems():
                 print(e)
 
 def transactionHistory():
+    pass
+
+def addTranscation(itemCode, itemName, supplierOrHospitalCode, quantity, transactionType):
+    with open("transaction.txt","a") as f:
+        if transactionType == "receive":
+            f.write(f'{datetime.datetime.now()},{itemName},{itemCode},{quantity},{supplierOrHospitalCode},received')
+        elif transactionType == "distribute":
+            f.write(f'{datetime.datetime.now()},{itemName},{itemCode},{quantity},{supplierOrHospitalCode},distributed')
+        f.write('\n')
+        
+
+def addDistribution():
     pass
 
 def listStock():
