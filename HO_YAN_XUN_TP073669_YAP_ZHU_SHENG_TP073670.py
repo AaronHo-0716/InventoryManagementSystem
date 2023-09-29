@@ -307,17 +307,23 @@ def inventoryInit():
     try:
         open("ppe.txt", "r")       
     except FileNotFoundError:
-        ppes = []
-        
-        # bug here when input enter everytime, TO BE FIXED 
-        ppe = list(input("Please enter the all the item code with comma in between: ").strip().split(','))
-        ppeName = list(input("Please enter the all the item name with comma in between: ").strip().split(','))
-        ppeSupplier = list(input("Please enter the all the supplier code for each item with comma in between: ").strip().split(','))
+        while True:
+            ppes = []
+            
+            # bug here when input enter everytime, TO BE FIXED 
+            try:
+                ppe = list(input("Please enter the all the item code with comma in between: ").strip().split(','))
+                ppeName = list(input("Please enter the all the item name with comma in between: ").strip().split(','))
+                ppeSupplier = list(input("Please enter the all the supplier code for each item with comma in between: ").strip().split(','))
 
-        for i in range(0,6):
-            ppes.append([ppe[i], ppeName[i], ppeSupplier[i], "100"])
-        
-        writeToFile("ppe.txt", sorted(ppes))
+                for i in range(0,6):
+                    ppes.append([ppe[i], ppeName[i], ppeSupplier[i], "100"])
+                
+                writeToFile("ppe.txt", sorted(ppes))
+                break
+
+            except Exception as e:
+                print(e)
 
 def inventory():
     inventoryInit()
