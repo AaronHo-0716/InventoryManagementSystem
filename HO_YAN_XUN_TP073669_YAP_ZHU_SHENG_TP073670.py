@@ -310,7 +310,6 @@ def inventoryInit():
         while True:
             ppes = []
             
-            # bug here when input enter everytime, TO BE FIXED 
             try:
                 ppe = list(input("Please enter the all the item code with comma in between: ").strip().split(','))
                 ppeName = list(input("Please enter the all the item name with comma in between: ").strip().split(','))
