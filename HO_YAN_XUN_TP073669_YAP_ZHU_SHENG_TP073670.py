@@ -513,7 +513,8 @@ def history():
 
             case "3":
                 while True:
-                    sDate = input("\nPlease input the starting date(dd/mm/yyyy): ")
+                    print("\nSearch for transactions during a time period\n*leave blank for default")
+                    sDate = input("Please input the starting date(dd/mm/yyyy): ")
                     eDate = input("Please input the ending date(dd/mm/yyyy): ")
                     
                     try:
