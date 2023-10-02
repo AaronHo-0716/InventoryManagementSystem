@@ -25,16 +25,51 @@ def initialization():
         f.write(users)
 
     # supplierCode, supplierName
-    suppliers = [["JJ", "Johnson & Johnson"],["AG", "Agile Ground"], ["EW", "Ewwww"]]
+    # suppliers = [["JJ", "Johnson & Johnson"],["AG", "Agile Ground"], ["EW", "Ewwww"]]
     
-    with open("suppliers.txt", "w") as f:
-        f.write(str(suppliers))
+    try:
+        open("supplier.txt", "r")       
+    except FileNotFoundError:
+        print("\nInitializing suppliers.txt...")
+        while True:
+            suppliers = []
+            
+            try:
+                supplierCode = list(input("Please enter the all the supplier code with comma in between: ").strip().split(','))
+                supplierName = list(input("Please enter the all the supplier name with comma in between: ").strip().split(','))
 
-    hospitals = [["KKM", "Klinik Kesihatan Muhibbah"], ["KKPBJ", "Klinik Komuniti Pinggiran Bukit Jalil"], ["CAH","Columbia Asia Hospital"]]
+                for i in range(0,3):
+                    suppliers.append([supplierCode[i], supplierName[i]])
+                
+                writeToFile("suppliers.txt", sorted(suppliers))
+                print("Initializing complete")
+                break
+
+            except Exception as e:
+                print(e)
+                                     
+    # hospitals = [["KKM", "Klinik Kesihatan Muhibbah"], ["KKPBJ", "Klinik Komuniti Pinggiran Bukit Jalil"], ["CAH","Columbia Asia Hospital"]]
     
-    with open("hospitals.txt", "w") as f:
-        f.write(str(hospitals))
+    try:
+        open("hospitals.txt", "r")       
+    except FileNotFoundError:
+        while True:
+            print("\nInitializing hospitals.txt...")
+            hospitals = []
+            
+            try:
+                hospitalCode = list(input("Please enter the all the hospital code with comma in between: ").strip().split(','))
+                hospitalName = list(input("Please enter the all the hospital name with comma in between: ").strip().split(','))
 
+                for i in range(0,3):
+                    hospitals.append([hospitalCode[i], hospitalName[i]])
+                
+                writeToFile("hospitals.txt", sorted(hospitals))
+                print("Initializing complete")
+                break
+
+            except Exception as e:
+                print(e)
     print("Initialization complete.")
 
 def readFile(filePath):
