@@ -310,6 +310,8 @@ def mainMenu(loginInfo):
                 case 1:
                     inventory()
                 
+                case 2:
+                    listSuppliers()
                 case 3:
                     listHospitals()
                 case 4:
@@ -470,7 +472,7 @@ def distributeItems():
                                 break
                             
                             else:
-                                print(f"Insufficient amount, current stock left is {ppes[k][3]}, please try again")
+                                print(f"Insufficient amount, current stock left is {ppes[k][3]},  please try again")
                                 
                             ppes[k][3] = str(ppes[k][3])
 
@@ -510,6 +512,13 @@ def listHospitals():
 
     for v in hospitals:
         print(f"{v[0] : <15}{v[1] : ^40}")
+        
+def listSuppliers():
+    suppliers = readFile("suppliers.txt")
+    print(f"\n{'Supplier Code' : <15}{'Supplier Name' : ^25}")
+
+    for v in suppliers:
+        print(f"{v[0] : <15}{v[1] : ^25}")
 
 def main():
     initCheck()
