@@ -359,6 +359,7 @@ def inventoryInit():
 
                 for i in range(0,6):
                     ppes.append([ppe[i], ppeName[i], ppeSupplier[i], "100"])
+                    addTranscation(ppe[i], ppeName[i], ppeSupplier[i], "100", "receive")
                 
                 writeToFile("ppe.txt", sorted(ppes))
                 break
@@ -484,15 +485,16 @@ def distributeItems():
 def history():
     while True:
         print("\nWelcome to history")
-        print("1. Transaction History")
+        print("1. Transaction Full History")
         print("2. Distribution History")
+        print("3. Transaction Between a Time Period")
 
         choice = input("\nPlease select one(Type \"Quit\" to quit): ")
 
-        if choice == "Quit":
-            break
-
         match choice:
+            case "Quit":
+                break
+            
             case "1":
                 transactions = readFile("transaction.txt")
                 print(f"\n{'Transaction Time' : <30}{'Item Name' : ^20}{'Item Code' : ^20}{'Item Quantity' : ^15}{'Supplier or Hospital Code' : ^40}{'Status' : ^10}")
@@ -505,6 +507,17 @@ def history():
 
                 for v in distributions:
                     print(f"{v[0] : <30}{v[1] : ^20}{v[2] : ^20}{v[3] : ^15}{v[4] : ^40}")
+
+            case "3":
+                startDate = "1/1/1"
+                endDate = "31/12/9999"
+
+                
+
+                transactions = readFile("transaction.txt")
+
+                for transaction in transactions:
+                    pass
 
 def addTranscation(itemCode, itemName, supplierOrHospitalCode, quantity, transactionType):
     with open("transaction.txt","a") as f:
