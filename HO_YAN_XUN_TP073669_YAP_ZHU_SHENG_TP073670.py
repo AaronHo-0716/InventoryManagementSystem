@@ -456,15 +456,22 @@ def distributeItems():
                     for k,v in enumerate(ppes):
                         if v[0] == choice:
                             ppes[k][3] = int(ppes[k][3])
+
+                            # Check for sufficient quantity
                             if ppes[k][3] - int(amount) >= 0:
+                                
                                 ppes[k][3] -= int(amount)
                                 ppes[k][3] = str(ppes[k][3])
+
                                 writeToFile("ppe.txt", ppes)
                                 addTranscation(v[0],v[1],hospitalChoice,amount,"distribute")
                                 addDistribution(v[0],v[1],hospitalChoice,amount)
+                                
                                 break
+                            
                             else:
-                                print("Insufficient amount, please try again")
+                                print(f"Insufficient amount, current stock left is {ppes[k][3]}, please try again")
+                                
                             ppes[k][3] = str(ppes[k][3])
 
                     break
