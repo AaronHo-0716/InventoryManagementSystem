@@ -51,7 +51,7 @@ def initialization():
     # hospitals = [["KKM", "Klinik Kesihatan Muhibbah"], ["KKPBJ", "Klinik Komuniti Pinggiran Bukit Jalil"], ["CAH","Columbia Asia Hospital"]]
     
     try:
-        open("hospitals.txt", "r")       
+        open("hospitals.txt", "r")
     except FileNotFoundError:
         while True:
             print("\nInitializing hospitals.txt...")
