@@ -309,6 +309,9 @@ def mainMenu(loginInfo):
             match int(choice):
                 case 1:
                     inventory()
+                
+                case 3:
+                    listHospitals()
                 case 4:
                     if loginInfo[3] == "Admin":
                         manageUsers(loginInfo)
@@ -426,6 +429,7 @@ def doesItemExists(element, li):
 
 def distributeItems():
     ppes = readFile("ppe.txt")
+    hospitals = readFile("hospitals.txt")
     listStock()
     while True:
         choice = input("\nSelect the item distributing(Item Code, Type \"Quit\" to quit):")
@@ -438,24 +442,35 @@ def distributeItems():
             continue
 
         while True:
-            amount = input("Input the amount distributed:")
-            
-            try:
-                for k,v in enumerate(ppes):
-                    if v[0] == choice:
-                        ppes[k][3] = int(ppes[k][3])
-                        if ppes[k][3] - int(amount) >= 0:
-                            ppes[k][3] -= int(amount)
-                            ppes[k][3] = str(ppes[k][3])
-                            writeToFile("ppe.txt", ppes)
-                            break
-                        else:
-                            print("Insufficient amount, please try again")
-                        ppes[k][3] = str(ppes[k][3])
+            listHospitals()
+            hospitalChoice = input("\nSelect the hospital distributing to(Hospital Code):")
 
-                break
-            except Exception as e:
-                print(e)
+            if not doesItemExists(hospitalChoice, hospitals):
+                print("Hospital doesn't exits please try again")
+                continue
+            
+            while True:
+                amount = input("Input the amount distributed:")
+                
+                try:
+                    for k,v in enumerate(ppes):
+                        if v[0] == choice:
+                            ppes[k][3] = int(ppes[k][3])
+                            if ppes[k][3] - int(amount) >= 0:
+                                ppes[k][3] -= int(amount)
+                                ppes[k][3] = str(ppes[k][3])
+                                writeToFile("ppe.txt", ppes)
+                                addTranscation(v[0],v[1],hospitalChoice,amount,"distribute")
+                                addDistribution(v[0],v[1],hospitalChoice,amount)
+                                break
+                            else:
+                                print("Insufficient amount, please try again")
+                            ppes[k][3] = str(ppes[k][3])
+
+                    break
+                except Exception as e:
+                    print(e)
+            break
 
 def transactionHistory():
     pass
@@ -469,8 +484,10 @@ def addTranscation(itemCode, itemName, supplierOrHospitalCode, quantity, transac
         f.write('\n')
         
 
-def addDistribution():
-    pass
+def addDistribution(itemCode, itemName, hospitalCode, quantity):
+    with open("distribution.txt","a") as f:
+        f.write(f'{datetime.datetime.now()},{itemName},{itemCode},{quantity},{hospitalCode}')
+        f.write('\n')
 
 def listStock():
     ppe = readFile("ppe.txt")
@@ -480,6 +497,13 @@ def listStock():
 
         print(f"{v[0] : <10}{v[1] : ^20}{v[3] : ^15}")
             
+def listHospitals():
+    hospitals = readFile("hospitals.txt")
+    print(f"\n{'Hospital Code' : <15}{'Hospital Name' : ^40}")
+
+    for v in hospitals:
+        print(f"{v[0] : <15}{v[1] : ^40}")
+
 def main():
     initCheck()
     while True:
