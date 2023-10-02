@@ -376,7 +376,8 @@ def inventory():
         print("2. Receive Items")
         print("3. Distribute Items")
         print("4. Transaction History")
-        print("5. Quit")
+        print("5. Search")
+        print("6. Quit")
         
         choice = input("Select one: ")
         match choice:
@@ -389,6 +390,8 @@ def inventory():
             case "4":
                 history()
             case "5":
+                search()
+            case "6":
                 break
             case _:
                 print("Choice entered not valid, pls try again")
@@ -509,16 +512,39 @@ def history():
                     print(f"{v[0] : <30}{v[1] : ^20}{v[2] : ^20}{v[3] : ^15}{v[4] : ^40}")
 
             case "3":
-                startDate = "1/1/1"
-                endDate = "31/12/9999"
+                while True:
+                    sDate = input("\nPlease input the starting date(dd/mm/yyyy): ")
+                    eDate = input("Please input the ending date(dd/mm/yyyy): ")
+                    
+                    try:
+                        sDateDT = datetime.datetime.strptime(sDate, "%d/%m/%Y")
+                        eDateDT = datetime.datetime.strptime(eDate, "%d/%m/%Y")
+                    
+                        transactionBetweenTimePeriod(sDateDT,eDateDT)
+                        
+                    except Exception as e:
+                        print(e)
+                        continue
 
-                
+def transactionBetweenTimePeriod(startDate = datetime.datetime.strptime("01/01/0001", "%d/%m/%Y"), endDate = datetime.datetime.strptime("31/12/9999", "%d/%m/%Y")):
+    transactions = readFile("transaction.txt")
+    transactionDates = []
+    indexOfFilteredDates = []
 
-                transactions = readFile("transaction.txt")
+    for transaction in transactions:
+        transactionDates.append(convStrToDT(transaction[0]))
 
-                for transaction in transactions:
-                    pass
+    print(transactionDates)
 
+    for k, date in enumerate(transactionDates):
+        if date >= startDate and date <= endDate:
+            print(date)
+            indexOfFilteredDates.append(k)
+
+def convStrToDT(s):
+    date = datetime.datetime.strptime(s, "%Y-%m-%d %H:%M:%S.%f").strftime("%d/%m/%Y")
+    return datetime.datetime.strptime(date, "%d/%m/%Y")
+    
 def addTranscation(itemCode, itemName, supplierOrHospitalCode, quantity, transactionType):
     with open("transaction.txt","a") as f:
         if transactionType == "receive":
