@@ -516,8 +516,6 @@ def history():
                     print("\nSearch for transactions during a time period\n*leave blank for default*")
                     sDate = input("Please input the starting date(dd/mm/yyyy): ")
                     eDate = input("Please input the ending date(dd/mm/yyyy): ")
-
-                    print(sDate,eDate)
                     
                     sDateDT = None
                     eDateDT = None
@@ -557,19 +555,15 @@ def history():
 def transactionBetweenTimePeriod(startDate, endDate):
     transactions = readFile("transaction.txt")
     transactionDates = []
-    indexOfFilteredDates = []
 
     for transaction in transactions:
         transactionDates.append(convStrToDT(transaction[0]))
 
-    print(transactionDates)
-
+    print(f"\n{'Transaction Date' : ^26}{'Item Name' : ^20}{'Item Code' : ^20}{'Quantity' : ^20}{'Supplier Or Hospital Code' : ^25}{'Status' : ^20}")
     for k, date in enumerate(transactionDates):
         if date >= startDate and date <= endDate:
-            print(date)
-            indexOfFilteredDates.append(k)
-
-    print(indexOfFilteredDates)
+            # filteredTransactions.append(k)
+            print(f"{transactions[k][0] : <26}{transactions[k][1] : ^20}{transactions[k][2] : ^20}{transactions[k][3] : ^20}{transactions[k][4] : ^25}{transactions[k][5] : ^20}")
 
 def convStrToDT(s):
     date = datetime.datetime.strptime(s, "%Y-%m-%d %H:%M:%S.%f").strftime("%d/%m/%Y")
