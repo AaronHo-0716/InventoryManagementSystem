@@ -549,15 +549,11 @@ def history():
 
                         except Exception as e:
                             print(e)
+                            continue
+                            
+                    transactionBetweenTimePeriod(sDateDT,eDateDT)
+                    break
                 
-                    if isinstance(sDateDT, datetime.datetime) and isinstance(eDateDT, datetime.datetime):
-                        transactionBetweenTimePeriod(sDateDT,eDateDT)
-                        break
-                    
-                    else:
-                        print("Either or both the dates are not in correct format please try again")
-                        continue
-
 def transactionBetweenTimePeriod(startDate, endDate):
     transactions = readFile("transaction.txt")
     transactionDates = []
