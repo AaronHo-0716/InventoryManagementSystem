@@ -513,21 +513,40 @@ def history():
 
             case "3":
                 while True:
-                    print("\nSearch for transactions during a time period\n*leave blank for default")
+                    print("\nSearch for transactions during a time period\n*leave blank for default*")
                     sDate = input("Please input the starting date(dd/mm/yyyy): ")
                     eDate = input("Please input the ending date(dd/mm/yyyy): ")
+
+                    print(sDate,eDate)
                     
-                    try:
+                    sDateDT = None
+                    eDateDT = None
+                    
+                    if sDate == '' and eDate == '':
+                        sDateDT = datetime.datetime.strptime("01/01/0001", "%d/%m/%Y")
+                        eDateDT = datetime.datetime.strptime("31/12/9999", "%d/%m/%Y")
+
+                    elif sDate == '':
+                        sDateDT = datetime.datetime.strptime("01/01/0001", "%d/%m/%Y")
+                        eDateDT = datetime.datetime.strptime(eDate, "%d/%m/%Y")
+                        
+                    elif eDate == '':
+                        sDateDT = datetime.datetime.strptime(sDate, "%d/%m/%Y")
+                        eDateDT = datetime.datetime.strptime("31/12/9999", "%d/%m/%Y")
+
+                    else:
                         sDateDT = datetime.datetime.strptime(sDate, "%d/%m/%Y")
                         eDateDT = datetime.datetime.strptime(eDate, "%d/%m/%Y")
-                    
+                
+                    if isinstance(sDateDT, datetime.datetime) and isinstance(eDateDT, datetime.datetime):
                         transactionBetweenTimePeriod(sDateDT,eDateDT)
-                        
-                    except Exception as e:
-                        print(e)
+                        break
+                    
+                    else:
+                        print("Either or both the dates are not in correct format please try again")
                         continue
 
-def transactionBetweenTimePeriod(startDate = datetime.datetime.strptime("01/01/0001", "%d/%m/%Y"), endDate = datetime.datetime.strptime("31/12/9999", "%d/%m/%Y")):
+def transactionBetweenTimePeriod(startDate, endDate):
     transactions = readFile("transaction.txt")
     transactionDates = []
     indexOfFilteredDates = []
@@ -541,6 +560,8 @@ def transactionBetweenTimePeriod(startDate = datetime.datetime.strptime("01/01/0
         if date >= startDate and date <= endDate:
             print(date)
             indexOfFilteredDates.append(k)
+
+    print(indexOfFilteredDates)
 
 def convStrToDT(s):
     date = datetime.datetime.strptime(s, "%Y-%m-%d %H:%M:%S.%f").strftime("%d/%m/%Y")
