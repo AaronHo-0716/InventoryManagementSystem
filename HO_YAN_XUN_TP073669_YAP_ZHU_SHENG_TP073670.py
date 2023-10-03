@@ -528,15 +528,27 @@ def history():
 
                     elif sDate == '':
                         sDateDT = datetime.datetime.strptime("01/01/0001", "%d/%m/%Y")
-                        eDateDT = datetime.datetime.strptime(eDate, "%d/%m/%Y")
+                        try:
+                            eDateDT = datetime.datetime.strptime(eDate, "%d/%m/%Y")
+                        except Exception as e:
+                            print(e)
+                            continue
                         
                     elif eDate == '':
-                        sDateDT = datetime.datetime.strptime(sDate, "%d/%m/%Y")
+                        try:
+                            sDateDT = datetime.datetime.strptime(sDate, "%d/%m/%Y")
+                        except Exception as e:
+                            print(e)
+                            continue
                         eDateDT = datetime.datetime.strptime("31/12/9999", "%d/%m/%Y")
 
                     else:
-                        sDateDT = datetime.datetime.strptime(sDate, "%d/%m/%Y")
-                        eDateDT = datetime.datetime.strptime(eDate, "%d/%m/%Y")
+                        try:
+                            sDateDT = datetime.datetime.strptime(sDate, "%d/%m/%Y")
+                            eDateDT = datetime.datetime.strptime(eDate, "%d/%m/%Y")
+
+                        except Exception as e:
+                            print(e)
                 
                     if isinstance(sDateDT, datetime.datetime) and isinstance(eDateDT, datetime.datetime):
                         transactionBetweenTimePeriod(sDateDT,eDateDT)
