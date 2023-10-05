@@ -391,9 +391,7 @@ def inventory():
                 history()
             case "5":
                 listStock()
-                
-                item = input("Please enter the item code: ")
-                search(item)
+                search()
             case "6":
                 break
             case _:
@@ -488,13 +486,27 @@ def distributeItems():
                     print(e)
             break
 
-def search(item):
-    transactions = readFile("transaction.txt")
-    print(f"\n{'Transaction Time' : <30}{'Item Name' : ^20}{'Item Code' : ^20}{'Item Quantity' : ^15}{'Supplier or Hospital Code' : ^40}{'Status' : ^10}")
+def search():
+    ppes = readFile("ppe.txt")
+    
+    while True:
+        item = input("Please enter the item code(Type \"Quit\" to quit): ")
 
-    for v in transactions:
-        if item == v[2]:
-            print(f"{v[0] : <30}{v[1] : ^20}{v[2] : ^20}{v[3] : ^15}{v[4] : ^40}{v[5] : ^10}")
+        if item == "Quit":
+            break
+
+        if not doesItemExists(item, ppes):
+            print("Item doesn't exist, please try agian")
+            continue
+        
+        transactions = readFile("transaction.txt")
+        print(f"\n{'Transaction Time' : <30}{'Item Name' : ^20}{'Item Code' : ^20}{'Item Quantity' : ^15}{'Supplier or Hospital Code' : ^40}{'Status' : ^10}")
+
+        for v in transactions:
+            if item == v[2]:
+                print(f"{v[0] : <30}{v[1] : ^20}{v[2] : ^20}{v[3] : ^15}{v[4] : ^40}{v[5] : ^10}")
+
+        break
             
 def history():
     while True:
