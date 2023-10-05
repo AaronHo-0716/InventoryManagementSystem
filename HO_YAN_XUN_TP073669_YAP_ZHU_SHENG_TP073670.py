@@ -376,7 +376,7 @@ def inventory():
         print("2. Receive Items")
         print("3. Distribute Items")
         print("4. Transaction History")
-        print("5. Search")
+        print("5. Search Transaction Detail of an Item")
         print("6. Quit")
         
         choice = input("Select one: ")
@@ -390,7 +390,10 @@ def inventory():
             case "4":
                 history()
             case "5":
-                search()
+                listStock()
+                
+                item = input("Please enter the item code: ")
+                search(item)
             case "6":
                 break
             case _:
@@ -485,6 +488,14 @@ def distributeItems():
                     print(e)
             break
 
+def search(item):
+    transactions = readFile("transaction.txt")
+    print(f"\n{'Transaction Time' : <30}{'Item Name' : ^20}{'Item Code' : ^20}{'Item Quantity' : ^15}{'Supplier or Hospital Code' : ^40}{'Status' : ^10}")
+
+    for v in transactions:
+        if item == v[2]:
+            print(f"{v[0] : <30}{v[1] : ^20}{v[2] : ^20}{v[3] : ^15}{v[4] : ^40}{v[5] : ^10}")
+            
 def history():
     while True:
         print("\nWelcome to history")
