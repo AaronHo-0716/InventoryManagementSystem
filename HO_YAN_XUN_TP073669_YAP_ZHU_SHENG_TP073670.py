@@ -642,6 +642,7 @@ def supplier():
                     for k,v in enumerate(suppliers):
                         if v[0] == supToChange:
                             suppliers[k][0] = input("Enter the new name:")
+                            writeToFile("suppliers.txt", suppliers)
                             print("New name changed")
                             break
                 
