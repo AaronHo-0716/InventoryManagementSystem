@@ -46,7 +46,7 @@ def initialization():
                 supplierName = list(input("Please enter the all the supplier name with comma in between: ").strip().split(','))
                 supplierContact = list(input("Please enter the all the supplier contact number with comma in between: ").strip().split(','))
 
-                for i in range(0,4):
+                for i in range(0,3):
                     suppliers.append([supplierCode[i], supplierName[i], supplierContact[i]])
                 
                 writeToFile("suppliers.txt", sorted(suppliers))
@@ -152,6 +152,11 @@ def addUser():
         newName = input("Please enter your name: ")
         newPwd = input("Please enter your password: ")
         
+        if newUserID == "" or newName == "" or newPwd == "":
+            print("Please fill in all the details.\n")
+            continue
+        break
+
         users = [newUserID, newName, userType, newPwd]
         original = None
         duplicateUserDetected = False
