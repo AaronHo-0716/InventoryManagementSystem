@@ -155,7 +155,6 @@ def addUser():
         if newUserID == "" or newName == "" or newPwd == "":
             print("Please fill in all the details.\n")
             continue
-        break
 
         users = [newUserID, newName, userType, newPwd]
         original = None
