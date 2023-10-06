@@ -645,11 +645,31 @@ def supplier():
 
                     for k,v in enumerate(suppliers):
                         if v[0] == supToChange:
-                            suppliers[k][0] = input("Enter the new name:")
+                            suppliers[k][1] = input("Enter the new name:")
                             writeToFile("suppliers.txt", suppliers)
                             print("New name changed")
                             break
-                
+            case "3":
+                suppliers = readFile("suppliers.txt")
+                listSuppliers()
+
+                while True:
+                    print("Select the supplier you want to change(Supplier Code, Type \"Quit\" to quit):")
+                    supToChange = input()
+
+                    if supToChange == "Quit":
+                        break
+
+                    if not doesItemExists(supToChange, suppliers):
+                        print("Supplier doesn't exist please try again")
+                        continue
+
+                    for k,v in enumerate(suppliers):
+                        if v[0] == supToChange:
+                            suppliers[k][2] = input("Enter the new contact number:")
+                            writeToFile("suppliers.txt", suppliers)
+                            print("Contact number changed")
+                            break
 
 def addDistribution(itemCode, itemName, hospitalCode, quantity):
     with open("distribution.txt","a") as f:
