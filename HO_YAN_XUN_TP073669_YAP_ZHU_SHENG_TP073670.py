@@ -389,8 +389,10 @@ def inventory():
         print("4. Transaction History")
         print("5. Search Transaction Detail of an Item")
         print("6. Quit")
+
+        lessThan25()
         
-        choice = input("Select one: ")
+        choice = input("\nSelect one: ")
         match choice:
             case "1":
                 listStock()
@@ -407,6 +409,21 @@ def inventory():
                 break
             case _:
                 print("Choice entered not valid, pls try again")
+
+def lessThan25():
+    ppes = readFile("ppe.txt")
+    itemLessThan25 = []
+    print("Reminder: Items less than 25 boxes")
+
+    for ppe in ppes:
+        if int(ppe[3]) < 25:
+            itemLessThan25.append(ppe[1])
+
+    if itemLessThan25 == []:
+        print(None)
+    else:
+        for i in itemLessThan25:
+            print(i, end=' ')
 
 def receiveItems():
     ppes = readFile("ppe.txt")
