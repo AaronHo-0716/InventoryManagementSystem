@@ -15,9 +15,16 @@ def initCheck():
 # Creates users.txt and ppe.txt and propmts user to create a admin account and enter the items
 def initialization():
     print("\nEntering initialization, please enter the userID and password for creating an admin account")
-    userID = input("Please enter your userID: ")
-    userName = input("Please enter your name: ")
-    password = input("Please enter your password: ")
+    while True:
+        userID = input("Please enter your userID: ")
+        userName = input("Please enter your name: ")
+        password = input("Please enter your password: ")
+
+        if userID == "" or userName == "" or password == "":
+            print("Please fill in all the details\n")
+            continue
+
+        break
 
     users = ",".join([userID, userName, "Admin", password])
     
@@ -37,9 +44,10 @@ def initialization():
             try:
                 supplierCode = list(input("Please enter the all the supplier code with comma in between: ").strip().split(','))
                 supplierName = list(input("Please enter the all the supplier name with comma in between: ").strip().split(','))
+                supplierContact = list(input("Please enter the all the supplier contact number with comma in between: ").strip().split(','))
 
-                for i in range(0,3):
-                    suppliers.append([supplierCode[i], supplierName[i]])
+                for i in range(0,4):
+                    suppliers.append([supplierCode[i], supplierName[i], supplierContact[i]])
                 
                 writeToFile("suppliers.txt", sorted(suppliers))
                 print("Initializing complete")
@@ -309,7 +317,6 @@ def mainMenu(loginInfo):
             match int(choice):
                 case 1:
                     inventory()
-                
                 case 2:
                     listSuppliers()
                 case 3:
@@ -600,6 +607,23 @@ def addTranscation(itemCode, itemName, supplierOrHospitalCode, quantity, transac
             f.write(f'{datetime.datetime.now()},{itemName},{itemCode},{quantity},{supplierOrHospitalCode},distributed')
         f.write('\n')
         
+def supplier():
+    while True:
+        print("Welcome to supplier details")
+        print("1. List Supplier Details")
+        print("2. Change Supplier Name")
+        print("3. Change Supplier Contact Number")
+        print("4. Quit")
+
+        choice = input()
+
+        if choice == "4":
+            break
+
+        match choice:
+            case "1":
+                listSuppliers()
+                continue
 
 def addDistribution(itemCode, itemName, hospitalCode, quantity):
     with open("distribution.txt","a") as f:
@@ -622,10 +646,10 @@ def listHospitals():
         
 def listSuppliers():
     suppliers = readFile("suppliers.txt")
-    print(f"\n{'Supplier Code' : <15}{'Supplier Name' : ^25}")
+    print(f"\n{'Supplier Code' : <15}{'Supplier Name' : ^25}{'Supplier Contact' : ^20}")
 
     for v in suppliers:
-        print(f"{v[0] : <15}{v[1] : ^25}")
+        print(f"{v[0] : <15}{v[1] : ^25}{v[2] : ^20}")
 
 def main():
     initCheck()
