@@ -318,7 +318,7 @@ def mainMenu(loginInfo):
                 case 1:
                     inventory()
                 case 2:
-                    listSuppliers()
+                    supplier()
                 case 3:
                     listHospitals()
                 case 4:
@@ -609,7 +609,7 @@ def addTranscation(itemCode, itemName, supplierOrHospitalCode, quantity, transac
         
 def supplier():
     while True:
-        print("Welcome to supplier details")
+        print("\nWelcome to supplier details")
         print("1. List Supplier Details")
         print("2. Change Supplier Name")
         print("3. Change Supplier Contact Number")
@@ -624,6 +624,27 @@ def supplier():
             case "1":
                 listSuppliers()
                 continue
+            case "2":
+                suppliers = readFile("suppliers.txt")
+                listSuppliers()
+
+                while True:
+                    print("Select the supplier you want to change(Supplier Code, Type \"Quit\" to quit):")
+                    supToChange = input()
+
+                    if supToChange == "Quit":
+                        break
+
+                    if not doesItemExists(supToChange, suppliers):
+                        print("Supplier doesn't exist please try again")
+                        continue
+
+                    for k,v in enumerate(suppliers):
+                        if v[0] == supToChange:
+                            suppliers[k][0] = input("Enter the new name:")
+                            print("New name changed")
+                            break
+                
 
 def addDistribution(itemCode, itemName, hospitalCode, quantity):
     with open("distribution.txt","a") as f:
