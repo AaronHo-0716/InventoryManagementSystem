@@ -636,7 +636,7 @@ def supplier():
         print("3. Change Supplier Contact Number")
         print("4. Quit")
 
-        choice = input(print("Select one: "))
+        choice = input("Select one: ")
 
         if choice == "4":
             break
@@ -687,6 +687,9 @@ def supplier():
                             writeToFile("suppliers.txt", suppliers)
                             print("Contact number changed")
                             break
+
+            case _:
+                print("Choice entered is not valid, please try again")
 
 def addDistribution(itemCode, itemName, hospitalCode, quantity):
     with open("distribution.txt","a") as f:
