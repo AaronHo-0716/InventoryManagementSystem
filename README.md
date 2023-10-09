@@ -1,4 +1,4 @@
 # InventoryManagementSystem
-Python Assignment for APU 
-TP073670
+Python Assignment for APU\n 
+TP073670\n
 TP073669
