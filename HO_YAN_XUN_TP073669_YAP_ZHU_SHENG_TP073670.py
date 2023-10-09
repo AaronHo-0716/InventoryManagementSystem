@@ -197,7 +197,7 @@ def delUser(loginInfo):
 
             else:
                 if users[int(delete)  - 1][0] == loginInfo[1]:
-                    print("You cannot delete yourself")
+                    print("You cannot delete yourself.")
                     continue
                 else:
                     users.pop(int(delete) - 1)
@@ -211,7 +211,7 @@ def delUser(loginInfo):
 def searchUser():
     while True:
         userFound = False
-        searchTerm = input("\nSearch user by their user code(Type \"Quit\" to quit):")
+        searchTerm = input("\nSearch user by their userID(Type \"Quit\" to quit):")
         if searchTerm == "Quit":
             break
         
