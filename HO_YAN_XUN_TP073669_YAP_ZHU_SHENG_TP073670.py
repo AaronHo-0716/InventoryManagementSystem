@@ -636,7 +636,7 @@ def supplier():
         print("3. Change Supplier Contact Number")
         print("4. Quit")
 
-        choice = input()
+        choice = input(print("Select one: "))
 
         if choice == "4":
             break
