@@ -1,4 +1,4 @@
 # InventoryManagementSystem
-Python Assignment for APU
-TP073670
-TP073669
+## Python Assignment for APU
+### Yap Zhu ShengTP073670
+### Ho Yan Xun TP073669
