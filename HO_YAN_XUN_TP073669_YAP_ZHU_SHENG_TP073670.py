@@ -116,7 +116,8 @@ def manageUsers(loginInfo):
         print("2. Delete User")
         print("3. Search User")
         print("4. Modify User")
-        print("5. Quit")
+        print("5. List User")
+        print("6. Quit")
         
         choice = input("Select one: ")
         match choice:
@@ -129,9 +130,9 @@ def manageUsers(loginInfo):
             case "4":
                 modifyUser(loginInfo)
             case "5":
-                break
-            case "6":
                 listUsers()
+            case "6":
+                break
             case _:
                 print("Choice entered not valid, pls try again")
     
