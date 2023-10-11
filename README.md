@@ -3,146 +3,195 @@
 ### Yap Zhu Sheng TP073670
 ### Ho Yan Xun TP073669
 
+Sure! Here's a documentation for the provided code:
 
-INVENTORY MANAGEMENT SYSTEM FOR
-PERSONAL PROTECTIVE EQUIPMENT (PPE) 
+# PPE Inventory Management System Documentation
 
-The Department of Health in your state needs a computer program to manage the inventory of PPEs1 that it receives from multiple suppliers2 and distribute them to the hospitals3 that it manages. List of PPE items the department receives are listed in Table 1 below:
+## Introduction
 
-Table 1: PPE Items
-Item Code	Item Name
-HC	Head Cover
-FS	Face Shield
-MS	Mask
-GL	Gloves
-GW	Gown
-SC	Shoe Covers
+The PPE (Personal Protective Equipment) Inventory Management System is a Python-based program designed to manage the inventory of PPE items, suppliers, hospitals, and user accounts. It allows users to perform various tasks such as adding, deleting, searching, and modifying user accounts, managing suppliers and hospitals, and tracking PPE inventory transactions.
 
-The inventory system must be programmed in Python. Users of the program need to have a valid user ID and password. Your team have been recruited for the same. Both members are required to put in equal efforts and therefor, following will be the Workload Matrix for both the members:
-Member	Functionalities
-Member 1	
-a)	User Management and Initial Inventory Creation & Management
-b)	Searching Functionalities
-Member 2	
-a)	Hospital and Supplier Creation Item Inventory Management
-b)	Item Inventory Tracking 
+## Table of Contents
 
-You are required to write the Python program with following features and submit one Python File named as MEMBER1_NAME_TPNO_MEMBER2_NAME_TPNO.py. 
+1. [Initialization](#initialization)
+   - [initCheck](#initcheck)
+   - [initialization](#initialization)
+   - [supplierInitialize](#supplierinitialize)
+   - [hospitalInitialize](#hospitalinitialize)
 
-1.	User Management & Initial Inventory Creation
-All users and their details must be stored in users.txt file. The details for each user should include user ID, name, password, userType (admin or staff). Other relevant details can also be recorded. 
-All items and its details need to be recorded in ppe.txt file. The details for each item should include item code, supplier code and quantity in stock (measured in number of boxes). Other relevant details can also be recorded.
+2. [File Operations](#file-operations)
+   - [readFile](#readfile)
+   - [writeToFile](#writetofile)
 
-•	All users must have valid (unique) user ID and a password. Admin should be able to add new users, modify, search and delete users 
-•	All PPE items are measured in boxes, i.e., they are received, recorded and distributed in boxes. 
-•	Each item is supplied by exactly one supplier. However, one supplier can supply more than one type of item.
-•	Assume that there should be minimum of three hospitals in your state.
+3. [User Management](#user-management)
+   - [manageUsers](#manageusers)
+   - [addUser](#adduser)
+   - [delUser](#deluser)
+   - [searchUser](#searchuser)
+   - [modifyUser](#modifyuser)
+   - [listUsers](#listusers)
 
-Important Note:  
-i.	Inventory creation should be done only once and during the very first time the program is executed. Initial quantity of each item need to be recorded as 100 each in ppe.txt file during this time. The program should prompt for all inputs for creating this file.
-ii.	You can only have 3 or 4 suppliers. You should not include supplier details in ppe.txt file. Only supplier code need to be stored in ppe.txt file. 
-iii.	The program should have a feature to create suppliers.txt file for storing and updating supplier details.
+4. [Main Menu](#main-menu)
+   - [mainMenu](#mainmenu)
+   - [loginMenu](#loginmenu)
 
-2.	Item Inventory Update
-The program should have a feature for user to update the item quantities every time after receiving from suppliers (increase in quantity) or distributing to the hospitals (decrease in quantity). You should record the details of all the updates in a text file transactions.txt. Details of transactions (i.e. items received and distributed) should include item code, supplier code/Hospital code, quantity received/quantity distributed, and date-time.
+5. [Inventory Management](#inventory-management)
+   - [inventoryInit](#inventoryinit)
+   - [inventory](#inventory)
+   - [lessThan25](#lessthan25)
+   - [receiveItems](#receiveitems)
+   - [doesItemExists](#doesitemexists)
+   - [distributeItems](#distributeitems)
+   - [search](#search)
+   - [history](#history)
+   - [transactionBetweenTimePeriod](#transactionbetweentimeperiod)
+   - [convStrToDT](#convstrtodt)
+   - [addTransaction](#addtransaction)
 
-Important Note:  
-1)	Details of suppliers need to be stored in suppliers.txt file. 
-2)	When testing the program, you should perform adequate updates on each item. This is to prove whether the feature is correctly functioning. 
-3)	Before distributing any item to hospitals, the program should check for available quantity in stock. User need to be notified if the quantity in stock is insufficient. The program should also indicate the current quantity in stock for the user to retry with appropriate quantity.
-4)	The program should have a feature to create hospitals.txt file for storing and updating hospital details. Include hospital code for each of them.  You can only have 3 or 4 hospitals.
-5)	Record all distributions in distribution.txt file.
+6. [Supplier Management](#supplier-management)
+   - [supplier](#supplier)
+   - [addDistribution](#adddistribution)
+   - [listStock](#liststock)
+   - [listHospitals](#listhospitals)
+   - [listSuppliers](#listsuppliers)
 
-3.	Item Inventory Tracking
-The program should have options to track items and print:
-a)	Total available quantity of all items sorted in ascending order by item code.
-b)	Records of all items that has stock quantity less than 25 boxes.
-c)	Track available quantity for a particular item.
-d)	Track item received during a specific time period (startDate to endDate)
+7. [Main Functionality](#main-functionality)
+   - [main](#main)
 
+## Initialization
 
-4.	Search Functionalities
-The program should have options to search and print the filtered list 
--	For details of items distribution for any particular item.
--	For details of items received from any particular item.
+### initCheck
 
-Important Note:  
-i.	The search should be done by using item code. 
-ii.	The list should include suppliers/hospital codes and quantity distributed with date received.
-iii.	If the item has been received/distributed to the same supplier/hospital for more than once, then their quantities have to be summed up together.
+The `initCheck` function checks if the program is running for the first time by detecting the existence of specific files (`users.txt`, `suppliers.txt`, and `hospitals.txt`). If these files do not exist, the program proceeds with the initialization process.
 
+### initialization
 
-2.0		REQUIREMENTS
+The `initialization` function creates the `users.txt` file, prompting the user to create an admin account and enter supplier and hospital details.
 
-i.	You are required to carry out extra research for your system and document any logical assumptions you made after the research. 
+### supplierInitialize
 
-ii.	Your program should use symbolic constants where appropriate. Validations need to be included to ensure the accuracy of the system. State any assumptions that you make under each function. 
+The `supplierInitialize` function initializes the `suppliers.txt` file, allowing the user to enter supplier codes, names, and contact numbers.
 
-iii.	You are required to store all data in text files indicated under the system requirements.
+### hospitalInitialize
 
-iv.	You are expected to use list and functions in your program. Your program must embrace modular programming technique and should be menu-driven.
+The `hospitalInitialize` function initializes the `hospitals.txt` file, allowing the user to enter hospital codes and names.
 
-v.	You may include any extra features which you may feel relevant and that add value to the system. 
+## File Operations
 
-vi.	There should be no need for graphics (user interface) in your program, as what is being assessed, is your programming skill not the interface design. 
+### readFile
 
-vii.	You should include the good programming practice such as comments, variable naming conventions and indentation.
+The `readFile` function reads the content of a specified file and returns it as a list.
 
-viii.	In a situation where a student:
--	Failed to attempt the assignment demonstration, overall marks awarded for the assignment will be adjusted to 50% of the overall existing marks.
--	Found to be involved in plagiarism, the offence will be dealt in accordance to APU regulations on plagiarism.
+### writeToFile
 
-ix.	You are required to use Python programming language to implement the solution. Use of any other language like C/C++/Java is not allowed. Global variable is not allowed.
+The `writeToFile` function writes data to a specified file.
 
-x.	Results of a comprehensive testing is to be included in your document. The tests conducted shall take into consideration of all valid inputs and negative test cases. 
+## User Management
 
-3.0		DELIVERABLES
+### manageUsers
 
-You are required to submit a softcopy of:
+The `manageUsers` function provides an admin panel for user management, allowing operations such as adding, deleting, searching, modifying users, and listing all users.
 
-i.	Program coded in Python – submitted as .py file. 
--	Name the file under your name and TP number (e.g. DAVID_JONES_TP012345_KATHY_SIERRA_TP123456.py)
--	Start the first two lines in your program by typing your name and TP number (e.g. as follows):
-# DAVID_JONES, KATHY SIERRA
-# TP012345, TP123456
-ii.	Text files created through test data – submitted as .txt files.
-iii.	A documentation of the system (1000 words) – submitted as NAME1_TPNUMBER_NAME2_TPNUMBER.pdf file - that incorporates basic documentation standards such as header and footer, page numbering and includes:
--	Cover page
--	Table of contents
--	Introduction and assumptions 
--	Design of the program – using pseudocode and flowcharts – which adheres to the requirements provided above 
--	Program source code and explanation
--	Screenshots of sample input/output and explanation
--	Conclusion
--	References (if any) using APA Referencing
+### addUser
 
+The `addUser` function adds a new user with a specified user type (Admin or Staff).
 
-4.0		ASSESSMENT CRITERIA
+### delUser
 
-i.	Design (Pseudocode and Flowchart)	30%
-                  Detailed, logical and accurate design of programmable solution. 	
+The `delUser` function deletes a user, excluding the admin performing the operation.
 
-ii.	Coding / Implementation (Python code)	30%
-Application of Python programming techniques (from basic to advanced); good programming practices in implementing the solution as per design; and adequate validation meeting all system requirements with all possible additional features.
-iii.	Documentation	25%
-Adherence to document standard format and structure; screen captures of input/output with explanation; and inclusion of generated text files.  	
+### searchUser
 
-iv.	Demonstration	15%
-	Ability to run, trace code, explain work done and answer questions. 
+The `searchUser` function searches for a user based on their userID.
 
-The marking scheme for the assignment has been provided so that you clearly know how the assessment for this assignment would be done.
+### modifyUser
 
+The `modifyUser` function allows the modification of user details such as user type and password.
 
-5.0		PERFORMANCE CRITERIA
+### listUsers
 
-Distinction (80% and above)
-This grade will be assigned to work which meets all of the requirements stated in the question. The program runs smoothly when executed. There is clear evidence and application of Python concepts up to advanced level. The program solution is unique with excellent coding styles and validation. The program implemented maps completely against the design (pseudocode and flowchart) as seen in the documentation. The design of the solution varies in styles and has unique logic with hardly any errors / omissions. The documentation does not have any missing components. Sample inputs/outputs documented have clear explanation.  Student must be able to provide excellent explanation of the codes and work done, show additional concepts / new ideas used in the solution, able to answer all questions posed with accurate / logical answers / explanation provided with sound arguments and clear discussion.  Overall an excellent piece of work submitted.
+The `listUsers` function lists all users with their details.
 
-Credit (65%-74%)
-This grade will be assigned to work which is considered to be of good standard and meets most of the requirements stated in the question. The program runs smoothly when executed. There is clear evidence and application of Python concepts up to at least intermediate level. The program solution is unique with good coding styles and validation. The program implemented maps well against the design (pseudocode and flowchart) as seen in the documentation. The design of the solution varies in styles and has unique logic with minor errors / omissions. The documentation does not have any missing components. Sample inputs/outputs documented with some explanation. Student must be able to provide good explanation of the codes and work done, answer most questions posed with mostly accurate / logical answers / explanation.  Overall a good assignment submitted.
+## Main Menu
 
-Pass (50%-64%)
-This grade will be assigned to work which meets at least half of the basic requirements (approximately 50%) stated in the questions.  The program runs smoothly when executed. There is clear evidence and application of Python concepts at basic level. The program solution is common with basic coding styles and validation. The program implemented somewhat maps with the design (pseudocode and flowchart) as seen in the documentation. The design of the solution is average in terms of logic and style with some errors / omissions. The documentation has some missing components. Sample inputs/outputs documented but without any explanation. Student must be able to explain some codes and work done and able to answer some questions posed with some accurate / logical answers / explanation.  Overall an average piece of work submitted.
+### mainMenu
 
-Fail (Below 50%)
-This grade will be assigned to work which achieved less than half of the requirements stated in the question. The program is able to compile but not able to execute or with major errors. The program solution has only basic coding styles with no validation. The program solution has little or no mapping with the design. The design of the solution has major / obvious errors / omissions. The documentation has some missing essential components. Student is barely able to explain the codes / work done and answer given on the questions posed but with mostly inaccurate / illogical answers / explanation. Overall, a poor piece of work submitted.
+The `mainMenu` function presents the main menu options for the PPE Inventory Management System, including inventory, suppliers, hospitals, user management, and logging out.
+
+### loginMenu
+
+The `loginMenu` function handles user login, checking the validity of user credentials.
+
+## Inventory Management
+
+### inventoryInit
+
+The `inventoryInit` function initializes the `ppe.txt` file, allowing the user to enter PPE item codes, names, and supplier codes.
+
+### inventory
+
+The `inventory` function provides options for checking stock, receiving items, distributing items, viewing transaction history, searching transaction details, and quitting.
+
+### lessThan25
+
+The `lessThan25` function provides a reminder for items with a quantity less than 25 boxes.
+
+### receiveItems
+
+The `receiveItems` function handles the process of receiving items into the inventory.
+
+### doesItemExists
+
+The `doesItemExists` function checks whether a specified item exists in the inventory.
+
+### distributeItems
+
+The `distributeItems` function handles the process of distributing items to hospitals.
+
+### search
+
+The `search` function allows the user to search for transaction details of a specific item.
+
+### history
+
+The `history` function provides options to view transaction history, distribution history, and transactions within a specified time period.
+
+### transactionBetweenTimePeriod
+
+The `transactionBetweenTimePeriod` function filters transactions based on a specified time period.
+
+### convStrToDT
+
+The `convStrToDT` function converts a string date to a datetime object.
+
+### addTransaction
+
+The `addTransaction` function adds a transaction record to the `transaction.txt` file.
+
+## Supplier Management
+
+### supplier
+
+The `supplier` function provides options for listing supplier details, changing supplier names, changing supplier contact numbers, and quitting.
+
+### addDistribution
+
+The `addDistribution` function adds a distribution record to the `distribution.txt` file.
+
+### listStock
+
+The `listStock` function lists PPE items along with their codes and quantities.
+
+### listHospitals
+
+The `listHospitals` function lists hospitals along with their codes and names.
+
+### listSuppliers
+
+The `listSuppliers` function lists suppliers along with their codes, names, and contact numbers.
+
+## Main Functionality
+
+### main
+
+The `main` function serves as the entry point to the program, initiating the check for program initialization and presenting the user with login and main menu options.
