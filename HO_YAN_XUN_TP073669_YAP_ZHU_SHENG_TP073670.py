@@ -127,7 +127,7 @@ def manageUsers(loginInfo):
             case "3":
                 searchUser()
             case "4":
-                modifyUser()
+                modifyUser(loginInfo)
             case "5":
                 break
             case "6":
@@ -235,7 +235,7 @@ def searchUser():
         if not userFound:
             print(f"User code {searchTerm} not found")
 
-def modifyUser():
+def modifyUser(loginInfo):
     while True:
         print("\nSelect the user you want to modify(Type \"Quit\" to quit):")
         listUsers()
@@ -278,9 +278,26 @@ def modifyUser():
                                         writeToFile("users.txt",users)
                                         break
                                     case "Staff":
+                                        print(users[mod - 1][0], loginInfo[1])
                                         if mod == 1:
                                             print("This account is the master account, you cannot change the type of it")
                                             continue
+
+                                        elif users[mod - 1][0] == loginInfo[1] and users[mod - 1][2] == "Admin":
+                                            specialChoice = input("If you change yourself to staff you will need to restart the program, proceed?(Yes/No): ")
+                                            match specialChoice:
+                                                case "Yes":
+                                                    users[mod - 1][2] = "Staff"
+                                                    writeToFile("users.txt",users)
+                                                    quit()
+                                                
+                                                case "No":
+                                                    continue
+                                                
+                                                case _:
+                                                    print("Choice not valid, please try again")
+                                                    continue
+                                                    
                                         else:
                                             users[mod - 1][2] = "Staff"
                                             writeToFile("users.txt",users)
