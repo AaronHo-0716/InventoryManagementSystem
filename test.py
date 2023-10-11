@@ -351,9 +351,9 @@ def mainMenu(loginInfo):
 def loginMenu():
     users = readFile('users.txt')
     print("Welcome to PPE Inventory Management System")
-    while True:      
-        print("Type \"quit\" to quit the program\n")      
-        userID = input("Please enter your userID: ")
+    print("Type \"quit\" to quit the program\n")  
+    while True:
+        userID = input("Please enter your userID: ")      
         for k,v in enumerate(users):
             if userID == v[0]:
                 while True:

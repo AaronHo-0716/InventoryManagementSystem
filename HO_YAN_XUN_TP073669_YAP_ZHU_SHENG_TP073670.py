@@ -30,21 +30,31 @@ def initialization():
     
     with open("users.txt", "w") as f:
         f.write(users)
-
+    supplierInitialize()
+    hospitalInitialize()
+    print("Initialization complete.\n")
     # supplierCode, supplierName
-    # suppliers = [["JJ", "Johnson & Johnson"],["AG", "Agile Ground"], ["EW", "Ewwww"]]
     
+def supplierInitialize():
+    # suppliers = [["JJ", "Johnson & Johnson"],["AG", "Agile Ground"], ["EW", "Ewwww"]]  
     try:
-        open("supplier.txt", "r")       
+        open("suppliers.txt", "r")        
     except FileNotFoundError:
-        print("\nInitializing suppliers.txt...")
+        print("\nInitializing suppliers.txt...\n")
         while True:
             suppliers = []
             
             try:
-                supplierCode = list(input("Please enter the all the supplier code with comma in between: ").strip().split(','))
-                supplierName = list(input("Please enter the all the supplier name with comma in between: ").strip().split(','))
-                supplierContact = list(input("Please enter the all the supplier contact number with comma in between: ").strip().split(','))
+                while True:
+                    supplierCode = list(input("Please enter the all the supplier code with comma in between: ").strip().split(','))
+                    supplierName = list(input("Please enter the all the supplier name with comma in between: ").strip().split(','))
+                    supplierContact = list(input("Please enter the all the supplier contact number with comma in between: ").strip().split(','))
+
+                    if supplierCode =="" or supplierName == "" or supplierContact == "":
+                        print("Please fill in all the details\n")
+                        continue
+                    else:
+                        break
 
                 for i in range(0,3):
                     suppliers.append([supplierCode[i], supplierName[i], supplierContact[i]])
@@ -55,14 +65,15 @@ def initialization():
 
             except Exception as e:
                 print(e)
-                                     
-    # hospitals = [["KKM", "Klinik Kesihatan Muhibbah"], ["KKPBJ", "Klinik Komuniti Pinggiran Bukit Jalil"], ["CAH","Columbia Asia Hospital"]]
-    
+    return
+
+def  hospitalInitialize():
     try:
-        open("hospitals.txt", "r")
+        open("hospitals.txt","r")
     except FileNotFoundError:
+        print("\nInitializing system...\n")
+    # hospitals = [["KKM", "Klinik Kesihatan Muhibbah"], ["KKPBJ", "Klinik Komuniti Pinggiran Bukit Jalil"], ["CAH","Columbia Asia Hospital"]]
         while True:
-            print("\nInitializing hospitals.txt...")
             hospitals = []
             
             try:
@@ -78,7 +89,7 @@ def initialization():
 
             except Exception as e:
                 print(e)
-    print("Initialization complete.")
+    return
 
 def readFile(filePath):
     content = []
@@ -193,7 +204,7 @@ def delUser(loginInfo):
             try:
                 users[int(delete)  - 1][0] 
             except IndexError:
-                print("User doesn't exitst")
+                print("User doesn\'t exist")
 
             else:
                 if users[int(delete)  - 1][0] == loginInfo[1]:
@@ -244,7 +255,7 @@ def modifyUser():
             try:
                 users[mod  - 1][0] 
             except IndexError:
-                print("User doesn't exitst")
+                print("User doesn't exist")
 
             else:
                 while True:
@@ -339,11 +350,10 @@ def mainMenu(loginInfo):
 
 def loginMenu():
     users = readFile('users.txt')
-
+    print("Welcome to PPE Inventory Management System")
+    print("Type \"quit\" to quit the program\n")  
     while True:
-        print("Welcome to PPE Inventory Management System")      
-        print("Type \"quit\" to quit the program\n")      
-        userID = input("Please enter your userID: ")
+        userID = input("Please enter your userID: ")      
         for k,v in enumerate(users):
             if userID == v[0]:
                 while True:
@@ -354,7 +364,7 @@ def loginMenu():
                         print("Wrong password, pls try again\n")
             elif userID == "quit":
                 quit()
-        print("User doesn't exist, pls try again.\n")
+        print("User doesn\'t exist, pls try again.\n")
 
 def inventoryInit():
     try:
@@ -629,6 +639,7 @@ def addTranscation(itemCode, itemName, supplierOrHospitalCode, quantity, transac
         f.write('\n')
         
 def supplier():
+    supplierInitialize()
     while True:
         print("\nWelcome to supplier details")
         print("1. List Supplier Details")
@@ -704,6 +715,7 @@ def listStock():
         print(f"{v[0] : <10}{v[1] : ^20}{v[3] : ^15}")
             
 def listHospitals():
+    hospitalInitialize()
     hospitals = readFile("hospitals.txt")
     print(f"\n{'Hospital Code' : <15}{'Hospital Name' : ^40}")
 
