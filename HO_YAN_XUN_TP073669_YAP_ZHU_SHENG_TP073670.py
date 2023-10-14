@@ -85,14 +85,23 @@ def  hospitalInitialize():
     # hospitals = [["KKM", "Klinik Kesihatan Muhibbah"], ["KKPBJ", "Klinik Komuniti Pinggiran Bukit Jalil"], ["CAH","Columbia Asia Hospital"]]
         while True:
             hospitals = []
-            
+            while True:
+                hospitalAmount = input("Do you have 3 or 4 hospitals: ")
+                match hospitalAmount:
+                    case "3":
+                        break
+                    case "4":
+                        break
+                    case _:
+                        print("\nPlease enter 3 or 4 hospitals only.\n")
+                        continue
             try:
-                print("\nPlease enter the details of 3 hospitals only.")
+                print("\nPlease enter the details of "+str(hospitalAmount)+" hospitals only.")
                 print("Example: AA,BB,CC\n")
                 hospitalCode = list(input("Please enter the all the hospital code with comma in between: ").strip().split(','))
                 hospitalName = list(input("Please enter the all the hospital name with comma in between: ").strip().split(','))
 
-                for i in range(0,3):
+                for i in range(0,int(hospitalAmount)):
                     hospitals.append([hospitalCode[i], hospitalName[i]])
                 
                 writeToFile("hospitals.txt", sorted(hospitals))
@@ -347,7 +356,7 @@ def mainMenu(loginInfo):
         print("\nWelcome to the PPE Inventory Management System")
         print("1. Inventory")
         print("2. Suppliers")
-        print("3. Hospitals")
+        print("3. List Hospitals")
         print("4. User Management")
         print("5. Log Out")
         
