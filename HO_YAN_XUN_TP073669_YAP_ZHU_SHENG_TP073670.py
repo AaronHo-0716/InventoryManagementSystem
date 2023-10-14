@@ -46,12 +46,15 @@ def supplierInitialize():
             
             try:
                 while True:
+                    print("\nPlease enter the details of 3 suppliers only.")
+                    print("Example: AA,BB,CC\n")
                     supplierCode = list(input("Please enter the all the supplier code with comma in between: ").strip().split(','))
                     supplierName = list(input("Please enter the all the supplier name with comma in between: ").strip().split(','))
                     supplierContact = list(input("Please enter the all the supplier contact number with comma in between: ").strip().split(','))
 
                     if supplierCode =="" or supplierName == "" or supplierContact == "":
-                        print("Please fill in all the details\n")
+                        print("Please enter the details of 3 suppliers only.")
+                        print("Example: AA,BB,CC\n")
                         continue
                     else:
                         break
@@ -77,6 +80,8 @@ def  hospitalInitialize():
             hospitals = []
             
             try:
+                print("\nPlease enter the details of 3 hospitals only.")
+                print("Example: AA,BB,CC\n")
                 hospitalCode = list(input("Please enter the all the hospital code with comma in between: ").strip().split(','))
                 hospitalName = list(input("Please enter the all the hospital name with comma in between: ").strip().split(','))
 
@@ -175,13 +180,13 @@ def addUser():
 
             for user in original:
                 if user[0] == newUserID:
-                    print("This userID already exists")
+                    print("\nThis userID already exists.\n")
                     duplicateUserDetected = True
 
             if not duplicateUserDetected:
                 original.append(users)
                 writeToFile('users.txt',original)
-                print("Added New User")
+                print("\nAdded New User")
                 break
 
 def delUser(loginInfo):
