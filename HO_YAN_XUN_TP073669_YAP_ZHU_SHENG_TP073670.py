@@ -150,14 +150,13 @@ def addUser():
         match choice:
             case "1":
                 userType = "Admin"
-                break
             case "2":
                 userType = "Staff"
-                break
             case "3":
                 break
             case _:
                 print("Choice entered not valid, pls try again")
+                continue
             
         while True:
             newUserID = input("Please enter your userID: ")
