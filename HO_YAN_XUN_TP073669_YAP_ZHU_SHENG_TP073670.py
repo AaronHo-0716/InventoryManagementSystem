@@ -412,6 +412,8 @@ def inventoryInit():
             ppes = []
             
             try:
+                print("\nPlease enter the details of 6 PPE Items.")
+                print("Example: AA,BB,CC,DD,EE,FF\n")
                 ppe = list(input("Please enter the all the item code with comma in between: ").strip().split(','))
                 ppeName = list(input("Please enter the all the item name with comma in between: ").strip().split(','))
                 ppeSupplier = list(input("Please enter the all the supplier code for each item with comma in between: ").strip().split(','))
