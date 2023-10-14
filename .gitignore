@@ -1,4 +1,3 @@
-hospitals.txt
-suppliers.txt
-users.txt
-tempCodeRunnerFile.py
+*.txt
+
+!pseudocode.txt
