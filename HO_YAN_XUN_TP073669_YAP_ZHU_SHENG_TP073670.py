@@ -72,9 +72,13 @@ def supplierInitialize():
                 writeToFile("suppliers.txt", sorted(suppliers))
                 print("Initializing complete")
                 break
+            
+            except IndexError:
+                print("\nError in input, please try again.\n")
 
             except Exception as e:
                 print(e)
+
     return
 
 def  hospitalInitialize():
@@ -107,6 +111,9 @@ def  hospitalInitialize():
                 writeToFile("hospitals.txt", sorted(hospitals))
                 print("Initializing complete")
                 break
+
+            except IndexError:
+                print("\nError in input, please try again.\n")
 
             except Exception as e:
                 print(e)
@@ -405,6 +412,8 @@ def loginMenu():
         print("User doesn\'t exist, pls try again.\n")
 
 def inventoryInit():
+    supplierInitialize()
+    hospitalInitialize()
     try:
         open("ppe.txt", "r")       
     except FileNotFoundError:
