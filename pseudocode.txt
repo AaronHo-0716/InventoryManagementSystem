@@ -119,7 +119,7 @@ DECLARE manageUsers function with ARGUMENT(loginInfo)
         DISPLAY(3. Search User)
         DISPLAY(4. Modify User)
         DISPLAY(5. List User)
-        DISPLAY(5. Quit)
+        DISPLAY(6. Quit)
 
 
         DECLARE choice variable
@@ -138,4 +138,49 @@ DECLARE manageUsers function with ARGUMENT(loginInfo)
                 EXIT
             INPUT = OTHERS
                 DISPLAY(Choice entered not valid, pls try again)
+
+DECLARE addUser function
+    DECLARE null value userType = None
+
+    ENTER LOOP
+        DISPLAY(User Type)
+        DISPLAY(1. Admin)
+        DISPLAY(2. Staff)
+        DISPLAY(3. Quit)
+        
+        DECLARE choice variable
+        TAKE INPUT as choice    
+            INPUT = 1
+                userType = "Admin
+                EXIT LOOP
+            INPUT = 2
+                userType = "Staff"
+                EXIT LOOP
+            INPUT = 3
+                EXIT LOOP
+            INPUT = OTHERS
+                DISPLAY(Choice entered not valid, pls try again)            
+            
+        ENTER LOOP:
+            DECLARE variable newUserID = INPUT(Please enter your userID: )
+            DECLARE variable newName = INPUT(Please enter your name: )
+            DECLARE variable newPwd = (Please enter your password: )
+
+            IF newUserID or newName or newPwd == ""
+                DISPLAY(Please fill in all the details)
+                CONTINUE LOOP
+
+            DECLARE string users = [newUserID, newName, userType, newPwd]
+            DECLARE null value original = None
+            DECLARE boolean duplicateUserDetected = False
+
+            CALL readFile fucntion with ARGUMENT("users.txt") as original
+
+            FOR user in original
+                IF user[0] == newUserID:
+                    DISPLAY(This userID already exists.)
+                    duplicateUserDetected = True
+
+            IF duplicateUserDetected 
+                
             
