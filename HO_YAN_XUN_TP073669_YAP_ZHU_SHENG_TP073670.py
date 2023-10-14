@@ -43,23 +43,30 @@ def supplierInitialize():
         print("\nInitializing suppliers.txt...\n")
         while True:
             suppliers = []
-            
             try:
                 while True:
-                    print("\nPlease enter the details of 3 suppliers only.")
+                    supplierAmount = input("Do you have 3 or 4 suppliers: ")
+                    match supplierAmount:
+                        case "3":
+                            break
+                        case "4":
+                            break
+                        case _:
+                            print("\nPlease enter 3 or 4 only.\n")
+                            continue
+                while True:
+                    print("\nPlease enter the details of "+str(supplierAmount)+ " suppliers only.")
                     print("Example: AA,BB,CC\n")
                     supplierCode = list(input("Please enter the all the supplier code with comma in between: ").strip().split(','))
                     supplierName = list(input("Please enter the all the supplier name with comma in between: ").strip().split(','))
                     supplierContact = list(input("Please enter the all the supplier contact number with comma in between: ").strip().split(','))
 
                     if supplierCode =="" or supplierName == "" or supplierContact == "":
-                        print("Please enter the details of 3 suppliers only.")
-                        print("Example: AA,BB,CC\n")
                         continue
                     else:
                         break
 
-                for i in range(0,3):
+                for i in range(0,int(supplierAmount)):
                     suppliers.append([supplierCode[i], supplierName[i], supplierContact[i]])
                 
                 writeToFile("suppliers.txt", sorted(suppliers))
