@@ -1,0 +1,141 @@
+IMPORT library for date&time
+
+DECLARE initCheck function
+    TRY 
+        open users.txt file in read mode
+    IF file doesn't exist 
+        DISPLAY(Initializing system...)
+        CALL initilization function 
+
+DECLARE initilization function
+    DISPLAY(Entering initilization)
+    ENTER LOOP
+        DECLARE userID variable 
+        INPUT(userID)
+        DECLARE userName variable 
+        INPUT(userName)
+        DECLARE password variable 
+        INPUT(password)
+
+        IF userID OR userName OR password == ""
+            DISPLAY(Please fill in all the details.)
+            CONTINUE LOOP
+
+        EXIT LOOP
+
+    DECLARE users string
+    JOIN inputs into users string as(userID,userName,"Admin",password)
+
+    OPEN users.txt IN WRITE MODE
+        WRITE users string into users.txt
+    
+    CALL supplierInitialize function
+    CALL hospitalInitialize function
+    DISPLAY(Initialization complete.)
+
+DECLARE supplierInitialize function
+    TRY
+        OPEN(suppliers.txt) in read mode
+    IF file doesn't exist
+        DISPLAY(Initializing suppliers.txt...)
+        ENTER LOOP
+            DECLARE suppliers string
+            TRY 
+                ENTER LOOP
+                    DECLARE supplierCode list
+                    INPUT(supplierCode)
+                    DECLARE supplierName list 
+                    INPUT(supplierName)
+                    DECLARE supplierContact list
+                    INPUT(supplierContact)
+
+                    IF supplierCode OR supplierName OR supplierContact == ""
+                        DISPLAY(Please fill in all the details.)
+                        CONTINUE LOOP
+                    ELSE
+                        EXIT LOOP
+                
+                FOR i = 0 to 3
+                    ADD(supplierCode[i],supplierName[i],supplierContact[i]) into suppliers string
+                    
+                CALL writeToFile function with ARGUMENT(suppliers.txt,suppliers)
+                DISPLAY(Initializing complete.)
+                EXIT LOOP
+
+            IF EXCEPTION exists
+                    DISPLAY(EXCEPTION)
+
+    EXIT FUNCTION 
+
+DECLARE hospitalInitialize function
+    TRY
+        OPEN(hospitals.txt) in read mode
+    IF file doesn't exist
+        DISPLAY(Initializing system...)
+        ENTER LOOP
+            DECLARE hospitals string
+            try: 
+                DECLARE hospitalCode list
+                INPUT(hospitalCode)
+                DECLARE hospitalName list
+                INPUT(hospitalName)
+
+                FOR i = 0 to 3
+                APPEND(hospitalCode[i],hospitalName[i]) into hospitals string
+
+                CALL writeToFile function with ARGUMENT(hospitals.txt,hospitals)
+                DISPLAY(Initizing complete.)
+                EXIT LOOP
+
+            IF EXCEPTION exists
+                DISPLAY(EXCEPTION)
+
+    EXIT FUNCTION
+
+DECLARE readFIle function with ARGUMENT(filePath)
+    DECLARE content string
+    OPEN(filePath) in read mode
+        ENTER LOOP
+            DECLARE line variable 
+            line = STRIP(filePath) with newline
+            IF NOT line
+                EXIT LOOP
+            ELSE  
+                APPEND(line) into content string
+
+    RETURN content string
+
+DECLARE writeToFile function with ARGUMENT(fileName, variableName)
+    OPEN(fileName) in write mode
+        FOR i in variableName
+            WRITE(i) with , as seperation
+            WRITE(new line)
+
+DECLARE manageUsers function with ARGUMENT(loginInfo)
+    ENTER LOOP
+        DISPLAY(Welcome to Admin Panel)
+        DISPLAY(1. Add New User)
+        DISPLAY(2. Delete User)
+        DISPLAY(3. Search User)
+        DISPLAY(4. Modify User)
+        DISPLAY(5. List User)
+        DISPLAY(5. Quit)
+
+
+        DECLARE choice variable
+        TAKE INPUT as choice
+            INPUT = 1
+                CALL addUser function
+            INPUT = 2
+                CALL delUser function with ARGUMENT(loginInfo)
+            INPUT = 3
+                CALL searchUser function
+            INPUT = 4 
+                CALL modifyUser with ARGUMENT(loginInfo)
+            INPUT = 5
+                CALL listUsers function
+            INPUT = 6  
+                EXIT
+            INPUT = OTHERS
+                DISPLAY(Choice entered not valid, pls try again)
+            
