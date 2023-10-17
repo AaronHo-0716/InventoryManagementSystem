@@ -399,7 +399,7 @@ def mainMenu(loginInfo):
 
 def loginMenu():
     users = readFile('users.txt')
-    print("Welcome to PPE Inventory Management System")
+    print("\nWelcome to PPE Inventory Management System")
     print("Type \"quit\" to quit the program\n")  
     while True:
         userID = input("Please enter your userID: ")      
@@ -437,6 +437,8 @@ def inventoryInit():
                 
                 writeToFile("ppe.txt", sorted(ppes))
                 break
+            except IndexError:
+                print("Error in input, please try again.\n")
 
             except Exception as e:
                 print(e)
