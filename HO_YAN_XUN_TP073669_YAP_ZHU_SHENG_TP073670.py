@@ -138,7 +138,8 @@ def writeToFile(fileName, original):
             f.write('\n')
 
 def manageUsers(loginInfo):
-    while True:
+    flag = True
+    while flag:
         print("\nWelcome to Admin panel")
         print("1. Add New User")
         print("2. Delete User")
@@ -156,7 +157,7 @@ def manageUsers(loginInfo):
             case "3":
                 searchUser()
             case "4":
-                modifyUser(loginInfo)
+                flag = modifyUser(loginInfo)
             case "5":
                 listUsers()
             case "6":
@@ -264,7 +265,8 @@ def searchUser():
             print(f"User code {searchTerm} not found")
 
 def modifyUser(loginInfo):
-    while True:
+    flag = True
+    while flag:
         print("\nSelect the user you want to modify(Type \"Quit\" to quit):")
         listUsers()
 
@@ -286,7 +288,7 @@ def modifyUser(loginInfo):
                 print("User doesn't exist")
 
             else:
-                while True:
+                while flag:
                     print("\nSelect the action to perform(Type \"Quit\" to quit):")
                     print("1. Change user type")
                     print("2. Change password")
@@ -297,7 +299,7 @@ def modifyUser(loginInfo):
                         if choice == "Quit":
                             break
                         elif choice == "1":
-                            while True:
+                            while flag:
                                 print("\nSelect one(Admin, Staff ; Type \"Quit\" to quit):")
                                 changeType = input()
                                 match changeType:
@@ -317,7 +319,9 @@ def modifyUser(loginInfo):
                                                 case "Yes":
                                                     users[mod - 1][2] = "Staff"
                                                     writeToFile("users.txt",users)
-                                                    quit()
+                                                    flag = False
+                                                    loginInfo[3] = 'Staff'
+                                                    break
                                                 
                                                 case "No":
                                                     continue
@@ -350,7 +354,7 @@ def modifyUser(loginInfo):
                         
                     except Exception as e:
                         print(e)
-                        
+    return False
 def listUsers():
     users = readFile("users.txt")
     print(f"{'No.' : <5}{'User ID' : ^15}{'User Name' : ^15}{'User Type' : ^15}")
