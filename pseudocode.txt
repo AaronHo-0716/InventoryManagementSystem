@@ -181,6 +181,67 @@ DECLARE addUser function
                     DISPLAY(This userID already exists.)
                     duplicateUserDetected = True
 
-            IF duplicateUserDetected 
-                
-            
+            IF duplicateUserDetected = False:
+                APPEND(users) into original
+                CALL writeToFile fucntion with ARGUMENT("users.txt",original)
+                DISPLAY(Added New User)
+                EXIT LOOP
+
+
+DECLARE delUser fucntion with ARGUMENT(loginInfo)
+    ENTER LOOP
+        DISPLAY(Select the user you want to delete (Type "Quit" to quit): )
+        CALL listUsers function
+
+        DECLARE variable delete = INPUT()
+
+        IF delete == Quit
+            EXIT LOOP
+
+        TRY
+            CONVERT delete into integer
+        IF ERROR
+            DISPLAY(Value entered is not a valid integer, please try again.)
+
+        ELSE
+            CALL readFile function with ARGUMENT(users.txt) as users variable
+
+            TRY
+                SEARCH for string containing users[delete] info
+            IF IndexError
+                DISPLAY(User doesn't exist)
+
+            ELSE
+                IF users[delete] == users[loginInfo]
+                    DISPLAY(You cannot delete yourself)
+                    RESTART LOOP
+                ELSE
+                    REMOVE element
+
+                CALL writeToFile fucntion with ARGUMENT(users.txt,users)
+
+                DISPLAY(User deleted)
+                EXIT LOOP
+
+DECLARE searchUser function
+    ENTER LOOP
+        DECLARE boolean userFound = False
+        DECLARE searchTerm variable = INPUT(Search user by their userID)
+        if searchTerm == Quit
+            EXIT LOOP
+        
+        CALL readFile function to open users.txt as users
+        FOR user in users
+            IF user[0] = searchTerm
+                DISPLAY(Found user: user info)
+                userFound = True
+
+            IF userFound = False
+                DISPLAY(User code not found)
+
+DECLARE modifyUser with ARGUMENT(loginInfo)
+    DECLARE boolean flag = True
+    ENTER LOOP
+        DISPLAY()
+
+          
