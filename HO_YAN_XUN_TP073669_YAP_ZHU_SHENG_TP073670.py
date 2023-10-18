@@ -478,7 +478,6 @@ def inventory():
 def lessThan25():
     ppes = readFile("ppe.txt")
     itemLessThan25 = []
-    print("Reminder: Items less than 25 boxes")
 
     for ppe in ppes:
         if int(ppe[3]) < 25:
@@ -487,6 +486,7 @@ def lessThan25():
     if itemLessThan25 == []:
         print(None)
     else:
+        print("Reminder: Items less than 25 boxes")
         for i in itemLessThan25:
             print(i, end=' ')
 
