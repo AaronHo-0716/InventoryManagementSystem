@@ -242,6 +242,35 @@ DECLARE searchUser function
 DECLARE modifyUser with ARGUMENT(loginInfo)
     DECLARE boolean flag = True
     ENTER LOOP
-        DISPLAY()
+        DISPLAY(Select the user you want to modify: )
+        CALL listUsers function
+
+        DECLARE variable mod = INPUT()
+
+        IF mod == Quit
+            EXIT LOOP
+
+        TRY
+            convert mod into integer
+        EXCEPT
+            DISPLAY("Value entered is not a valid integer, please try again.)
+        ELSE
+            CALL readFile function to open users.txt
+
+            TRY
+                DISPLAY(users[mod] info)
+            IF ERROR
+                print(Users doesn't exist)
+            ELSE
+                ENTER LOOP
+                    DISPLAY(Select the action to perform: )
+                    DISPLAY(1. Change user type)
+                    DISPLAY(2. Change password)
+
+                    DECLARE variable choice = INPUT()
+                     
+        
+        
+
 
           
