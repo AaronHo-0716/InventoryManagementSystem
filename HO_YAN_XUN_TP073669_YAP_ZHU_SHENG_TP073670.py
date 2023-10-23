@@ -483,13 +483,11 @@ def lessThan25():
         if int(ppe[3]) < 25:
             itemLessThan25.append(ppe[1])
 
-    if itemLessThan25 == []:
-        print(None)
-    else:
+    if not itemLessThan25 == []:
         print("Reminder: Items less than 25 boxes")
         for i in itemLessThan25:
             print(i, end=' ')
-
+        
 def receiveItems():
     ppes = readFile("ppe.txt")
     listStock()
