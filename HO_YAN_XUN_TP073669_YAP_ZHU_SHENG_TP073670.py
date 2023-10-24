@@ -314,7 +314,7 @@ def modifyUser(loginInfo):
                                             continue
 
                                         elif users[mod - 1][0] == loginInfo[1] and users[mod - 1][2] == "Admin":
-                                            specialChoice = input("If you change yourself to staff you will need to restart the program, proceed?(Yes/No): ")
+                                            specialChoice = input("You are changing yourself from Admin to Staff, proceed?(Yes/No): ")
                                             match specialChoice:
                                                 case "Yes":
                                                     users[mod - 1][2] = "Staff"
