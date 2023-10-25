@@ -276,7 +276,7 @@ DECLARE modifyUser with ARGUMENT(loginInfo)
                             ENTER LOOP
                                 DISPLAY(Select one(Admin, Staff): )
                                 DECLARE variable type = INPUT()
-                                TAKE INPUT as type
+                                MATCH type
                                 IF INPUT = Admin
                                     change user type to "Admin"
                                     CALL write function to save changes
@@ -288,7 +288,43 @@ DECLARE modifyUser with ARGUMENT(loginInfo)
                                         RESTART LOOP
                                     ELSE IF chosen user is current user
                                     DECLARE variable specialChoice = INPUT(yes/no for confirmation)
-                                    
+                                    MATCH specialChoice
+                                        IF specialChoice == Yes
+                                            CALL writeToFile function to change selected users to Staff\
+                                            EXIT LOOP
+
+                                        IF specialChoice == No
+                                            CONTINUE LOOP
+
+                                        IF specialChoice = other input
+                                            DISPLAY(Choice not valid, please try again.)
+                                            CONTINUE LOOP
+
+                        ELSE
+                            CALL wri fucntion to change selected user to Staff
+                            EXIT LOOP
+
+
+
+DECLARE listUsers function
+    DECLARE variable users
+    CALL readFile function to open users.txt file
+    READ userinfo from each line
+    SAVE users info as users
+    DISPLAY(users)
+
+DECLARE mainMENU function with PERIMETER(loginInfo)
+    ENTER LOOP
+        DISPLAY(Welcome to PPE Inventory Management System)
+        DISPLAY(1. Inventory)
+        DISPLAY(2. Suppliers)
+        DISPLAY(3. List Hospitals)
+        DISPLAY(4. User Management)
+        DISPLAY(5. Log Out)
+        
+        DECLARE variable choice = INPUT(Select one: )
+
+        
 
 
                         
