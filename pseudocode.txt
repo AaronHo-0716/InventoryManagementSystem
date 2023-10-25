@@ -1,4 +1,4 @@
-IMPORT library for date&time
+IMPORT library for date&time 
 
 DECLARE initCheck function
     TRY 
@@ -10,86 +10,88 @@ DECLARE initCheck function
 DECLARE initilization function
     DISPLAY(Entering initilization)
     ENTER LOOP
-        DECLARE userID variable 
-        INPUT(userID)
-        DECLARE userName variable 
-        INPUT(userName)
-        DECLARE password variable 
-        INPUT(password)
+        PROMPTS user to enter new userID
+        PROMPTS user to enter new userName
+        PROMPTS user to enter password 
 
-        IF userID OR userName OR password == ""
+        IF userID OR userName OR password is empty
             DISPLAY(Please fill in all the details.)
             CONTINUE LOOP
 
         EXIT LOOP
 
-    DECLARE users string
-    JOIN inputs into users string as(userID,userName,"Admin",password)
+    convert user input into a string as(userID,userName,"Admin",password)
 
     OPEN users.txt IN WRITE MODE
-        WRITE users string into users.txt
+        WRITE string into users.txt
     
     CALL supplierInitialize function
     CALL hospitalInitialize function
     DISPLAY(Initialization complete.)
 
 DECLARE supplierInitialize function
-    TRY
-        OPEN(suppliers.txt) in read mode
-    IF file doesn't exist
-        DISPLAY(Initializing suppliers.txt...)
+    TRY to open suppliers.txt file in reading mode
+    IF suppliers.txt file not found
+        DISPLAY(Initializing suppliers.txt)
         ENTER LOOP
-            DECLARE suppliers string
-            TRY 
-                ENTER LOOP
-                    DECLARE supplierCode list
-                    INPUT(supplierCode)
-                    DECLARE supplierName list 
-                    INPUT(supplierName)
-                    DECLARE supplierContact list
-                    INPUT(supplierContact)
+            ASK user if they have 3 or 4 suppliers
+                IF 3 
+                    supplierAmount = 3
+                    EXIT LOOP 
+                IF 4
+                    supplierAmount = 4
+                    EXIT LOOP
+                IF others
+                    DISPLAY(Please enter 3 or 4 only)
+                    CONTINUE LOOP
+        ENTER LOOP
+            PROMPTS user to enter 3 or 4 supplier codes
+            PROMPTS user to enter 3 or 4 supplier names 
+            PROMPTS user to enter 3 or 4 supplier contact number
 
-                    IF supplierCode OR supplierName OR supplierContact == ""
-                        DISPLAY(Please fill in all the details.)
-                        CONTINUE LOOP
-                    ELSE
-                        EXIT LOOP
-                
-                FOR i = 0 to 3
-                    ADD(supplierCode[i],supplierName[i],supplierContact[i]) into suppliers string
-                    
-                CALL writeToFile function with ARGUMENT(suppliers.txt,suppliers)
-                DISPLAY(Initializing complete.)
+            IF supplierCode or supplierName or supplierContact is empty
+                CONTINUE LOOP
+            ELSE
                 EXIT LOOP
 
-            IF EXCEPTION exists
-                    DISPLAY(EXCEPTION)
+        ARRANGE supplier info into a string as(supplierCode[supplierAmount],supplierName[supplierAmount],supplierContact[supplierAmount])
+
+        CALL writeToFile function to save supplier info into suppliers.txt
+        DISPLAY(Initialization complete)
+    IF ERROR exist
+        PRINT OUT ERROR
 
     EXIT FUNCTION 
+    
+
+
 
 DECLARE hospitalInitialize function
-    TRY
-        OPEN(hospitals.txt) in read mode
+    TRY to open hospitals.txt in read mode
     IF file doesn't exist
         DISPLAY(Initializing system...)
         ENTER LOOP
-            DECLARE hospitals string
-            try: 
-                DECLARE hospitalCode list
-                INPUT(hospitalCode)
-                DECLARE hospitalName list
-                INPUT(hospitalName)
+            ASK user if they have 3 or 4 hospitals
+                IF 3
+                    hospitalAmount = 3
+                    EXIT LOOP
+                IF 4 
+                    hospitalAmount = 4
+                    EXIT LOOP
+                IF OTHERS
+                    DISPLAY(Please enter 3 or 4 hospitals only.)
+                    CONTINUE LOOP
+        ENTER LOOP
+            PROMPTS user to enter 3 or 4 hospitals code
+            PROMPTS user to enter 3 or 4 hospital names 
 
-                FOR i = 0 to 3
-                APPEND(hospitalCode[i],hospitalName[i]) into hospitals string
+            ARRANGE hospital info into a string as(hospitalCode[hospitalAmount],hospitalName[hospitalAmount])
 
-                CALL writeToFile function with ARGUMENT(hospitals.txt,hospitals)
-                DISPLAY(Initizing complete.)
-                EXIT LOOP
-
-            IF EXCEPTION exists
-                DISPLAY(EXCEPTION)
-
+            CALL writeToFile function to save hospitals info to hospitals.txt
+            DISPLAY(Initialization complete)
+            EXIT LOOP
+    IF error exists
+        PRINT OUT ERROR
     EXIT FUNCTION
 
 DECLARE readFIle function with ARGUMENT(filePath)
@@ -121,9 +123,7 @@ DECLARE manageUsers function with ARGUMENT(loginInfo)
         DISPLAY(5. List User)
         DISPLAY(6. Quit)
 
-
-        DECLARE choice variable
-        TAKE INPUT as choice
+        TAKE user input
             INPUT = 1
                 CALL addUser function
             INPUT = 2
@@ -323,6 +323,132 @@ DECLARE mainMENU function with PERIMETER(loginInfo)
         DISPLAY(5. Log Out)
         
         DECLARE variable choice = INPUT(Select one: )
+
+        TRY
+            CONVERT choice into integer
+        IF ERROR
+            DISPLAY(Value entered not integer, pls try again.)
+        ELSE
+            MATCH choice
+            IF choice == 1
+                CALL inventory function
+            IF choice == 2
+                CALL supplier function
+            IF choice == 3
+                CALL listHospitals function
+            IF choice == 4
+                IF user is an Admin
+                    CALL manageUsers function
+                else 
+                    DISPLAY(You are not an admin) 
+            IF choice == 5
+                EXIT LOOP 
+                RETURN TO loginMenu
+            IF choice == OTHER INPUT
+                DISPLAY(Value entered not a valid choice, pls try again.)
+
+DECLARE loginMenu function
+    READ users.txt file
+    DISPLAY(Welcome to Inventory Management System)
+    DISPLAY(Type "quit" to quit the program)
+    ENTER LOOP
+        PROMPTS user to enter userID
+        IF userID exists
+            ENTER LOOP
+                PROMPTS user to enter password
+                IF input matches password in users.txt file
+                    user successfully login
+                ELSE
+                    DISPLAY(Wrong password, pls try again)
+        ELSE IF userID = "quit"
+            EXIT program
+        IF userID doesn't exist 
+            DISPLAY(UserID doesn't exist, pls try again)
+
+inventoryInit function
+    CALL supplierInitialize function to check if suppliers.txt exist
+    CALL hospitalInitialize fucntion to check if hospitals.txt exist
+    TRY to OPEN ppe.txt file in read mode
+        IF file does not exist
+            ENTER LOOP
+                PROMPTS user to enter 6 item code for PPE item
+                PROMPTS user to enter 6 item name for PPE item
+                PROMPTS user to enter 6 supplier for PPE item
+
+                ENTER LOOP from 0 to 6
+                    SAVE PPE item info into a string as(ppe[i],ppeName[i],ppeSupplier[i],100)
+
+                CALL writeToFile function to save string into ppe.txt
+                EXIT LOOP
+            IF ERROR exists
+                PRINT OUT ERROR
+    EXIT FUNCTION
+
+inventory function
+    CALL inventoryInit function to check if ppe.txt file is created
+
+    ENTER LOOP
+        DISPLAY(Inventory Menu)
+        DISPLAY(1. Check Stock)
+        DISPLAY(2. Receive Items)
+        DISPLAY(3. Distribute Items)
+        DISPLAY(4. Transaction History)
+        DISPLAY(5. Search Transaction Detail of an Item)
+        DISPLAY(6. Quit)
+
+        CALL lessThan25 function to check if any item is less than 25
+
+        TAKE user INPUT
+            INPUT = 1
+                CALL listStock function
+            INPUT = 2
+                CALL receiveItems function
+            INPUT = 3
+                CALL distributeItems function
+            INPUT = 4
+                CALL history function
+            INPUT = 5 
+                CALL listStock function
+                CALL search function
+            INPUT = OTHERS
+                DISPLAY("Choice entered not valid, pls try again)
+
+lessThan25 function
+    CALL readFile fucntion to open ppe.txt in readmode
+    
+    ENTER LOOP 
+        SCAN each line for ppe items number that is below or equal to 25
+        PRINT a reminder that the item is running low in stock
+
+receiveItems function
+    CALL readFile fucntion to read ppe.txt file
+    CALL listStock function
+    ENTER LOOP
+        PROMPTS user to enter item code that is receiving
+            IF input = Quit
+                EXIT LOOP
+            IF input doesn't exist 
+                DISPLAY(Item doesn't exist, pls try again)
+                CONTINUE LOOP
+        PROMPTS user to input the amount received for the item
+        SAVE changes to item amount as string
+        CALL writeToFile function to make changes to ppe.txt file
+        CALL addTranscation function to save transaction Details
+
+doesItemExists fucntion
+
+distributeItems function
+    CALL readFile function to read ppe.txt file
+    CALL readFile function to read hospitals.txt file
+    CALL listStock function
+    
+        
+            
+
+
+
+
+                
 
         
 
