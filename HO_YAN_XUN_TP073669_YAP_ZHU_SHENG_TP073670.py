@@ -2,7 +2,6 @@
 # TP073669, TP073670
 
 import datetime
-
 # Check if the program is running the first time
 # Checks by detecting the existence of users.txt and other files
 def initCheck():
@@ -33,19 +32,18 @@ def initialization():
     supplierInitialize()
     hospitalInitialize()
     print("Initialization complete.\n")
-    
-    
+
+#initilization for suppliers    
 def supplierInitialize():
-    # suppliers = [["JJ", "Johnson & Johnson"],["AG", "Agile Ground"], ["EW", "Ewwww"]]  
     try:
-        open("suppliers.txt", "r")        
+        open("suppliers.txt", "r")   #check if suppliers.txt has been initialized or not 
     except FileNotFoundError:
         print("\nInitializing suppliers.txt...\n")
         while True:
             suppliers = []
             try:
                 while True:
-                    supplierAmount = input("Do you have 3 or 4 suppliers: ")
+                    supplierAmount = input("Do you have 3 or 4 suppliers: ") 
                     match supplierAmount:
                         case "3":
                             break
@@ -58,18 +56,20 @@ def supplierInitialize():
                     print("\nPlease enter the details of "+str(supplierAmount)+ " suppliers only.")
                     print("Example: AA,BB,CC\n")
                     supplierCode = list(input("Please enter the all the supplier code with comma in between: ").strip().split(','))
+                    #supplierCode can be "JJ,Ab,Pf,GMK"
                     supplierName = list(input("Please enter the all the supplier name with comma in between: ").strip().split(','))
+                    #supplierName can be Johnson & Johnson,Abott,Pfizer,GlaxoSmithKline
                     supplierContact = list(input("Please enter the all the supplier contact number with comma in between: ").strip().split(','))
-
-                    if supplierCode =="" or supplierName == "" or supplierContact == "":
+                    #supplierContact can be 123,456,789,101112
+                    if supplierCode =="" or supplierName == "" or supplierContact == "": #cannot be left empty
                         continue
                     else:
                         break
-
+                #arrange supplierCode, supplierName, supplierContact into a string for each supplier
                 for i in range(0,int(supplierAmount)):
                     suppliers.append([supplierCode[i], supplierName[i], supplierContact[i]])
                 
-                writeToFile("suppliers.txt", sorted(suppliers))
+                writeToFile("suppliers.txt", sorted(suppliers)) 
                 print("Initializing complete")
                 break
             
@@ -81,12 +81,12 @@ def supplierInitialize():
 
     return
 
+#initialization for hospitals
 def  hospitalInitialize():
     try:
-        open("hospitals.txt","r")
+        open("hospitals.txt","r") #check if hospitals.txt has been initialized or not
     except FileNotFoundError:
         print("\nInitializing system...\n")
-    # hospitals = [["KKM", "Klinik Kesihatan Muhibbah"], ["KKPBJ", "Klinik Komuniti Pinggiran Bukit Jalil"], ["CAH","Columbia Asia Hospital"]]
         while True:
             hospitals = []
             while True:
@@ -103,9 +103,11 @@ def  hospitalInitialize():
                 print("\nPlease enter the details of "+str(hospitalAmount)+" hospitals only.")
                 print("Example: AA,BB,CC\n")
                 hospitalCode = list(input("Please enter the all the hospital code with comma in between: ").strip().split(','))
+                #hospitalCode can be "KKM,KPJ,KBJ,HJ"
                 hospitalName = list(input("Please enter the all the hospital name with comma in between: ").strip().split(','))
+                #hospitalName can be "Klinik Kesihatan Malaysia,Klinik Petaling Jaya,Klinik Bukit Jalil,Hospital Johor"
 
-                for i in range(0,int(hospitalAmount)):
+                for i in range(0,int(hospitalAmount)): #arrange hospitalCode,hospitalName as a string for each hospital
                     hospitals.append([hospitalCode[i], hospitalName[i]])
                 
                 writeToFile("hospitals.txt", sorted(hospitals))
