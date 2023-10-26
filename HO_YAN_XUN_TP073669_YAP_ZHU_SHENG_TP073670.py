@@ -56,7 +56,7 @@ def supplierInitialize():
                     print("\nPlease enter the details of "+str(supplierAmount)+ " suppliers only.")
                     print("Example: AA,BB,CC\n")
                     supplierCode = list(input("Please enter the all the supplier code with comma in between: ").strip().split(','))
-                    #supplierCode can be "JJ,Ab,Pf,GMK"
+                    #supplierCode can be "JJ,Ab,Pf,GSK"
                     supplierName = list(input("Please enter the all the supplier name with comma in between: ").strip().split(','))
                     #supplierName can be Johnson & Johnson,Abott,Pfizer,GlaxoSmithKline
                     supplierContact = list(input("Please enter the all the supplier contact number with comma in between: ").strip().split(','))
@@ -114,18 +114,19 @@ def  hospitalInitialize():
                 print("Initializing complete")
                 break
 
-            except IndexError:
+            except IndexError: 
                 print("\nError in input, please try again.\n")
 
             except Exception as e:
                 print(e)
     return
 
+# function for reading contents of a specific file returning it as a string
 def readFile(filePath):
     content = []
     with open(filePath, 'r') as f:
         while True:
-            line = f.readline().rstrip('\n')
+            line = f.readline().rstrip('\n') #read each line and add them to the string
             if not line:
                 break
             else:
@@ -133,12 +134,14 @@ def readFile(filePath):
 
     return content
 
+#function for writing a content to a specific file
 def writeToFile(fileName, original):
     with open(fileName, 'w') as f:
         for i in original:
-            f.write(','.join(i))
+            f.write(','.join(i)) #adds the content to end of the file
             f.write('\n')
 
+#function for displaying menu for managing users for admin, only admin can access 
 def manageUsers(loginInfo):
     flag = True
     while flag:
@@ -167,7 +170,7 @@ def manageUsers(loginInfo):
             case _:
                 print("Choice entered not valid, pls try again")
     
-
+#function for adding a new user as an admin
 def addUser():
     
     userType = None
@@ -215,6 +218,7 @@ def addUser():
                 print("\nAdded New User")
                 break
 
+#function for deleting a user as an admin
 def delUser(loginInfo):
     while True:
         print("\nSelect the user you want to delete(Type \"Quit\" to quit): ")
@@ -249,7 +253,7 @@ def delUser(loginInfo):
                 print("User deleted\n")
                 break
     
-
+#function for searching for a user according to their userID
 def searchUser():
     while True:
         userFound = False
@@ -266,6 +270,7 @@ def searchUser():
         if not userFound:
             print(f"User code {searchTerm} not found")
 
+#function for changing a user from admin to staff or vice versa, or to change password for an account
 def modifyUser(loginInfo):
     flag = True
     while flag:
@@ -311,11 +316,12 @@ def modifyUser(loginInfo):
                                         break
                                     case "Staff":
                                         print(users[mod - 1][0], loginInfo[1])
-                                        if mod == 1:
+                                        #the account which is created in initialization cannot be deleted because at least one admin is required
+                                        if mod == 1: 
                                             print("This account is the master account, you cannot change the type of it")
                                             continue
-
-                                        elif users[mod - 1][0] == loginInfo[1] and users[mod - 1][2] == "Admin":
+                                        #if user changed themselves from admin to staff, they will be forced to return to mainMenu and will not be able to access the manage users panel again
+                                        elif users[mod - 1][0] == loginInfo[1] and users[mod - 1][2] == "Admin": 
                                             specialChoice = input("You are changing yourself from Admin to Staff, proceed?(Yes/No): ")
                                             match specialChoice:
                                                 case "Yes":
@@ -357,6 +363,8 @@ def modifyUser(loginInfo):
                     except Exception as e:
                         print(e)
     return False
+
+#function to list out all the users info in the users.txt file
 def listUsers():
     users = readFile("users.txt")
     print(f"{'No.' : <5}{'User ID' : ^15}{'User Name' : ^15}{'User Type' : ^15}")
@@ -364,6 +372,7 @@ def listUsers():
     for k,v in enumerate(users):
         print(f"{k+1 : <5}{v[0] : ^15}{v[1] : ^15}{v[2] : ^15}")
 
+#function for printing out mainMenu and redirecting to each function
 def mainMenu(loginInfo):
     while True:
         print("\nWelcome to the PPE Inventory Management System")
@@ -399,6 +408,7 @@ def mainMenu(loginInfo):
                 case _:
                     print("Value entered not a valid choice, pls try again")
 
+#function for different users to login, selecting "Log Out" in mainMenu will return to this page
 def loginMenu():
     users = readFile('users.txt')
     print("\nWelcome to PPE Inventory Management System")
@@ -417,9 +427,10 @@ def loginMenu():
                 quit()
         print("User doesn\'t exist, pls try again.\n")
 
+#function for initializing inventory and adding PPE items
 def inventoryInit():
-    supplierInitialize()
-    hospitalInitialize()
+    supplierInitialize() #check if suppliers.txt exists
+    hospitalInitialize() #check if hospitals.txt exists
     try:
         open("ppe.txt", "r")       
     except FileNotFoundError:
@@ -430,10 +441,13 @@ def inventoryInit():
                 print("\nPlease enter the details of 6 PPE Items.")
                 print("Example: AA,BB,CC,DD,EE,FF\n")
                 ppe = list(input("Please enter the all the item code with comma in between: ").strip().split(','))
+                #item code can be "HC,FS,MS,GL,GW,SC"
                 ppeName = list(input("Please enter the all the item name with comma in between: ").strip().split(','))
+                #item name can be "Head Cover,Face Shield,Mask,Gloves,Gown,Shoe Covers"
                 ppeSupplier = list(input("Please enter the all the supplier code for each item with comma in between: ").strip().split(','))
+                #item supplier can be "JJ,Ab,Pf,GSK,JJ,Ab"
 
-                for i in range(0,6):
+                for i in range(0,6): #initial quantity for each items is 100, received from suppliers
                     ppes.append([ppe[i], ppeName[i], ppeSupplier[i], "100"])
                     addTranscation(ppe[i], ppeName[i], ppeSupplier[i], "100", "receive")
                 
@@ -445,8 +459,9 @@ def inventoryInit():
             except Exception as e:
                 print(e)
 
+#function for displaying Inventory Menu
 def inventory():
-    inventoryInit()
+    inventoryInit() #checks if ppe.txt have been initialized or not
     
     while True:
         print("\nInventory")
@@ -477,6 +492,7 @@ def inventory():
             case _:
                 print("Choice entered not valid, pls try again")
 
+#notify user if any item is less than 25 (low in stock)
 def lessThan25():
     ppes = readFile("ppe.txt")
     itemLessThan25 = []
@@ -489,7 +505,8 @@ def lessThan25():
         print("Reminder: Items less than 25 boxes")
         for i in itemLessThan25:
             print(i, end=' ')
-        
+
+#function for receiving items from suppliers        
 def receiveItems():
     ppes = readFile("ppe.txt")
     listStock()
@@ -518,7 +535,7 @@ def receiveItems():
         except Exception as e:
             print(e)
 
-
+#checks if the user is looking for an existing item in the txt files
 def doesItemExists(element, li):
     for i in li:
         if i[0] == element:
@@ -526,7 +543,7 @@ def doesItemExists(element, li):
 
     return False
 
-
+#function for distributing items to hospitals, deducts items quantities from inventory
 def distributeItems():
     ppes = readFile("ppe.txt")
     hospitals = readFile("hospitals.txt")
@@ -579,6 +596,7 @@ def distributeItems():
                     print(e)
             break
 
+#function for searching for the transaction details of an item
 def search():
     ppes = readFile("ppe.txt")
     
@@ -600,7 +618,8 @@ def search():
                 print(f"{v[0] : <30}{v[1] : ^20}{v[2] : ^20}{v[3] : ^15}{v[4] : ^40}{v[5] : ^10}")
 
         break
-            
+
+#function for listing the transaction history of an item            
 def history():
     while True:
         print("\nWelcome to history")
@@ -629,6 +648,9 @@ def history():
 
             case "3":
                 while True:
+                    #if both are left blank, all history will be shown
+                    #if starting date is left blank, all history from the beginning till the ending date will be shown
+                    #if ending date is left blank, all history from starting date till the end will be shown
                     print("\nSearch for transactions during a time period\n*leave blank for default*")
                     sDate = input("Please input the starting date(dd/mm/yyyy): ")
                     eDate = input("Please input the ending date(dd/mm/yyyy): ")
@@ -667,7 +689,8 @@ def history():
                             
                     transactionBetweenTimePeriod(sDateDT,eDateDT)
                     break
-                
+
+#function for searching for the transaction history between two dates                
 def transactionBetweenTimePeriod(startDate, endDate):
     transactions = readFile("transaction.txt")
     transactionDates = []
@@ -681,10 +704,12 @@ def transactionBetweenTimePeriod(startDate, endDate):
             # filteredTransactions.append(k)
             print(f"{transactions[k][0] : <26}{transactions[k][1] : ^20}{transactions[k][2] : ^20}{transactions[k][3] : ^20}{transactions[k][4] : ^25}{transactions[k][5] : ^20}")
 
+#function for converting string that contains date & time info in a file to dateTime format 
 def convStrToDT(s):
     date = datetime.datetime.strptime(s, "%Y-%m-%d %H:%M:%S.%f").strftime("%d/%m/%Y")
     return datetime.datetime.strptime(date, "%d/%m/%Y")
-    
+
+#function for adding a transaction and its details to transaction.txt     
 def addTranscation(itemCode, itemName, supplierOrHospitalCode, quantity, transactionType):
     with open("transaction.txt","a") as f:
         if transactionType == "receive":
@@ -692,7 +717,8 @@ def addTranscation(itemCode, itemName, supplierOrHospitalCode, quantity, transac
         elif transactionType == "distribute":
             f.write(f'{datetime.datetime.now()},{itemName},{itemCode},{quantity},{supplierOrHospitalCode},distributed')
         f.write('\n')
-        
+
+#function for printing out supplier menu and redirecting to the functions
 def supplier():
     supplierInitialize()
     while True:
@@ -757,18 +783,21 @@ def supplier():
             case _:
                 print("Choice entered is not valid, please try again")
 
+#function for adding a distribution and its details to distribution.txt
 def addDistribution(itemCode, itemName, hospitalCode, quantity):
     with open("distribution.txt","a") as f:
         f.write(f'{datetime.datetime.now()},{itemName},{itemCode},{quantity},{hospitalCode}')
         f.write('\n')
 
+#function for listing the remaining stock 
 def listStock():
     ppe = readFile("ppe.txt")
     print(f"\n{'Item Code' : <10}{'Item Name' : ^20}{'Item Quantity' : ^15}")
 
     for v in ppe:
         print(f"{v[0] : <10}{v[1] : ^20}{v[3] : ^15}")
-            
+
+#function for listing the hospitals            
 def listHospitals():
     hospitalInitialize()
     hospitals = readFile("hospitals.txt")
@@ -776,7 +805,8 @@ def listHospitals():
 
     for v in hospitals:
         print(f"{v[0] : <15}{v[1] : ^40}")
-        
+
+#function for listing suppliers        
 def listSuppliers():
     suppliers = readFile("suppliers.txt")
     print(f"\n{'Supplier Code' : <15}{'Supplier Name' : ^25}{'Supplier Contact' : ^20}")
@@ -784,6 +814,7 @@ def listSuppliers():
     for v in suppliers:
         print(f"{v[0] : <15}{v[1] : ^25}{v[2] : ^20}")
 
+#entry point of the program
 def main():
     initCheck()
     while True:
