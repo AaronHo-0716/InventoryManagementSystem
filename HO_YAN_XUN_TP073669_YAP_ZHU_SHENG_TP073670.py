@@ -10,9 +10,9 @@ def initCheck():
         open('users.txt', "r")
     except FileNotFoundError:
         print("Initializing system...")
-        initialization()
+        initialization() 
 
-# Creates users.txt and ppe.txt and propmts user to create a admin account and enter the items
+# Creates users.txt and propmts user to create a admin account
 def initialization():
     print("\nEntering initialization, please enter the userID and password for creating an admin account")
     while True:
@@ -33,7 +33,7 @@ def initialization():
     supplierInitialize()
     hospitalInitialize()
     print("Initialization complete.\n")
-    # supplierCode, supplierName
+    
     
 def supplierInitialize():
     # suppliers = [["JJ", "Johnson & Johnson"],["AG", "Agile Ground"], ["EW", "Ewwww"]]  
@@ -792,5 +792,7 @@ def main():
 
         mainMenu(loginInfo)
 
-if __name__ == "__main__":
+#checks whether current script is run as program or imported as a module
+#if running as program, main function will be called
+if __name__ == "__main__": 
     main()

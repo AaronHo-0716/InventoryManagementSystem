@@ -437,9 +437,6 @@ distributeItems function
                 EXIT LOOP
     EXIT FUNCTION
 
-
-
-
 search function
     CALL readFile function to read ppe.txt file
     ENTER LOOP
@@ -477,13 +474,40 @@ history function
                 DISPLAY(Search for a transactions during a time period,leave blank for default)
                 Prompts user to enter the starting date as dd/mm/yyyy
                 Prompts user to enter the ending date as dd/mm/yyyy
+                    IF starting date and ending date are empty
+                        Starting Date = 01/01/0001
+                        Ending Date = 31/12/9999
+                    IF starting date is empty
+                        Starting Date = 01/01/0001
+                        ending date = INPUT
+                    IF ending Date is empty
+                        Ending Date = 31/12/9999
+                        Starting Date = INPUT
+                Checks if starting date and ending date are valid 
+                    IF TRUE
+                        CALL transactionBetweenTimePeriod function while providing startingDate and endingDate
+                        EXIT LOOP
+                    IF FALSE
+                        DISPLAY(Error, pls try again)
+                        RESTART LOOP
 
 transactionBetweenTimePeriod function with parameters(startingDate, endingDate)
-    call readFile function to read transaction.txt file
+    CALL readFile function to read transaction.txt file
+    CALL convStrToDT function to convert string from transaction.txt into dateTime object 
+    Filter out the transaction that fits within time range
+    Print out transaction list
 
 convStrToDT function
+    READ string as dateTime object
+    EXIT FUNCTION
 
-addTranscaction function
+addTranscaction function with parameters(itemCode, itemName, code, quantity, transactionType)
+    OPEN transaction.txt 
+    IF transactionType = receive
+        Add details of transaction into txt file as a string
+    IF transactionType = distribute
+        Add details of transaction into txt file as a string
+
 
 supplier function
     call supplierInitialize function to check if suppliers.txt exists
@@ -553,6 +577,20 @@ listSuppliers function
     Print out the suppliers list
 
 main function
+    CALL initCheck function
+    ENTER LOOP
+        CALL loginMenu function for user log in 
+        READ user info from loginMenu function
+        DISPLAY(Welcome user)
+        CALL mainMenu function for user to log in as user
+
+CHECK IF current script is running as program
+IF True
+    CALL main function
+ELSE
+    do nothing
+
+
 
 
 
