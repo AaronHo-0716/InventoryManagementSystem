@@ -1,13 +1,13 @@
 IMPORT library for date&time 
 
-DECLARE initCheck function
+initCheck function
     TRY 
         open users.txt file in read mode
     IF file doesn't exist 
         DISPLAY(Initializing system...)
         CALL initilization function 
 
-DECLARE initilization function
+initilization function
     DISPLAY(Entering initilization)
     ENTER LOOP
         PROMPTS user to enter new userID
@@ -16,7 +16,7 @@ DECLARE initilization function
 
         IF userID OR userName OR password is empty
             DISPLAY(Please fill in all the details.)
-            CONTINUE LOOP
+            RESTART LOOP
 
         EXIT LOOP
 
@@ -29,8 +29,8 @@ DECLARE initilization function
     CALL hospitalInitialize function
     DISPLAY(Initialization complete.)
 
-DECLARE supplierInitialize function
-    TRY to open suppliers.txt file in reading mode
+supplierInitialize function
+    OPEN suppliers.txt file in read mode 
     IF suppliers.txt file not found
         DISPLAY(Initializing suppliers.txt)
         ENTER LOOP
@@ -43,14 +43,14 @@ DECLARE supplierInitialize function
                     EXIT LOOP
                 IF others
                     DISPLAY(Please enter 3 or 4 only)
-                    CONTINUE LOOP
+                    RESTART LOOP
         ENTER LOOP
             PROMPTS user to enter 3 or 4 supplier codes
             PROMPTS user to enter 3 or 4 supplier names 
             PROMPTS user to enter 3 or 4 supplier contact number
 
             IF supplierCode or supplierName or supplierContact is empty
-                CONTINUE LOOP
+                RESTART LOOP
             ELSE
                 EXIT LOOP
 
@@ -64,10 +64,8 @@ DECLARE supplierInitialize function
     EXIT FUNCTION 
     
 
-
-
-DECLARE hospitalInitialize function
-    TRY to open hospitals.txt in read mode
+hospitalInitialize function
+    OPEN hospitals.txt in read mode
     IF file doesn't exist
         DISPLAY(Initializing system...)
         ENTER LOOP
@@ -80,7 +78,7 @@ DECLARE hospitalInitialize function
                     EXIT LOOP
                 IF OTHERS
                     DISPLAY(Please enter 3 or 4 hospitals only.)
-                    CONTINUE LOOP
+                    RESTART LOOP
         ENTER LOOP
             PROMPTS user to enter 3 or 4 hospitals code
             PROMPTS user to enter 3 or 4 hospital names 
@@ -94,26 +92,22 @@ DECLARE hospitalInitialize function
         PRINT OUT ERROR
     EXIT FUNCTION
 
-DECLARE readFIle function with ARGUMENT(filePath)
-    DECLARE content string
+readFile function with parameter(filePath)
     OPEN(filePath) in read mode
         ENTER LOOP
-            DECLARE line variable 
-            line = STRIP(filePath) with newline
-            IF NOT line
+            READ each line 
+            IF no line left
                 EXIT LOOP
             ELSE  
-                APPEND(line) into content string
-
+                ADD each line into a content string
     RETURN content string
 
-DECLARE writeToFile function with ARGUMENT(fileName, variableName)
+writeToFile function with parameter(fileName, changes)
     OPEN(fileName) in write mode
-        FOR i in variableName
-            WRITE(i) with , as seperation
-            WRITE(new line)
+        ENTER LOOP
+            ADD changes to file
 
-DECLARE manageUsers function with ARGUMENT(loginInfo)
+manageUsers function
     ENTER LOOP
         DISPLAY(Welcome to Admin Panel)
         DISPLAY(1. Add New User)
@@ -127,11 +121,11 @@ DECLARE manageUsers function with ARGUMENT(loginInfo)
             INPUT = 1
                 CALL addUser function
             INPUT = 2
-                CALL delUser function with ARGUMENT(loginInfo)
+                CALL delUser function with PARAMETER(loginInfo)
             INPUT = 3
                 CALL searchUser function
             INPUT = 4 
-                CALL modifyUser with ARGUMENT(loginInfo)
+                CALL modifyUser with PARAMETER(loginInfo)
             INPUT = 5
                 CALL listUsers function
             INPUT = 6  
@@ -139,8 +133,7 @@ DECLARE manageUsers function with ARGUMENT(loginInfo)
             INPUT = OTHERS
                 DISPLAY(Choice entered not valid, pls try again)
 
-DECLARE addUser function
-    DECLARE null value userType = None
+addUser function
 
     ENTER LOOP
         DISPLAY(User Type)
@@ -148,8 +141,7 @@ DECLARE addUser function
         DISPLAY(2. Staff)
         DISPLAY(3. Quit)
         
-        DECLARE choice variable
-        TAKE INPUT as choice    
+        PROMPTS user to INPUT their hospitalChoice 
             INPUT = 1
                 userType = "Admin
                 EXIT LOOP
@@ -162,158 +154,126 @@ DECLARE addUser function
                 DISPLAY(Choice entered not valid, pls try again)            
             
         ENTER LOOP:
-            DECLARE variable newUserID = INPUT(Please enter your userID: )
-            DECLARE variable newName = INPUT(Please enter your name: )
-            DECLARE variable newPwd = (Please enter your password: )
+            PROMPTS user to input new UserID
+            PROMPTS user to input new Name
+            PROMPTS user to input new password
 
-            IF newUserID or newName or newPwd == ""
+            IF newUserID or newName or newPwd is empty
                 DISPLAY(Please fill in all the details)
-                CONTINUE LOOP
+                RESTART LOOP
 
-            DECLARE string users = [newUserID, newName, userType, newPwd]
-            DECLARE null value original = None
-            DECLARE boolean duplicateUserDetected = False
+            CALL readFile function to open users.txt
 
-            CALL readFile fucntion with ARGUMENT("users.txt") as original
+            Check if userID already existed
+                IF False
+                    CALL writeToFile function to add new user
+                    DISPLAY(Added new User)
+                IF True
+                    RESTART LOOP
+    EXIT FUNCTION
 
-            FOR user in original
-                IF user[0] == newUserID:
-                    DISPLAY(This userID already exists.)
-                    duplicateUserDetected = True
-
-            IF duplicateUserDetected = False:
-                APPEND(users) into original
-                CALL writeToFile fucntion with ARGUMENT("users.txt",original)
-                DISPLAY(Added New User)
-                EXIT LOOP
-
-
-DECLARE delUser fucntion with ARGUMENT(loginInfo)
+delUser fucntion
     ENTER LOOP
-        DISPLAY(Select the user you want to delete (Type "Quit" to quit): )
-        CALL listUsers function
+        CALL listUsers function to print out user list
+        PROMPTS user to select the user they want to delete
 
-        DECLARE variable delete = INPUT()
-
-        IF delete == Quit
+        IF INPUT == Quit
             EXIT LOOP
 
-        TRY
-            CONVERT delete into integer
-        IF ERROR
-            DISPLAY(Value entered is not a valid integer, please try again.)
+        IF INPUT is not a number or out of range
+            DISPLAY(Error, pls try again)
+            RESTART LOOP
 
-        ELSE
-            CALL readFile function with ARGUMENT(users.txt) as users variable
-
-            TRY
-                SEARCH for string containing users[delete] info
-            IF IndexError
-                DISPLAY(User doesn't exist)
-
-            ELSE
-                IF users[delete] == users[loginInfo]
-                    DISPLAY(You cannot delete yourself)
-                    RESTART LOOP
-                ELSE
-                    REMOVE element
-
-                CALL writeToFile fucntion with ARGUMENT(users.txt,users)
-
-                DISPLAY(User deleted)
-                EXIT LOOP
-
-DECLARE searchUser function
+        CALL readFile function to open users.txt
+        CHECK if user is trying to delete themselves
+        IF TRUE
+            DISPLAY(You cannont delete yourself)
+            RESTART LOOP
+        IF FALSE
+            CALL writeToFile function to remove user
+            DISPLAY(User deleted)
+    EXIT FUNCTION
+    
+searchUser function
     ENTER LOOP
-        DECLARE boolean userFound = False
-        DECLARE searchTerm variable = INPUT(Search user by their userID)
-        if searchTerm == Quit
+        PROMPTS user to enter the userID they want to search for
+        if INPUT == Quit
             EXIT LOOP
         
         CALL readFile function to open users.txt as users
-        FOR user in users
-            IF user[0] = searchTerm
-                DISPLAY(Found user: user info)
-                userFound = True
+            SEARCH for user in users.txt
+            IF FOUND
+                DISPLAY(User Info)
+                RESTART LOOP
 
-            IF userFound = False
-                DISPLAY(User code not found)
+            IF NOT FOUND
+                DISPLAY(User not found)
+                RESTART LOOP
+    EXIT FUNCTION
 
-DECLARE modifyUser with ARGUMENT(loginInfo)
-    DECLARE boolean flag = True
+modifyUser function
     ENTER LOOP
         DISPLAY(Select the user you want to modify: )
-        CALL listUsers function
+        CALL listUsers function 
 
-        DECLARE variable mod = INPUT()
-
-        IF mod == Quit
+        PROMPTS user to select the user they want to modify
+        IF INPUT == Quit
             EXIT LOOP
+        IF INPUT is not a number or out of range
+            DISPLAY(Error, pls try again)
+            RESTART LOOP
+        CALL readFile function to open users.txt
+        DISPLAY(Select the action to perform)
+        DISPLAY(1. Change user type)
+        DISPLAY(2. Change password)
+        PROMPTS user to input their choice
+        IF INPUT = Quit
+            EXIT LOOP
+        IF INPUT = others
+            DISPLAY(Error, pls try again)
+            RESTART LOOP
+        IF INPUT = 1
+            ASK the user to select Admin or Staff
+                IF Admin
+                    Change selected user to Admin
+                    CALL writeToFile function to save changes
+                IF Staff 
+                    Change selected user to Staff
+                    Check if user is changing the master account
+                    IF TRUE
+                        DISPLAY(You cannot modify the master account)
+                        RESTART LOOP
+                    IF FALSE
+                        Check if user is changing themselves
+                        IF FALSE
+                            CALL writeToFile function to save changes
+                        IF True
+                            ASK user for confirmation
+                            IF True
+                                CALL writeToFile function to save changes
+                                RETURN to mainMENU function
+                            IF False
+                                RESTART LOOP
+        IF INPUT = 2
+            ENTER LOOP
+                PROMPTS user to enter old password
+                CALL readFile function to check if old password is correct
+                IF TRUE
+                    PROMPTS user to enter new password
+                    CALL writeToFile function to save changes
+                    EXIT LOOP
+                IF FALSE
+                    DISPLAY(Old password incorrect)
+                    RESTART LOOP
+    EXIT FUNCTION
 
-        TRY
-            convert mod into integer
-        EXCEPT
-            DISPLAY("Value entered is not a valid integer, please try again.)
-        ELSE
-            CALL readFile function to open users.txt
-
-            TRY
-                DISPLAY(users[mod] info)
-            IF ERROR
-                print(Users doesn't exist)
-            ELSE
-                ENTER LOOP
-                    DISPLAY(Select the action to perform: )
-                    DISPLAY(1. Change user type)
-                    DISPLAY(2. Change password)
-
-                    DECLARE variable choice = INPUT()
-
-                    try
-                        IF choice == quit
-                            EXIT LOOP
-                        ELSE IF choice == 1
-                            ENTER LOOP
-                                DISPLAY(Select one(Admin, Staff): )
-                                DECLARE variable type = INPUT()
-                                MATCH type
-                                IF INPUT = Admin
-                                    change user type to "Admin"
-                                    CALL write function to save changes
-                                    EXIT LOOP
-                                IF INPUT = Staff
-                                    DISPLAY(user info)
-                                    IF chosen user if the master account
-                                        DISPLAY("This account is master account, you cannot change the type of it.)
-                                        RESTART LOOP
-                                    ELSE IF chosen user is current user
-                                    DECLARE variable specialChoice = INPUT(yes/no for confirmation)
-                                    MATCH specialChoice
-                                        IF specialChoice == Yes
-                                            CALL writeToFile function to change selected users to Staff\
-                                            EXIT LOOP
-
-                                        IF specialChoice == No
-                                            CONTINUE LOOP
-
-                                        IF specialChoice = other input
-                                            DISPLAY(Choice not valid, please try again.)
-                                            CONTINUE LOOP
-
-                        ELSE
-                            CALL wri fucntion to change selected user to Staff
-                            EXIT LOOP
-
-
-
-DECLARE listUsers function
-    DECLARE variable users
+listUsers function
     CALL readFile function to open users.txt file
     READ userinfo from each line
-    SAVE users info as users
-    DISPLAY(users)
+    Print user list
+    EXIT FUNCTION
 
-DECLARE mainMENU function with PERIMETER(loginInfo)
+mainMenu function
     ENTER LOOP
         DISPLAY(Welcome to PPE Inventory Management System)
         DISPLAY(1. Inventory)
@@ -322,33 +282,29 @@ DECLARE mainMENU function with PERIMETER(loginInfo)
         DISPLAY(4. User Management)
         DISPLAY(5. Log Out)
         
-        DECLARE variable choice = INPUT(Select one: )
+        PROMPTS user to select an option
+        IF INPUT is not an integer or out of range
+            DISPLAY(Error, pls try again)
+            RESTART LOOP
+        IF INPUT == 1
+            CALL inventory function
+        IF INPUT == 2
+            CALL supplier function
+        IF INPUT == 3
+            CALL listHospitals function
+        IF INPUT == 4
+            IF user is an Admin
+                CALL manageUsers function
+            else 
+                DISPLAY(You are not an admin) 
+                RESTART LOOP
+        IF choice == 5
+            EXIT LOOP 
+            RETURN TO loginMenu
 
-        TRY
-            CONVERT choice into integer
-        IF ERROR
-            DISPLAY(Value entered not integer, pls try again.)
-        ELSE
-            MATCH choice
-            IF choice == 1
-                CALL inventory function
-            IF choice == 2
-                CALL supplier function
-            IF choice == 3
-                CALL listHospitals function
-            IF choice == 4
-                IF user is an Admin
-                    CALL manageUsers function
-                else 
-                    DISPLAY(You are not an admin) 
-            IF choice == 5
-                EXIT LOOP 
-                RETURN TO loginMenu
-            IF choice == OTHER INPUT
-                DISPLAY(Value entered not a valid choice, pls try again.)
 
-DECLARE loginMenu function
-    READ users.txt file
+loginMenu function
+    CALL readFile function to read users.txt file
     DISPLAY(Welcome to Inventory Management System)
     DISPLAY(Type "quit" to quit the program)
     ENTER LOOP
@@ -360,10 +316,12 @@ DECLARE loginMenu function
                     user successfully login
                 ELSE
                     DISPLAY(Wrong password, pls try again)
-        ELSE IF userID = "quit"
+                    RESTART LOOP
+        IF userID = "quit"
             EXIT program
         IF userID doesn't exist 
             DISPLAY(UserID doesn't exist, pls try again)
+            RESTART LOOP
 
 inventoryInit function
     CALL supplierInitialize function to check if suppliers.txt exist
@@ -429,20 +387,177 @@ receiveItems function
                 EXIT LOOP
             IF input doesn't exist 
                 DISPLAY(Item doesn't exist, pls try again)
-                CONTINUE LOOP
+                RESTART LOOP
         PROMPTS user to input the amount received for the item
         SAVE changes to item amount as string
         CALL writeToFile function to make changes to ppe.txt file
         CALL addTranscation function to save transaction Details
 
-doesItemExists fucntion
+doesItemExists function with PARAMETER(file,item)
+    OPEN file in read mode
+    Check if item exist
+        IF TRUE
+            RETURN TRUE
+        IF FALSE
+            RETURN FALSE
 
 distributeItems function
     CALL readFile function to read ppe.txt file
     CALL readFile function to read hospitals.txt file
     CALL listStock function
+    ENTER LOOP
+        PROMPTS user to the item for distribute by typing item code
+
+        IF INPUT = Quit
+            EXIT LOOP
+        CALL doesItemExists function to check if INPUT exists in file
+            IF FALSE
+                DISPLAY(Item doesn't exist, pls try again)
+                RESTART LOOP
+
+            ENTER LOOP
+                CALL listHospitals function to list out hospitals
+                PROMPTS user to select the hospital to distribute the item to by typing hospital code
+                CALL doesItemExists to check if INPUT exists in file
+                    IF False
+                        DISPLAY(The hospital doesn't exists, pls try again)
+                        RESTART LOOP
+                    IF True
+                        ENTER LOOP
+                            PROMPTS user to enter the amount for distributing
+                            CHECK if quantity of item is sufficient for distributing
+                                IF FALSE   
+                                    DISPLAY(Insufficient Amount)
+                                    RESTART LOOP
+                                IF TRUE
+                                    SAVE changes to quantity in ppe.txt 
+                                    CALL addTranscaction function to add Transcaction Details
+                                    CALL addDistribution function to add distribution details
+                                    EXIT LOOP
+                EXIT LOOP
+    EXIT FUNCTION
+
+
+
 
 search function
+    CALL readFile function to read ppe.txt file
+    ENTER LOOP
+        List the existing PPE items with item name, item code and amount
+        PROMPTS user to INPUT the item code to search for transaction list
+            IF INPUT = quit
+                EXIT LOOP
+            CALL doesItemExists to check if item exist
+            IF False
+                DISPLAY(Item doesn't exist, pls try again)
+                RESTART LOOP
+            IF TRUE
+                CALL readFile function to read transaction.txt file
+                PRINT the list for tranaction of the item entered by user
+    EXIT FUNCTION
+
+history function
+    ENTER LOOP
+        DISPLAY(Welcome to history)
+        DISPLAY(1. Transaction Full History)
+        DISPLAY(2. Distribution History)
+        DISPLAY(3. Transaction Between a Time Period)
+
+        Prompts user to enter their choice
+        IF INPUT = quit
+            EXIT LOOP
+        IF INPUT = 1
+            CALL readFile function to read tranaction.txt
+            PRINT all transaction details
+        IF INPUT = 2
+            CALL readFile function to read distribution.txt
+            Print all distribution details
+        IF INPUT = 3
+            ENTER LOOP
+                DISPLAY(Search for a transactions during a time period,leave blank for default)
+                Prompts user to enter the starting date as dd/mm/yyyy
+                Prompts user to enter the ending date as dd/mm/yyyy
+
+transactionBetweenTimePeriod function with parameters(startingDate, endingDate)
+    call readFile function to read transaction.txt file
+
+convStrToDT function
+
+addTranscaction function
+
+supplier function
+    call supplierInitialize function to check if suppliers.txt exists
+    Enter LOOP
+        DISPLAY(Welcome to supplier details)
+        DISPLAY(1. List Supplier Details)
+        DISPLAY(2. Change supplier name)
+        DISPLAY(3. Change supplier contact number)
+        DISPLAY(4. Quit)
+        Prompts user to select one
+            IF INPUT = 4
+                EXIT LOOP
+            IF INPUT = 1 
+                CALL listSuppliers function
+                CONTINUE LOOP
+            IF INPUT = 2
+                CALL readFile function to read suppliers.txt 
+                CALL listSuppliers function
+                ENTER LOOP
+                    PROMPTS user to enter the supplier code they want to change
+                        IF INPUT = Quit
+                            EXIT LOOP
+                        CALL doesItemExists to check if supplier code exists
+                            IF FALSE
+                                DISPLAY(Error, pls try again)
+                                RESTART LOOP
+                            ELSE
+                                PROMPTS user to enter the new name for supplier
+                                CALL writeToFile function to save changes
+                                DISPLAY(Name changed)
+                                EXIT LOOP
+            IF INPUT = 3
+                CALL readFile function to read suppliers.txt
+                CALL listStock function
+                ENTER LOOP
+                    PROMPTS user to enter the supplier code they want to change
+                        IF INPUT = Quit
+                            EXIT LOOP
+                        CALL doesItemExists function to check if supplier code exists
+                            IF FALSE
+                                Supplier doesn't exist, pls try again
+                                RESTART LOOP
+                            IF TRUE
+                                PROMPTS user to enter new contact number for supplier
+                                CALL writeToFile function to save changes
+                                DISPLAY(Contact number changes)
+                                EXIT LOOP
+            IF INPUT = others
+                DISPLAY(Error, pls try again)
+
+addDistribution function with parameters(itemCode, itemName, hospitalCode, quantity)
+    OPEN distribution.txt file
+        Add parameters to file
+
+listStock function
+    CALL readFile function to open ppe.txt
+    Print out the stock list 
+
+listHospitals function
+    CALL hospitalInitialize function to check if hospitals.txt exists
+    CALL readFile function to read hospitals.txt
+    Print out the hospitals list
+
+listSuppliers function
+    CALL supplierInitialize function to check if suppliers.txt exists
+    CALL readFile function to read suppliers.txt 
+    Print out the suppliers list
+
+main function
+
+
+
+
+
 
 
         
