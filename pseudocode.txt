@@ -149,7 +149,7 @@ addUser function
                 userType = "Staff"
                 EXIT LOOP
             INPUT = 3
-                EXIT LOOP
+                EXIT FUNCTION
             INPUT = OTHERS
                 DISPLAY(Choice entered not valid, pls try again)            
             
@@ -187,7 +187,7 @@ delUser fucntion
         CALL readFile function to open users.txt
         CHECK if user is trying to delete themselves
         IF TRUE
-            DISPLAY(You cannont delete yourself)
+            DISPLAY(You cannot delete yourself)
             RESTART LOOP
         IF FALSE
             CALL writeToFile function to remove user
@@ -200,7 +200,7 @@ searchUser function
         if INPUT == Quit
             EXIT LOOP
         
-        CALL readFile function to open users.txt as users
+        CALL readFile function to open users.txt
             SEARCH for user in users.txt
             IF FOUND
                 DISPLAY(User Info)
@@ -581,8 +581,12 @@ main function
     ENTER LOOP
         CALL loginMenu function for user log in 
         READ user info from loginMenu function
-        DISPLAY(Welcome user)
-        CALL mainMenu function for user to log in as user
+        Check if user logged in
+            IF TRUE
+                DISPLAY(Welcome user)
+                CALL mainMenu function to show mainMenu to user as admin/staff
+            IF False 
+                EXIT PROGRAM
 
 CHECK IF current script is running as program
 IF True
