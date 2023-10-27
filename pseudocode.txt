@@ -368,6 +368,8 @@ inventory function
             INPUT = 5 
                 CALL listStock function
                 CALL search function
+            INPUT = 6
+                EXIT FUNCTION
             INPUT = OTHERS
                 DISPLAY("Choice entered not valid, pls try again)
 
@@ -375,8 +377,11 @@ lessThan25 function
     CALL readFile fucntion to open ppe.txt in readmode
     
     ENTER LOOP 
-        SCAN each line for ppe items number that is below or equal to 25
-        PRINT a reminder that the item is running low in stock
+        SCAN each line for item quantity
+            IF current line quanity <=25
+                PRINT a reminder that the item is running low in stock
+            IF NO line left
+                EXIT FUNCTION 
 
 receiveItems function
     CALL readFile fucntion to read ppe.txt file
