@@ -509,9 +509,9 @@ convStrToDT function
 addTranscaction function with parameters(itemCode, itemName, code, quantity, transactionType)
     OPEN transaction.txt 
     IF transactionType = receive
-        Add details of transaction into txt file as a string
+        Add details of transaction into transaction.txt file as a string
     IF transactionType = distribute
-        Add details of transaction into txt file as a string
+        Add details of transaction into transaction.txt file as a string
 
 
 supplier function
@@ -577,7 +577,6 @@ listHospitals function
     Print out the hospitals list
 
 listSuppliers function
-    CALL supplierInitialize function to check if suppliers.txt exists
     CALL readFile function to read suppliers.txt 
     Print out the suppliers list
 
