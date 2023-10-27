@@ -411,7 +411,7 @@ distributeItems function
     CALL readFile function to read hospitals.txt file
     CALL listStock function
     ENTER LOOP
-        PROMPTS user to the item for distribute by typing item code
+        PROMPTS user to enter the item for distribute by typing item code
 
         IF INPUT = Quit
             EXIT LOOP
