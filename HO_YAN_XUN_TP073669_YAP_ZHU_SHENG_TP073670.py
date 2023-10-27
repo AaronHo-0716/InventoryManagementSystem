@@ -820,6 +820,17 @@ def main():
     while True:
         # loginStatus, userID, userName, userType
         loginInfo = loginMenu()
+        
+        print(" ______ __       __ __     __ ")
+        print("|      \\  \\     /  \\  \\   |  \\")
+        print(" \\▓▓▓▓▓▓ ▓▓\\   /  ▓▓ ▓▓   | ▓▓")
+        print(" | ▓▓ | ▓▓▓\\ /  ▓▓▓ ▓▓   | ▓▓")
+        print(" | ▓▓ | ▓▓▓▓\\  ▓▓▓▓\\▓▓\\ /  ▓▓")
+        print(" | ▓▓ | ▓▓\\▓▓ ▓▓ ▓▓ \\▓▓\\  ▓▓ ")
+        print("_| ▓▓_| ▓▓ \\▓▓▓| ▓▓  \\▓▓ ▓▓  ")
+        print("   ▓▓ \\ ▓▓  \\▓ | ▓▓   \\▓▓▓   ")
+        print("\\▓▓▓▓▓▓\\▓▓      \\▓▓    \\▓    ")
+                              
 
         print(f"\nWelcome {loginInfo[2]}")
 
