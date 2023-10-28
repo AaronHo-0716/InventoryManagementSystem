@@ -2,8 +2,7 @@
 # TP073669, TP073670
 
 import datetime
-# Check if the program is running the first time
-# Checks by detecting the existence of users.txt and other files
+# Check if the program is running the first time by detecting the existence of users.txt and other files
 def initCheck():
     try:
         open('users.txt', "r")
@@ -19,7 +18,7 @@ def initialization():
         userName = input("Please enter your name: ")
         password = input("Please enter your password: ")
 
-        if userID == "" or userName == "" or password == "":
+        if userID == "" or userName == "" or password == "": #input cannot be empty 
             print("Please fill in all the details\n")
             continue
 
@@ -27,23 +26,24 @@ def initialization():
 
     users = ",".join([userID, userName, "Admin", password])
     
-    with open("users.txt", "w") as f:
+    with open("users.txt", "w") as f:    #saves user info inside users.txt
         f.write(users)
-    supplierInitialize()
-    hospitalInitialize()
+    supplierInitialize() #called to initialize suppliers.txt by adding suppliers' info
+    hospitalInitialize() #called to initialize hospitals.txt by adding hospitals' info
     print("Initialization complete.\n")
 
-#initilization for suppliers    
+#initilization for suppliers, and to check if suppliers.txt exists
 def supplierInitialize():
     try:
-        open("suppliers.txt", "r")   #check if suppliers.txt has been initialized or not 
+        open("suppliers.txt", "r")   
+        #checks if suppliers.txt exists or not, if yes the program will be returned to the previous function, if no user will be required to enter suppliers' info
     except FileNotFoundError:
         print("\nInitializing suppliers.txt...\n")
         while True:
             suppliers = []
             try:
                 while True:
-                    supplierAmount = input("Do you have 3 or 4 suppliers: ") 
+                    supplierAmount = input("Do you have 3 or 4 suppliers: ") #as in the assignment question, only 3-4 are allowed
                     match supplierAmount:
                         case "3":
                             break
@@ -55,8 +55,8 @@ def supplierInitialize():
                 while True:
                     print("\nPlease enter the details of "+str(supplierAmount)+ " suppliers only.")
                     print("Example: AA,BB,CC\n")
-                    #supplierCode can be "JJ,Ab,Pf,GSK"
                     
+                    #suppliers' code, name and contact number cannot be duplicated
                     while True:
                         supplierCode = list(input("Please enter the all the supplier code with comma in between: ").strip().split(','))
                         #item supplier can be "JJ,Ab,Pf,GSK,JJ,Ab"
