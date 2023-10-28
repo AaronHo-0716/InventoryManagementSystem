@@ -55,9 +55,16 @@ def supplierInitialize():
                 while True:
                     print("\nPlease enter the details of "+str(supplierAmount)+ " suppliers only.")
                     print("Example: AA,BB,CC\n")
-                    supplierCode = list(input("Please enter the all the supplier code with comma in between: ").strip().split(','))
                     #supplierCode can be "JJ,Ab,Pf,GSK"
+                    
+                    while True:
+                        supplierCode = list(input("Please enter the all the supplier code with comma in between: ").strip().split(','))
+                        #item supplier can be "JJ,Ab,Pf,GSK,JJ,Ab"
 
+                        supplierError = hasDuplicates(supplierCode)
+
+                        if not supplierError:
+                            break
 
                     supplierName = list(input("Please enter the all the supplier name with comma in between: ").strip().split(','))
                     #supplierName can be Johnson & Johnson,Abott,Pfizer,GlaxoSmithKline
