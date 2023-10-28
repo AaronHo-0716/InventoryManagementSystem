@@ -57,6 +57,8 @@ def supplierInitialize():
                     print("Example: AA,BB,CC\n")
                     supplierCode = list(input("Please enter the all the supplier code with comma in between: ").strip().split(','))
                     #supplierCode can be "JJ,Ab,Pf,GSK"
+
+
                     supplierName = list(input("Please enter the all the supplier name with comma in between: ").strip().split(','))
                     #supplierName can be Johnson & Johnson,Abott,Pfizer,GlaxoSmithKline
                     supplierContact = list(input("Please enter the all the supplier contact number with comma in between: ").strip().split(','))
@@ -120,6 +122,15 @@ def  hospitalInitialize():
             except Exception as e:
                 print(e)
     return
+
+def hasDuplicates(li):
+    seen = set()
+    for i in li:
+        if i in seen:
+            return True
+        seen.add(i)
+        
+    return False
 
 # function for reading contents of a specific file returning it as a string
 def readFile(filePath):
