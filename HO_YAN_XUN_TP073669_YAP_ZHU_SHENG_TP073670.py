@@ -148,6 +148,7 @@ def  hospitalInitialize():
                 print(e)
     return
 
+#function to check if codes and names or contact numbers are the same for suppliers,hospitals and PPE items
 def hasDuplicates(li):
     seen = set()
     for i in li:

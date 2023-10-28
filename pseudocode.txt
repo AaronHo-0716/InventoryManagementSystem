@@ -46,8 +46,23 @@ supplierInitialize function
                     RESTART LOOP
         ENTER LOOP
             PROMPTS user to enter 3 or 4 supplier codes
+                CALL hasDuplicate function to check if suppliers code is duplicated
+                IF True
+                    RESTART LOOP
+                IF False 
+                    CONTINUE
             PROMPTS user to enter 3 or 4 supplier names 
+                CALL hasDuplicate function to check if suppliers names is duplicated
+                IF True
+                    RESTART LOOP
+                IF False 
+                    CONTINUE
             PROMPTS user to enter 3 or 4 supplier contact number
+                CALL hasDuplicate function to check if suppliers contact number is duplicated
+                    IF True
+                        RESTART LOOP
+                    IF False 
+                        CONTINUE
 
             IF supplierCode or supplierName or supplierContact is empty
                 RESTART LOOP
@@ -81,7 +96,17 @@ hospitalInitialize function
                     RESTART LOOP
         ENTER LOOP
             PROMPTS user to enter 3 or 4 hospitals code
+            CALL hasDuplicate function to check if hospitals code is duplicated
+                IF True
+                    RESTART LOOP
+                IF False 
+                    CONTINUE
             PROMPTS user to enter 3 or 4 hospital names 
+                CALL hasDuplicate function to check if hospitals code is duplicated
+                IF True
+                    RESTART LOOP
+                IF False 
+                    CONTINUE
 
             ARRANGE hospital info into a string 
 
@@ -92,6 +117,16 @@ hospitalInitialize function
         PRINT OUT ERROR
     EXIT FUNCTION
 
+hasDuplicate function
+    RECEIVE string containing codes/names/contactNumber from previous function
+    CONVERT string into set
+    Checks for duplicatation 
+        IF True
+            DISPLAY(Duplicates are not allowed)
+            Return TRUE
+        If False 
+            Return False
+        
 readFile function with parameter(filePath)
     OPEN(filePath) in read mode
         ENTER LOOP
@@ -330,8 +365,23 @@ inventoryInit function
         IF file does not exist
             ENTER LOOP
                 PROMPTS user to enter 6 item code for PPE item
+                    CALL hasDuplicate function to check if item code is duplicated
+                        IF True
+                            RESTART LOOP
+                        IF False 
+                            CONTINUE
                 PROMPTS user to enter 6 item name for PPE item
+                    CALL hasDuplicate function to check if item name is duplicated
+                        IF True
+                            RESTART LOOP
+                        IF False 
+                            CONTINUE
                 PROMPTS user to enter 6 supplier for PPE item
+                CALL doesItemExists to check if supplier exists in suppliers.txt
+                    IF True
+                        CONTINUE
+                    IF False
+                        RESTART LOOP
 
                 ENTER LOOP from 0 to 6
                     SAVE PPE item info into a string as(ppe[i],ppeName[i],ppeSupplier[i],100)
