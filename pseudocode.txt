@@ -504,7 +504,7 @@ transactionBetweenTimePeriod function with parameters(startingDate, endingDate)
 
 convStrToDT function
     READ string as dateTime object
-    EXIT FUNCTION
+    EXIT FUNCTION and RETURN object
 
 addTranscaction function with parameters(itemCode, itemName, code, quantity, transactionType)
     OPEN transaction.txt 
