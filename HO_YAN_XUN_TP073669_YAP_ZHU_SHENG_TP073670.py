@@ -444,8 +444,22 @@ def inventoryInit():
                 #item code can be "HC,FS,MS,GL,GW,SC"
                 ppeName = list(input("Please enter the all the item name with comma in between: ").strip().split(','))
                 #item name can be "Head Cover,Face Shield,Mask,Gloves,Gown,Shoe Covers"
-                ppeSupplier = list(input("Please enter the all the supplier code for each item with comma in between: ").strip().split(','))
-                #item supplier can be "JJ,Ab,Pf,GSK,JJ,Ab"
+
+                supplierList = readFile("suppliers.txt")
+                
+                while True:
+                    supplierError = False
+                    ppeSupplier = list(input("Please enter the all the supplier code for each item with comma in between: ").strip().split(','))
+                    #item supplier can be "JJ,Ab,Pf,GSK,JJ,Ab"
+
+                    for sup in ppeSupplier:
+                        if not doesItemExists(sup, supplierList):
+                            print(f"{sup} does not exist, pls try again")
+                            supplierError = True
+                            break
+
+                    if not supplierError:
+                        break
 
                 for i in range(0,6): #initial quantity for each items is 100, received from suppliers
                     ppes.append([ppe[i], ppeName[i], ppeSupplier[i], "100"])
