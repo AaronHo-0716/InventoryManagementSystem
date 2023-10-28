@@ -374,7 +374,7 @@ inventory function
                 DISPLAY("Choice entered not valid, pls try again)
 
 lessThan25 function
-    CALL readFile fucntion to open ppe.txt in readmode
+    CALL readFile function to open ppe.txt in readmode
     
     ENTER LOOP 
         SCAN each line for item quantity
