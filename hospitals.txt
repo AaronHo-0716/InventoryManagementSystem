@@ -1,0 +1,3 @@
+KBJ,Klinik Bukit Jalil
+KKM,Klinik Kesihatan Malaysia
+KPJ,Klinik Petaling Jaya

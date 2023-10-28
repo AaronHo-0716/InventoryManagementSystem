@@ -1,0 +1,6 @@
+FS,Face Shield,AA,169
+GL,Gloves,BB,20
+GW,Gown,CC,100
+HC,Head Cover,AA,100
+MS,Mask,BB,100
+SC,Shoe Covers,CC,100
