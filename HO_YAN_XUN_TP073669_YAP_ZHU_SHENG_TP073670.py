@@ -654,11 +654,16 @@ def history():
                 for v in transactions:
                     print(f"{v[0] : <30}{v[1] : ^20}{v[2] : ^20}{v[3] : ^15}{v[4] : ^40}{v[5] : ^10}")
             case "2":
-                distributions = readFile("distribution.txt")
-                print(f"\n{'Distribution Time' : <30}{'Item Name' : ^20}{'Item Code' : ^20}{'Item Quantity' : ^15}{'Hospital Code' : ^40}")
+                try:
+                    open("distribution.txt")
+                except FileNotFoundError:
+                    print("No distributions have been created yet.")
+                else:
+                    distributions = readFile("distribution.txt")
+                    print(f"\n{'Distribution Time' : <30}{'Item Name' : ^20}{'Item Code' : ^20}{'Item Quantity' : ^15}{'Hospital Code' : ^40}")
 
-                for v in distributions:
-                    print(f"{v[0] : <30}{v[1] : ^20}{v[2] : ^20}{v[3] : ^15}{v[4] : ^40}")
+                    for v in distributions:
+                        print(f"{v[0] : <30}{v[1] : ^20}{v[2] : ^20}{v[3] : ^15}{v[4] : ^40}")
 
             case "3":
                 while True:
