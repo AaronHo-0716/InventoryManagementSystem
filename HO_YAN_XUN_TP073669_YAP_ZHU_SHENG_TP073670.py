@@ -86,7 +86,7 @@ def supplierInitialize():
                 for i in range(0,int(supplierAmount)):
                     suppliers.append([supplierCode[i], supplierName[i], supplierContact[i]])
                 
-                writeToFile("suppliers.txt", sorted(suppliers)) 
+                writeToFile("suppliers.txt", sorted(suppliers)) #save suppliers info to suppliers.txt
                 print("Initializing complete")
                 break
             
@@ -101,13 +101,13 @@ def supplierInitialize():
 #initialization for hospitals
 def  hospitalInitialize():
     try:
-        open("hospitals.txt","r") #check if hospitals.txt has been initialized or not
+        open("hospitals.txt","r") #check if hospitals.txt exists or not, if not, user will be required to enter hospitals info
     except FileNotFoundError:
         print("\nInitializing system...\n")
         while True:
             hospitals = []
             while True:
-                hospitalAmount = input("Do you have 3 or 4 hospitals: ")
+                hospitalAmount = input("Do you have 3 or 4 hospitals: ") #only 3-4 hospitals allowed for assignment
                 match hospitalAmount:
                     case "3":
                         break
@@ -119,7 +119,7 @@ def  hospitalInitialize():
             try:
                 print("\nPlease enter the details of "+str(hospitalAmount)+" hospitals only.")
                 print("Example: AA,BB,CC\n")
-                
+                #hospitalCode,hospitalName cannot be duplicated
                 while True:
                     hospitalCode = list(input("Please enter the all the hospital code with comma in between: ").strip().split(','))
                     #hospitalCode can be "KKM,KPJ,KBJ,HJ"
@@ -150,7 +150,7 @@ def  hospitalInitialize():
 
 #function to check if codes and names or contact numbers are the same for suppliers,hospitals and PPE items
 def hasDuplicates(li):
-    seen = set()
+    seen = set() #converts string to set
     for i in li:
         if i in seen:
             print("Duplicates are not allowed")
