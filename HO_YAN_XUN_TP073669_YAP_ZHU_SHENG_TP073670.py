@@ -353,7 +353,6 @@ def modifyUser(loginInfo):
                                         writeToFile("users.txt",users)
                                         break
                                     case "Staff":
-                                        print(users[mod - 1][0], loginInfo[1])
                                         #the account which is created in initialization cannot be deleted because at least one admin is required
                                         if mod == 1: 
                                             print("This account is the master account, you cannot change the type of it")
