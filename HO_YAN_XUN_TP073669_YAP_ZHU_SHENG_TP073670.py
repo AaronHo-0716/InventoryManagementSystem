@@ -60,16 +60,24 @@ def supplierInitialize():
                     while True:
                         supplierCode = list(input("Please enter the all the supplier code with comma in between: ").strip().split(','))
                         #item supplier can be "JJ,Ab,Pf,GSK,JJ,Ab"
-
                         supplierError = hasDuplicates(supplierCode)
-
                         if not supplierError:
                             break
 
-                    supplierName = list(input("Please enter the all the supplier name with comma in between: ").strip().split(','))
-                    #supplierName can be Johnson & Johnson,Abott,Pfizer,GlaxoSmithKline
-                    supplierContact = list(input("Please enter the all the supplier contact number with comma in between: ").strip().split(','))
-                    #supplierContact can be 123,456,789,101112
+                    while True:
+                        supplierName = list(input("Please enter the all the supplier name with comma in between: ").strip().split(','))
+                        #supplierName can be Johnson & Johnson,Abott,Pfizer,GlaxoSmithKline
+                        supplierError = hasDuplicates(supplierName)
+                        if not supplierError:
+                            break
+                        
+                    while True:
+                        supplierContact = list(input("Please enter the all the supplier contact number with comma in between: ").strip().split(','))
+                        #supplierContact can be 123,456,789,101112
+                        supplierError = hasDuplicates(supplierContact)
+                        if not supplierError:
+                            break
+                        
                     if supplierCode =="" or supplierName == "" or supplierContact == "": #cannot be left empty
                         continue
                     else:
@@ -111,10 +119,20 @@ def  hospitalInitialize():
             try:
                 print("\nPlease enter the details of "+str(hospitalAmount)+" hospitals only.")
                 print("Example: AA,BB,CC\n")
-                hospitalCode = list(input("Please enter the all the hospital code with comma in between: ").strip().split(','))
-                #hospitalCode can be "KKM,KPJ,KBJ,HJ"
-                hospitalName = list(input("Please enter the all the hospital name with comma in between: ").strip().split(','))
-                #hospitalName can be "Klinik Kesihatan Malaysia,Klinik Petaling Jaya,Klinik Bukit Jalil,Hospital Johor"
+                
+                while True:
+                    hospitalCode = list(input("Please enter the all the hospital code with comma in between: ").strip().split(','))
+                    #hospitalCode can be "KKM,KPJ,KBJ,HJ"
+                    hospitalError = hasDuplicates(hospitalCode)
+                    if not hospitalError:
+                        break
+                    
+                while True:
+                    hospitalName = list(input("Please enter the all the hospital name with comma in between: ").strip().split(','))
+                    #hospitalName can be "Klinik Kesihatan Malaysia,Klinik Petaling Jaya,Klinik Bukit Jalil,Hospital Johor"
+                    hospitalError = hasDuplicates(hospitalName)
+                    if not hospitalError:
+                        break
 
                 for i in range(0,int(hospitalAmount)): #arrange hospitalCode,hospitalName as a string for each hospital
                     hospitals.append([hospitalCode[i], hospitalName[i]])
@@ -134,6 +152,7 @@ def hasDuplicates(li):
     seen = set()
     for i in li:
         if i in seen:
+            print("Duplicates are not allowed")
             return True
         seen.add(i)
         
@@ -458,10 +477,20 @@ def inventoryInit():
             try:
                 print("\nPlease enter the details of 6 PPE Items.")
                 print("Example: AA,BB,CC,DD,EE,FF\n")
-                ppe = list(input("Please enter the all the item code with comma in between: ").strip().split(','))
-                #item code can be "HC,FS,MS,GL,GW,SC"
-                ppeName = list(input("Please enter the all the item name with comma in between: ").strip().split(','))
-                #item name can be "Head Cover,Face Shield,Mask,Gloves,Gown,Shoe Covers"
+                
+                while True:
+                    ppe = list(input("Please enter the all the item code with comma in between: ").strip().split(','))
+                    #item code can be "HC,FS,MS,GL,GW,SC"
+                    ppeError = hasDuplicates(ppe)
+                    if not ppeError:
+                        break
+                    
+                while True:
+                    ppeName = list(input("Please enter the all the item name with comma in between: ").strip().split(','))
+                    #item name can be "Head Cover,Face Shield,Mask,Gloves,Gown,Shoe Covers"
+                    ppeError = hasDuplicates(ppeName)
+                    if not ppeError:
+                        break
 
                 supplierList = readFile("suppliers.txt")
                 
