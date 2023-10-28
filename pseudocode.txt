@@ -54,7 +54,7 @@ supplierInitialize function
             ELSE
                 EXIT LOOP
 
-        ARRANGE supplier info into a string as(supplierCode[supplierAmount],supplierName[supplierAmount],supplierContact[supplierAmount])
+        ARRANGE supplier info into a string
 
         CALL writeToFile function to save supplier info into suppliers.txt
         DISPLAY(Initialization complete)
@@ -83,7 +83,7 @@ hospitalInitialize function
             PROMPTS user to enter 3 or 4 hospitals code
             PROMPTS user to enter 3 or 4 hospital names 
 
-            ARRANGE hospital info into a string as(hospitalCode[hospitalAmount],hospitalName[hospitalAmount])
+            ARRANGE hospital info into a string 
 
             CALL writeToFile function to save hospitals info to hospitals.txt
             DISPLAY(Initialization complete)
